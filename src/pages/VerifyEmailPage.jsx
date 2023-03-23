@@ -1,7 +1,6 @@
 import React from "react";
 import axios from 'axios'
 import { useNavigate, useParams } from "react-router-dom";
-import { useState } from "react";
 import { toast } from "react-toastify";
 
 export const VerifyEmailPage = () => {
@@ -11,7 +10,7 @@ export const VerifyEmailPage = () => {
     // const [text, setText] = useState('This page is the verification page for your account on Chronos. \nClick the button for activating account and verifying email, where this link was sent')
 
     const onClickConfirm = async () => {
-        const { data } = await axios.get(`http://localhost:5000/api/auth/verify/${params.token}`)
+        const { data } = await axios.get(`http://localhost:3002/api/auth/verify/${params.token}`)
         console.log(data)
         toast(data.message)
         if(data.success){

@@ -16,10 +16,10 @@ export const getAllEvents = createAsyncThunk(
 )
 
 
-const eventsSlice = createSlice({
+const createEventSlice = createSlice({
     name: 'calendar',
     initialState:{
-        calendars:[]
+        
     },
     reducers:{
         setCalendars(state, action){
@@ -30,6 +30,6 @@ const eventsSlice = createSlice({
     }
 })
 
-export default eventsSlice.reducer
-export const {setCalendars} = eventsSlice.actions;
+export default createEventSlice.reducer
+export const { } = createEventSlice.actions;
 
