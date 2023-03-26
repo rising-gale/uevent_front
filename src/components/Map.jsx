@@ -1,5 +1,8 @@
 import { GoogleMap, Marker } from '@react-google-maps/api';
 import React, { useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
+// import { useSelector } from 'react-redux';
+import { setLocation } from '../redux/createEventSlice';
 
 const containerStyle = {
     width: '100%',
@@ -10,7 +13,7 @@ const defaultOptions={
     panControl: true,
     zoomControl: true,
     mapTypeControl: false,
-    scaleControl: false,
+    scaleControl: false,    
     streetViewControl: false,
     rotateControl: false,
     clickableIcons: false,
@@ -20,10 +23,13 @@ const defaultOptions={
     fullscreenControl: false
 }
 
-const Map = ({ center }) => {
-
+const Map = ({ center, creationMode }) => {
+    const dispatch = useDispatch();
     const mapRef = useRef(undefined)
     const [curMarker, setMarker] = useState(undefined);
+    // const location = useSelector(state => state.eventCreation.location);
+
+    // console.log('Redux location : ', location);
 
     const onLoad = React.useCallback(function callback(map) {
         mapRef.current = map;
@@ -34,14 +40,17 @@ const Map = ({ center }) => {
     }, [])
 
     const onClick = (location) =>{
+        if(!creationMode) return;
         if(curMarker)
         {
             setMarker(undefined);
+            dispatch(setLocation(undefined));
         } else {
             let lat = location.latLng.lat();
             let lng = location.latLng.lng();
             // console.log('lat:',lat,' lng:',lng)
             setMarker({lat, lng});
+            dispatch(setLocation({lat, lng}));
         }
     }
     // console.log(curMarker)
@@ -56,7 +65,7 @@ const Map = ({ center }) => {
             options={defaultOptions}
             onClick={onClick}
         >
-            {/* <Marker position={center}/> */}
+            <Marker position={center}/>
             <Marker position={curMarker} />
             { /* Child components, such as markers, info windows, etc. */}
             <></>

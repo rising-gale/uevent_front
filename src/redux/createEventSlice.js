@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from "axios"
 
-export const getAllEvents = createAsyncThunk(
+export const createEvent = createAsyncThunk(
     'api/calendars',
-    async function(_,{dispatch})
+    async function({title, description, date, time_start, time_end, latePost, date_post, location, ticketsCount, },{dispatch})
     {
         try {
             let response = await axios.get('http://localhost:3002/api/users/calendars',{ withCredentials: true });
@@ -15,21 +15,18 @@ export const getAllEvents = createAsyncThunk(
     }
 )
 
-
 const createEventSlice = createSlice({
-    name: 'calendar',
+    name: 'createEvent',
     initialState:{
-        
+        location: undefined,
     },
     reducers:{
-        setCalendars(state, action){
-            // let calendars = action.payload;
-
-            // state.choosedCalendars = choosedCalendars;
+        setLocation(state, action){
+            state.location = action.payload;
         }
     }
 })
 
 export default createEventSlice.reducer
-export const { } = createEventSlice.actions;
+export const { setLocation } = createEventSlice.actions;
 

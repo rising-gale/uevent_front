@@ -1,4 +1,5 @@
 import React from 'react';
+// import PlacesAutocomplete from '../components/Autocomplete';
 import CardOfEvent from '../components/CardOfEvent';
 import EventCreationForm from '../components/EventCreationForm';
 import Header from '../components/Header';
@@ -7,7 +8,8 @@ const MainPage = () => {
     return (
         <div className='flex flex-col w-full h-screen'>
         <Header />
-        {/* <EventCreationForm /> */}
+        
+        <EventCreationForm />
         <div className='p-1 m-1 flex flex-col'>
             <div className='flex w-full h-12 justify-around'>
                 {/*Search and filtration bar */}
