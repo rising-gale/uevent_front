@@ -38,9 +38,10 @@ export const LoginPage = () => {
     return (
         <form
             onSubmit={e => e.preventDefault()}
-            className="box-border flex justify-center items-center min-h-[100vh] bg-gray-500">
+            className="box-border flex justify-center items-center min-h-[100vh] bg-dark-purple">
             <div className="loginCard">
-                <h3 className="uppercase tracking-[2px] text-gray-300 mt-4 text-xl">Sign In</h3>
+                <img className="h-[100px] mt-4" src='uevent_logo.png' alt='logo' />
+                <h3 className="uppercase tracking-[2px] text-light-beige text-xl">Sign In</h3>
                 <div className="relative w-[250px]">
                     <input
                         type="text"
@@ -61,12 +62,12 @@ export const LoginPage = () => {
                 <div className="flex flex-col gap-2 items-center justify-center">
                     <Link
                         to='/auth/resetPassword'
-                        className="flex justify-center items-center text-xs text-black hover:text-gray-200 hover:transition-[1s]"
+                        className="flex justify-center items-center text-xs text-beige hover:text-light-beige hover:transition-[1s]"
                     >Forgot password?</Link>
                     <button type='submit' onClick={handleSubmit} >Log in</button>
                     <Link
                         to='/registration'
-                        className="flex justify-center items-center text-xs m-5 text-black hover:text-gray-200 hover:transition-[1s]"
+                        className="flex justify-center items-center text-xs m-5 text-beige hover:text-light-beige hover:transition-[1s]"
                     >Create an account</Link>
                 </div>
 
