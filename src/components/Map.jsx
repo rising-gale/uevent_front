@@ -3,6 +3,7 @@ import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 // import { useSelector } from 'react-redux';
 import { setLocation } from '../redux/createEventSlice';
+import { defaultTheme } from './Theme';
 
 const containerStyle = {
     width: '100%',
@@ -10,6 +11,7 @@ const containerStyle = {
 };
 
 const defaultOptions={
+
     panControl: true,
     zoomControl: true,
     mapTypeControl: false,
@@ -20,7 +22,9 @@ const defaultOptions={
     keyboardShortcuts: false,
     scrollWheel: true,
     disableDoubleClickZoom: true,
-    fullscreenControl: false
+    fullscreenControl: false,
+    styles:defaultTheme
+    
 }
 
 const Map = ({ center, creationMode }) => {
@@ -64,6 +68,7 @@ const Map = ({ center, creationMode }) => {
             onUnmount={onUnmount}
             options={defaultOptions}
             onClick={onClick}
+            
         >
             <Marker position={center}/>
             <Marker position={curMarker} />

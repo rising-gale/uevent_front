@@ -11,7 +11,7 @@ const API_KEY = process.env.REACT_APP_API_KEY;
 // };
 const libraries = ['places'];
 
-const MapContainer = ({center, creationMode, searchBar, setPlace}) => {
+const MapContainer = ({center, creationMode, searchBar, setLocation}) => {
     
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
@@ -22,7 +22,7 @@ const MapContainer = ({center, creationMode, searchBar, setPlace}) => {
     // console.log('Place:', place)
     return isLoaded ? (
         <div className='w-11/12 h-80 flex flex-col'>
-            {searchBar ? <PlacesAutocomplete isLoaded={isLoaded} setPlace={setPlace}/> : <></>}
+            {searchBar ? <PlacesAutocomplete isLoaded={isLoaded} setLocation={setLocation}/> : <></>}
             <Map center={center} creationMode={creationMode}/>
         </div>
     ) : <div>Loading ... </div>

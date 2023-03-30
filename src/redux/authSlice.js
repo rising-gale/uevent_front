@@ -180,7 +180,7 @@ export const authSlice = createSlice({
     [getUserData.fulfilled]: (state, action) => {
       state.isLoading = false
       state.status = null
-      state.me = action.payload?.user
+      state.user = action.payload?.user
       state.userId = action.payload?.user._id
     },
     [getUserData.rejected]: (state, action) => {

@@ -5,7 +5,7 @@ import usePlacesAutocomplete, {
   } from "use-places-autocomplete";
   import useOnclickOutside from "react-cool-onclickoutside";
   
-  const PlacesAutocomplete = ({isLoaded, setPlace}) => {
+  const PlacesAutocomplete = ({isLoaded, setLocation}) => {
     const {
       ready,
       value,
@@ -41,12 +41,12 @@ import usePlacesAutocomplete, {
         // by setting the second parameter to "false"
         setValue(description, false);
         clearSuggestions();
-  
+        // console.log(description);
         // Get latitude and longitude via utility functions
         getGeocode({ address: description }).then((results) => {
           const { lat, lng } = getLatLng(results[0]);
           console.log("📍 Coordinates: ", { lat, lng });
-          setPlace({ lat, lng });
+          setLocation({ lat, lng, description });
         });
       };
   
@@ -71,7 +71,7 @@ import usePlacesAutocomplete, {
           value={value}
           onChange={handleInput}
           disabled={!ready}
-          placeholder="Where are you going?"
+          placeholder="Type the adress and choose from list."
           className="text-black font-semibold text-lg p-2 w-full outline-none rounded-sm"
         />
         {/* We can use the "status" to decide whether we should display the dropdown or not */}

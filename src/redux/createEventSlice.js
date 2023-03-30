@@ -3,12 +3,27 @@ import axios from "axios"
 
 export const createEvent = createAsyncThunk(
     'api/calendars',
-    async function({title, description, date, time_start, time_end, latePost, date_post, location, ticketsCount, },{dispatch})
+    async function(submitData,{dispatch})
     {
         try {
-            let response = await axios.get('http://localhost:3002/api/users/calendars',{ withCredentials: true });
-            // console.log(response.data);
-            // dispatch(setCalendars(response.data));
+            console.log(submitData);
+            let {data} = await axios.post(`http://localhost:3002/api/events/company/${submitData.company_id}`,{...submitData}, { withCredentials: true })            
+            console.log(data);
+            return data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+)
+
+
+export const getAllEvents = createAsyncThunk(
+    'api/calendars',
+    async function(_,{dispatch})
+    {
+        try {
+            let {data} = await axios.get('http://localhost:3002/api/events',{ withCredentials: true });
+            console.log(data);
         } catch (error) {
             console.log(error);
         }
@@ -18,7 +33,7 @@ export const createEvent = createAsyncThunk(
 const createEventSlice = createSlice({
     name: 'createEvent',
     initialState:{
-        location: undefined,
+
     },
     reducers:{
         setLocation(state, action){
