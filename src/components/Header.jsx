@@ -1,6 +1,18 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { logout } from '../redux/authSlice';
 
 const Header = () => {
+    
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const logoutClick = () => {
+      dispatch(logout())
+      navigate('/')
+    }
+    
     return (
         <div className='px-8 py-3 border-b-2 border-slate-700 flex w-full bg-neutral-400 justify-between'>
             <div className='w-2/6 flex flex-row justify-between'>
@@ -30,7 +42,10 @@ const Header = () => {
                 </div> */}
                 <div className='w-1/2 flex flex-col items-center justify-center'>
                     {/* <div className='w-full text-center p-1'>Login to be nice</div> */}
-                    <button className="border-none rounded-full w-1/2 p-1 bg-violet-600 hover:bg-violet-400 transition duration-500 hover:ease-in font-semibold text-lg">Logout</button>
+                    <button 
+                        className="border-none rounded-full w-1/2 p-1 bg-violet-600 hover:bg-violet-400 transition duration-500 hover:ease-in font-semibold text-lg"
+                        onClick={logoutClick}
+                    >Logout</button>
                 </div>
             </div>
         </div>
