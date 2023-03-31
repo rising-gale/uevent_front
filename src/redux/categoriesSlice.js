@@ -29,7 +29,7 @@ const categoriesSlice = createSlice({
           },
           [getCategories.fulfilled]: (state, action) => {
             // console.log('Fulfilled');
-            console.log(action.payload);
+            // console.log(action.payload);
 
             // let formats = [];
             // let themes = [];

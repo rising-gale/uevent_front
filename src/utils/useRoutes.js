@@ -6,6 +6,7 @@ import { RegistrationPage } from '../pages/RegistrationPage';
 import { VerifyEmailPage } from '../pages/VerifyEmailPage';
 import { LoginPage } from '../pages/LoginPage';
 import { ResetPasswordPage } from '../pages/ResetPasswordPage';
+import EventView from '../components/EventView';
 
 
 export const useRoutes = (isAuthenticated) => {
@@ -15,6 +16,7 @@ export const useRoutes = (isAuthenticated) => {
             <>
                 <Routes>
                     <Route path="/" element={<MainPage />} />
+                    <Route path="/events/:id" element={<EventView />} />
                     <Route path='verify/:token' element={<VerifyEmailPage />} />
                 </Routes>
             </>

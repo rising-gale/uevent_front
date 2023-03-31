@@ -1,14 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from "axios"
 
-export const getAllEvents = createAsyncThunk(
+export const createEvent = createAsyncThunk(
     'api/calendars',
-    async function(_,{dispatch})
+    async function(submitData,{dispatch})
     {
         try {
-            let response = await axios.get('http://localhost:3002/api/users/calendars',{ withCredentials: true });
-            // console.log(response.data);
-            // dispatch(setCalendars(response.data));
+            console.log(submitData);
+            let {data} = await axios.post(`http://localhost:3002/api/events/company/${submitData.company_id}`,{...submitData}, { withCredentials: true })            
+            console.log(data);
+            return data;
         } catch (error) {
             console.log(error);
         }
@@ -16,20 +17,39 @@ export const getAllEvents = createAsyncThunk(
 )
 
 
+export const getAllEvents = createAsyncThunk(
+    'api/calendars',
+    async function({page, sort},{dispatch})
+    {
+        try {
+            let { data } = await axios.get(`http://localhost:3002/api/events/${page}/${sort}`, { withCredentials: true });
+            // console.log(data);
+            return data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+)
+
 const eventsSlice = createSlice({
-    name: 'calendar',
+    name: 'createEvent',
     initialState:{
-        calendars:[]
+        events: []
     },
     reducers:{
-        setCalendars(state, action){
-            // let calendars = action.payload;
 
-            // state.choosedCalendars = choosedCalendars;
-        }
+    },
+    extraReducers:{
+        [getAllEvents.fulfilled]: (state, action) => {
+            // console.log(action.payload);
+            state.events = action.payload;
+        },
+        [getAllEvents.rejected]: (state, action) => {
+            console.log('Rejected get all events.');
+        },
     }
 })
 
 export default eventsSlice.reducer
-export const {setCalendars} = eventsSlice.actions;
+export const {  } = eventsSlice.actions;
 

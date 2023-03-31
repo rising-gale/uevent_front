@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCategories } from '../redux/categoriesSlice';
-import { createEvent, getAllEvents } from '../redux/createEventSlice';
+import { createEvent } from '../redux/eventsSlice';
 import MapContainer from './MapContainer';
 
 
@@ -31,13 +31,13 @@ const EventCreationForm = () => {
         date_post: null,
         time_post: null,
 
-        image: null,
+        // image: null,
 
         notifications: null,
         members_visibles: 'everyone',
 
-        formats:[],
-        themes:[],
+        formats: [],
+        themes: [],
         // calendar: null,
         errMessage: null
     })
@@ -47,7 +47,7 @@ const EventCreationForm = () => {
 
     const handleChange = (e) => {
         const { name, value, id } = e.target;
-        console.log(name, value, id);
+        // console.log(name, value, id);
 
         switch (name) {
             case 'image':
@@ -74,8 +74,7 @@ const EventCreationForm = () => {
                 }));
                 break;
             case 'format':
-                if(state.formats.find((element) => element._id === id))
-                {
+                if (state.formats.find((element) => element._id === id)) {
                     let idx = state.formats.findIndex((element) => element._id === id);
                     let newFormats = state.formats;
                     newFormats.splice(idx, 1);
@@ -93,10 +92,9 @@ const EventCreationForm = () => {
                         errMessage: ''
                     }));
                 }
-            break;
+                break;
             case 'theme':
-                if(state.themes.find((element) => element._id === id ))
-                {
+                if (state.themes.find((element) => element._id === id)) {
                     let idx = state.themes.findIndex((element) => element._id === id);
                     let newThemes = state.themes;
                     newThemes.splice(idx, 1);
@@ -114,7 +112,7 @@ const EventCreationForm = () => {
                         errMessage: ''
                     }));
                 }
-            break;
+                break;
             default:
                 setState(prevState => ({
                     ...prevState,
@@ -126,25 +124,24 @@ const EventCreationForm = () => {
     }
 
     const handleSubmit = () => {
-        console.log(state);
-        console.log(location);
-        if(state.title && state.tickets >= 1 && state.price >= 0 && state.date_event && state.time_start 
-            && state.image && state.formats.length > 0 && state.themes.length >=0 && location)
-        {
+        // console.log(state);
+        // console.log(location);
+        if (state.title && state.tickets >= 1 && state.price >= 0 && state.date_event && state.time_start
+            && state.formats.length > 0 && state.themes.length >= 0 && location) {
             // console.log("OK");
-            dispatch(createEvent({...state, location, company_id: user.companies[0]}));
+            dispatch(createEvent({ ...state, location, company_id: user.companies[0] }));
         } else {
             setState(prevState => ({
                 ...prevState,
                 errMessage: 'Please fill out everything properly and try again.',
             }));
         }
-        
+
     }
 
     useEffect(() => {
         dispatch(getCategories());
-        dispatch(getAllEvents());
+        // dispatch(getAllEvents());
     }, [dispatch])
 
     return (
@@ -166,10 +163,14 @@ const EventCreationForm = () => {
                         </button>
                     </div>
                     {/*body*/}
-                    <div className="relative p-4 flex flex-col m-1">
+                    <div className="relative px-8 py-3 flex flex-col m-1">
                         <div className='pb-1 flex items-center w-full justify-between'>
                             <label className='text-xl text-beige w-2/3'>Title (required):</label>
                             <input type={"text"} className="focus:border-none w-2/3 rounded-full outline-none text-black p-2 " name='title' onChange={handleChange} />
+                        </div>
+                        <div className='py-1 flex items-center w-full justify-between'>
+                            <label className='text-xl text-beige w-2/3'>Description:</label>
+                            <textarea className='w-full rounded-lg text-black p-1 outline-none'/>
                         </div>
                         <div className='py-1 flex items-center w-full justify-between'>
                             <label className='text-xl text-beige w-1/5'>Tickets:</label>
@@ -180,8 +181,7 @@ const EventCreationForm = () => {
                         <div className='py-1 flex items-center w-full justify-between text-black'>
                             <label className='text-white text-xl'>Select date and time:</label>
                             <input className='bg-slate-100 m-2 p-2 outline-none rounded-lg border-2 focus:border-indigo-500' type='date' name="date_event" min="2022-01-01T00:00" onChange={handleChange} />
-                            <input className='bg-slate-100 m-2 p-2 outline-none rounded-lg border-2 focus:border-indigo-500' type='time' name='time_start' step="3600" onChange={handleChange} />
-                            {/* <input className='bg-slate-100 m-2 p-2 outline-none rounded-lg border-2 focus:border-indigo-500' type='time' step="3600" name='time_end' onChange={handleChange} /> */}
+                            <input className='bg-slate-100 m-2 p-2 outline-none rounded-lg border-2 focus:border-indigo-500' type='time' name='time_start' step="1800" onChange={handleChange} />
                         </div>
                         <div className='py-1 flex items-center w-full justify-between'>
                             <div className='flex w-3/5 items-center'>
@@ -206,10 +206,10 @@ const EventCreationForm = () => {
                             <label className='pb-2'>Choose a location of event:</label>
                             <MapContainer center={location} creationMode={false} searchBar={true} setLocation={setLocation} />
                         </div>
-                        <div className='py-1 flex items-center w-full justify-between'>
+                        {/* <div className='py-1 flex items-center w-full justify-between'>
                             <label className='text-lg text-beige w-1/2'>Afisha:</label>
                             <input type={"file"} min={1} className="w-2/3 rounded-full outline-none text-black p-2" name='image' onChange={handleChange} />
-                        </div>
+                        </div> */}
                         <div className='py-1 flex items-center w-full'>
                             <label className='text-lg text-beige w-1/2 '>Select formats of event:</label>
                         </div>

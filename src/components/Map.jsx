@@ -2,7 +2,7 @@ import { GoogleMap, Marker } from '@react-google-maps/api';
 import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 // import { useSelector } from 'react-redux';
-import { setLocation } from '../redux/createEventSlice';
+
 import { defaultTheme } from './Theme';
 
 const containerStyle = {
@@ -48,13 +48,11 @@ const Map = ({ center, creationMode }) => {
         if(curMarker)
         {
             setMarker(undefined);
-            dispatch(setLocation(undefined));
         } else {
             let lat = location.latLng.lat();
             let lng = location.latLng.lng();
             // console.log('lat:',lat,' lng:',lng)
             setMarker({lat, lng});
-            dispatch(setLocation({lat, lng}));
         }
     }
     // console.log(curMarker)

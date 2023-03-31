@@ -6,7 +6,7 @@ const EventView = () => {
     return (
         <div className='flex flex-col w-full h-screen'>
         <Header />
-        <div className='p-1 m-1 flex flex-row'>
+        <div className='p-5 flex flex-row bg-dark-purple text-light-beige'>
             <div className='w-1/5 p-3 pr-4 flex flex-col'>
                 <img src="afisha.jpg" alt="afisha" />
                 <div className='text-xl font-semibold text-center mt-2'>Organisator:</div>
@@ -30,7 +30,7 @@ const EventView = () => {
                     <p className='w-full text-base text-center my-1'>User nickname 1</p>
                 </div>
             </div>
-            <div className='p-2 m-2 flex flex-col w-full h-full border-l-2'>
+            <div className='p-2 m-2 flex flex-col w-full h-full border-l-2 border-violet-900'>
                 <p className='text-center text-3xl font-semibold font-serif tracking-wider'>Title of event</p>
                 <div className='flex flex-row justify-around p-5 m-5'>
                     <div className='flex flex-col justify-center items-center m-2 w-1/3 text-xl font-semibold'>
@@ -58,7 +58,7 @@ const EventView = () => {
                     </div>
                     <div className='flex flex-col items-center w-1/6'>
                         <div className='text-base font-semibold p-1 h-1/2'>Tickets left in stock: 100</div>
-                        <div className='h-1/3 border w-full text-center font-semibold rounded-full cursor-pointer'>Buy tickets</div>
+                        <button className='h-1/3 border w-full text-center font-semibold rounded-full cursor-pointer'>Buy tickets</button>
                     </div>
                     <div className='flex flex-col items-center w-1/5'>
                         <div className='font-semibold p-1 h-1/2 text-xl'>Price:</div>
