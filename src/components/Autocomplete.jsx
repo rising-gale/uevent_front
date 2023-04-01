@@ -71,8 +71,8 @@ import usePlacesAutocomplete, {
           value={value}
           onChange={handleInput}
           disabled={!ready}
-          placeholder="Type the adress and choose from list."
-          className="text-black font-semibold text-lg p-2 w-full outline-none rounded-sm focus:border-none"
+          placeholder="Type the adress and choose from list"
+          className="text-black bg-light-beige font-semibold text-lg p-2 w-full outline-none rounded-sm focus:border-none"
         />
         {/* We can use the "status" to decide whether we should display the dropdown or not */}
         {status === "OK" &&

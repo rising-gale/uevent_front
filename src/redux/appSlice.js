@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from "axios"
 
 export const getCategories = createAsyncThunk(
-    'api/categories',
+    'api/calendars',
     async function (_) {
         try {
             let { data } = await axios.get('http://localhost:3002/api/categories', { withCredentials: true });

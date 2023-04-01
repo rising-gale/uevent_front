@@ -151,7 +151,7 @@ const EventCreationForm = () => {
                 <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-dark-blue-pastel outline-none focus:outline-none">
                     {/*header*/}
                     <div className="flex items-start justify-between p-2 border-b border-solid border-slate-200 rounded-t">
-                        <h3 className="text-3xl pl-4 font-semibold text-light-beige font-serif">
+                        <h3 className="text-3xl pl-4 font-semibold text-light-grey-pastel font-serif">
                             Event creation
                         </h3>
                         <button
@@ -166,58 +166,60 @@ const EventCreationForm = () => {
                     <div className="relative px-8 py-3 flex flex-col m-1">
                         <div className='pb-1 flex items-center w-full justify-between'>
                             <label className='text-xl text-beige w-2/3'>Title (required):</label>
-                            <input type={"text"} className="focus:border-none w-2/3 rounded-full outline-none text-black p-2 " name='title' onChange={handleChange} />
+                            <input type={"text"} className="border-2 border-purple-500 focus:border-emerald-600 focus:border-2 w-2/3 rounded-full outline-none text-black p-2 bg-light-beige" name='title' onChange={handleChange} />
                         </div>
                         <div className='py-1 flex items-center w-full justify-between'>
                             <label className='text-xl text-beige w-2/3'>Description:</label>
-                            <textarea className='w-full rounded-lg text-black p-1 outline-none'/>
+                            <textarea className='w-full rounded-lg text-black p-1 outline-none bg-light-beige border-2 border-purple-500 focus:border-emerald-600'/>
                         </div>
                         <div className='py-1 flex items-center w-full justify-between'>
                             <label className='text-xl text-beige w-1/5'>Tickets:</label>
-                            <input type={"number"} min={1} defaultValue={1} className="focus:border-none w-1/5 rounded-full outline-none text-black p-2" name='tickets' onChange={handleChange} />
+                            <input type={"number"} min={1} defaultValue={1} className="focus:border-none w-1/5 rounded-full outline-none text-black bg-light-beige p-2" name='tickets' onChange={handleChange} />
                             <label className='text-xl text-beige w-1/5'>Price:</label>
-                            <input type={"number"} min={0} defaultValue={0} className="focus:border-none w-1/5 rounded-full outline-none text-black p-2" name='price' onChange={handleChange} />
+                            <input type={"number"} min={0} defaultValue={0} className="focus:border-none w-1/5 rounded-full outline-none text-black bg-light-beige p-2" name='price' onChange={handleChange} />
                         </div>
                         <div className='py-1 flex items-center w-full justify-between text-black'>
-                            <label className='text-white text-xl'>Select date and time:</label>
-                            <input className='bg-slate-100 m-2 p-2 outline-none rounded-lg border-2 focus:border-indigo-500' type='date' name="date_event" min="2022-01-01T00:00" onChange={handleChange} />
-                            <input className='bg-slate-100 m-2 p-2 outline-none rounded-lg border-2 focus:border-indigo-500' type='time' name='time_start' step="1800" onChange={handleChange} />
+                            <label className='text-beige text-xl'>Select date and time:</label>
+                            <input className='bg-light-beige m-2 p-2 outline-none rounded-lg border-2 focus:border-indigo-500' type='date' name="date_event" min="2022-01-01T00:00" onChange={handleChange} />
+                            <input className='bg-light-beige m-2 p-2 outline-none rounded-lg border-2 focus:border-indigo-500' type='time' name='time_start' step="1800" onChange={handleChange} />
                         </div>
                         <div className='py-1 flex items-center w-full justify-between'>
                             <div className='flex w-3/5 items-center'>
                                 <label className='text-xl text-beige w-4/5'>Notifications about new members:</label>
-                                <input type="checkbox" className="focus:border-none rounded-sm outline-none text-black w-5 h-5" name='notifications' onChange={handleChange} />
+                                <input type="checkbox" className="focus:border-none rounded-sm outline-none text-black bg-light-beige w-5 h-5" name='notifications' onChange={handleChange} />
                             </div>
                             <div className='flex w-2/5 items-center'>
-                                <label className='text-xl text-beige w-2/3 '>Set late post:</label>
-                                <input type="checkbox" className="focus:border-none rounded-sm outline-none text-black w-5 h-5" name='latePost' onChange={handleChange} />
+                                <label className='text-xl text-beige w-2/3 '>Set post for later:</label>
+                                <input type="checkbox" className="focus:border-none rounded-sm outline-none text-black bg-light-beige w-5 h-5" name='latePost' onChange={handleChange} />
                             </div>
                         </div>
                         {
                             state.latePost &&
                             <div className='py-1 flex items-center w-full justify-between text-black'>
-                                <label className='text-white text-xl'>Select date and time when post will be shown:</label>
-                                <input className='bg-slate-100 m-2 p-2 outline-none rounded-lg border-2 focus:border-indigo-500' type='date' name="date_post" min="2022-01-01T00:00" onChange={handleChange} />
-                                <input className='bg-slate-100 m-2 p-2 outline-none rounded-lg border-2 focus:border-indigo-500' type='time' name='time_post' step="3600" onChange={handleChange} />
+                                <label className='text-beige text-xl'>Select date and time when post will be shown:</label>
+                                <input className='bg-light-beige m-2 p-2 outline-none rounded-lg border-2 focus:border-indigo-500' type='date' name="date_post" min="2022-01-01T00:00" onChange={handleChange} />
+                                <input className='bg-light-beige m-2 p-2 outline-none rounded-lg border-2 focus:border-indigo-500' type='time' name='time_post' step="3600" onChange={handleChange} />
                             </div>
                         }
 
                         <div className='py-1 my-2 flex flex-col w-full items-center'>
-                            <label className='pb-2'>Choose a location of event:</label>
+                            <label className='pb-2 text-beige text-xl'>Choose a location of event:</label>
                             <MapContainer center={location} creationMode={false} searchBar={true} setLocation={setLocation} />
                         </div>
                         {/* <div className='py-1 flex items-center w-full justify-between'>
                             <label className='text-lg text-beige w-1/2'>Afisha:</label>
                             <input type={"file"} min={1} className="w-2/3 rounded-full outline-none text-black p-2" name='image' onChange={handleChange} />
                         </div> */}
-                        <div className='py-1 flex items-center w-full'>
-                            <label className='text-lg text-beige w-1/2 '>Select formats of event:</label>
+                        <div className='py-1 flex flex-col items-center w-full justify-start'>
+                            <label className='text-lg text-beige w-full '>Select formats of event:</label>
+                            <div className='w-full text-xs text-light-beige'>(minimum 1 must be choosen)</div>
                         </div>
                         <div className='flex flex-row items-center p-1.5 flex-wrap'>
                             {
-                                formats.map(format => {
+                                formats && formats.map(format => {
+                                    if(format.content != 'none')
                                     return (
-                                        <div className='m-0.5 p-1 border rounded-xl flex items-center justify-center' key={format._id}>
+                                        <div className='m-0.5 p-1 border border-purple-500 rounded-xl flex items-center justify-center' key={format._id}>
                                             <input name='format' type="checkbox" className="focus:border-none rounded-sm outline-none text-black w-3.5 h-3.5" onChange={handleChange} id={format._id} />
                                             <label className="mx-2 text-base font-medium">{format.content}</label>
                                         </div>
@@ -225,14 +227,16 @@ const EventCreationForm = () => {
                                 })
                             }
                         </div>
-                        <div className='py-1 flex items-center w-full'>
-                            <label className='text-lg text-beige w-1/2 '>Select themes of event:</label>
+                        <div className='py-1 flex flex-col items-center w-full justify-start'>
+                            <label className='text-lg text-beige w-full '>Select themes of event:</label>
+                            <div className='w-full text-xs text-light-beige'>(minimum 1 must be choosen)</div>
                         </div>
                         <div className='flex flex-row items-center p-1.5 flex-wrap'>
                             {
-                                themes.map(theme => {
+                                themes && themes.map(theme => {
+                                    if(theme.content != 'none')
                                     return (
-                                        <div className='m-0.5 p-1 border rounded-xl flex items-center justify-center' key={theme._id}>
+                                        <div className='m-0.5 p-1 border border-fuchsia-600 rounded-xl flex items-center justify-center' key={theme._id}>
                                             <input name='theme' type="checkbox" className="focus:border-none rounded-sm outline-none text-black w-3.5 h-3.5" onChange={handleChange} id={theme._id} />
                                             <label className="mx-2 text-base font-medium">{theme.content}</label>
                                         </div>
@@ -243,7 +247,7 @@ const EventCreationForm = () => {
                         <div className='py-1 flex items-center w-full justify-between'>
                             <label className='text-xl text-beige w-2/3'>Visibility of members:</label>
                             <select defaultValue={'everyone'} name="members_visibles"
-                                className="w-2/3 h-full outline-none border text-base font-semibold rounded-full block p-2 hover:cursor-pointer text-black"
+                                className="w-2/3 h-full outline-none border text-base font-semibold rounded-full block p-2 hover:cursor-pointer text-black bg-light-beige"
                                 onChange={handleChange} >
                                 <option value="everyone">Everyone</option>
                                 <option value="nobody">Nobody</option>
@@ -262,7 +266,7 @@ const EventCreationForm = () => {
                         >Cancel
                         </button>
                         <button
-                            className="bg-emerald-600 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 hover:bg-emerald-500 transition duration-500 hover:ease-in"
+                            className="bg-emerald-600 text-light-beige active:bg-emerald-600 font-bold uppercase text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 hover:bg-emerald-500 transition duration-500 hover:ease-in"
                             type="button"
                             onClick={handleSubmit}
                         >Create
