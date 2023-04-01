@@ -13,18 +13,19 @@ export const VerifyEmailPage = () => {
         const { data } = await axios.get(`http://localhost:3002/api/auth/verify/${params.token}`)
         console.log(data)
         toast(data.message)
-        if(data.success){
+        if (data.success) {
             navigate('/')
         }
     }
 
-    return <div className="box-border flex justify-center items-center min-h-[100vh] bg-gray-500">
+    return <div className="box-border flex justify-center items-center min-h-[100vh] bg-dark-purple">
         <div className="registerCard">
-            <h3 className="uppercase tracking-[2px] text-gray-300 mt-4 text-xl">Email verification</h3>
-            <p className="text-center ">This page is the verification page for your account on Chronos. <br/>
-            Click the button for activating account and verifying email, where this link was sent</p>
+            <img className="h-[100px] mt-4" src='../uevent_logo.png' alt='logo' />
+            <h3 className="uppercase tracking-[2px] text-light-beige mt-4 text-xl">Email verification</h3>
+            <p className="text-center text-beige p-2 mb-8">This page is the verification page for your account on service <br /><b>"LET'S GO TOGETHER"</b>. <br />
+                Click the button for activating account and verifying email, where this link was sent</p>
 
-            <div className="flex flex-col gap-2 items-center justify-center">
+            <div className="flex flex-col gap-2 pb-12 items-center justify-center">
                 <button onClick={onClickConfirm}>Verify email</button>
             </div>
 

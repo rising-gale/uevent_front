@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import CardOfEvent from '../components/CardOfEvent';
 import EventCreationForm from '../components/EventCreationForm';
 import Header from '../components/Header';
-import { getAllEvents } from '../redux/eventsSlice';
+import { getAllEvents } from '../redux/EventsSlice';
 
 const MainPage = () => {
 

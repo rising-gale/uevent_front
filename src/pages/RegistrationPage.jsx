@@ -43,9 +43,10 @@ export const RegistrationPage = () => {
 
     return <form
         onSubmit={e => e.preventDefault()}
-        className="box-border flex justify-center items-center min-h-[100vh] bg-gray-500">
+        className="box-border flex justify-center items-center min-h-[100vh] bg-dark-purple">
         <div className="registerCard">
-            <h3 className="uppercase tracking-[2px] text-gray-300 mt-4 text-xl">Sign up</h3>
+            <img className="h-[100px]" src='uevent_logo.png' alt='logo'/>
+            <h3 className="uppercase tracking-[2px] text-light-beige text-xl">Sign up</h3>
             <div className="relative w-[250px]">
                 <input
                     type="text"
@@ -92,7 +93,7 @@ export const RegistrationPage = () => {
                 <button type='submit' onClick={handleSubmit} >Create account</button>
                 <Link
                     to='/'
-                    className="flex justify-center items-center text-xs m-5 text-black hover:text-gray-200 hover:transition-[1s]"
+                    className="flex justify-center items-center text-xs m-5 text-beige hover:text-gray-200 hover:transition-[1s]"
                 >Already have an account?</Link>
             </div>
 

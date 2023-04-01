@@ -2,26 +2,32 @@ import React, { useEffect, useState } from "react"
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { loginUser } from "../redux/authSlice"
-import { toast } from 'react-toastify'
 import './styles/loginPage.css'
 
 export const LoginPage = () => {
     const [login, setLogin] = useState('')
     const [password, setPassword] = useState('')
+    const [errorText, setErrorText] = useState('')
+    const [errorVisible, setErrorVisible] = useState(false)
 
     const { status } = useSelector((state) => state.auth)
-    const { me } = useSelector((state) => state.auth)
-
+   
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (me || status=== 'You are signed in') {
+        if (status === 'You are signed in') {
             navigate('/home-page')
         }
         console.log(status)
-        toast(status)
-    }, [status, navigate, me])
+        // toast(status)
+        setErrorText(status)
+        if (status !== '' && status) {
+            setErrorVisible(true)
+        } else {
+            setErrorVisible(false)
+        }
+    }, [status, navigate])
 
     const handleSubmit = () => {
         try {
@@ -29,10 +35,15 @@ export const LoginPage = () => {
                 username_or_email: login,
                 password,
             }))
+            setErrorText(status)
 
         } catch (error) {
             console.log(error)
         }
+    }
+
+    const closeError = () => {
+        setErrorVisible(false)
     }
 
     return (
@@ -59,6 +70,23 @@ export const LoginPage = () => {
                         onChange={e => setPassword(e.target.value)} />
                     <span className="password-span">Password</span>
                 </div>
+
+                {
+                    errorVisible && 
+                    <div className="flex flex-col rounded-lg bg-purple-400 p-2 pt-1 bg-opacity-20 border-0">
+                        <div className="flex justify-end">
+                        <Link
+                            className="flex text-center justify-center w-fit h-fit rounded-sm pr-1 pl-1 text-xs text-beige" 
+                            onClick={closeError}
+                        >x</Link>
+                        </div>
+                        
+                        <p className="items-center text-sm mb-2 text-yellow-500"><b>{errorText}</b></p>
+                        
+                    </div>
+                }
+
+
                 <div className="flex flex-col gap-2 items-center justify-center">
                     <Link
                         to='/auth/resetPassword'
@@ -70,7 +98,6 @@ export const LoginPage = () => {
                         className="flex justify-center items-center text-xs m-5 text-beige hover:text-light-beige hover:transition-[1s]"
                     >Create an account</Link>
                 </div>
-
             </div>
         </form>
     )
