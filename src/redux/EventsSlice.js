@@ -56,7 +56,7 @@ const eventsSlice = createSlice({
         pages: 1,
     },
     reducers: {
-
+        
     },
     extraReducers: {
         [getAllEvents.fulfilled]: (state, action) => {
@@ -73,5 +73,5 @@ const eventsSlice = createSlice({
 })
 
 export default eventsSlice.reducer
-export const { } = eventsSlice.actions;
+// export const { } = eventsSlice.actions;
 
