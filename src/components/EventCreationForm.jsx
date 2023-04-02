@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCategories } from '../redux/categoriesSlice';
-import { createEvent } from '../redux/EventsSlice.js';
+import { createEvent } from '../redux/eventsSlice.js';
 import MapContainer from './MapContainer';
 
 

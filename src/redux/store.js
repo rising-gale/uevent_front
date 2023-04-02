@@ -1,7 +1,8 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import authSlice from './authSlice'
 import categoriesSlice from './categoriesSlice'
-import eventsSlice from './EventsSlice'
+import eventsSlice from './eventsSlice'
+
 
 const rootReducer = combineReducers({
     auth: authSlice,

@@ -17,7 +17,7 @@ const Header = () => {
         <div className='px-8 py-3 border-b-2 border-slate-700 flex w-full bg-dark-purple justify-between '>
             <div className='w-1/6 flex flex-row justify-between'>
                 <div className='h-14 w-28'>
-                    <img src="uevent_logo.png" alt='logo' className='rounded-full' />
+                    <img src="http://localhost:3000/uevent_logo.png" alt='logo' className='rounded-full' />
                 </div>
             </div>
             <div className='w-1/4 flex flex-row justify-between items-center'>
