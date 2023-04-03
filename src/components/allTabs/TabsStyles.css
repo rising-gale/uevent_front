@@ -1,0 +1,62 @@
+/* Tab Container */
+  .Tabs {
+    width: fit-content;
+    display: flex;
+    flex-direction: row;
+    min-width: 400px;
+    background: #22223B;
+    margin: 3.5rem auto 1.5rem;
+    padding: 1rem 2rem;
+    color: #22223B;
+    border-radius: 2rem;
+    @media (max-height: 769px) {
+      padding: 2rem 0;
+    }
+  }
+   
+  /* Tab Navigation */
+  ul.nav {
+    width: 20%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #C9ADA7;
+    border-radius: 2rem;
+    padding-left: 0px;
+
+  }
+   
+  ul.nav li {
+    width: stretch;
+    padding: 1rem;
+    list-style: none;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.7s;
+  }
+   
+  ul.nav li:first-child {
+    border-top-right-radius: 2rem;
+    border-top-left-radius: 2rem;
+  }
+   
+  ul.nav li:last-child {
+    border-bottom-right-radius: 2rem;
+    border-bottom-left-radius: 2rem;
+  }
+   
+  ul.nav li:hover {
+    background: #4A4E69;
+  }
+   
+  ul.nav li.active {
+    background: #C9ADA7;
+    color: #22223B
+  }
+   
+  /* Tab Content Styles */
+  .TabContent {
+    font-size: 2rem;
+    text-align: center;
+  }

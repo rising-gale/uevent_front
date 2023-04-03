@@ -20,7 +20,6 @@ export const LoginPage = () => {
             navigate('/home-page')
         }
         console.log(status)
-        // toast(status)
         setErrorText(status)
         if (status !== '' && status) {
             setErrorVisible(true)

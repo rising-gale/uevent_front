@@ -8,6 +8,7 @@ import { LoginPage } from '../pages/LoginPage';
 import { ResetPasswordPage } from '../pages/ResetPasswordPage';
 import EventView from '../components/EventView';
 import EventCreationForm from '../components/EventCreationForm';
+import { Profile } from '../pages/Profile';
 
 
 export const useRoutes = (isAuthenticated) => {
@@ -20,6 +21,7 @@ export const useRoutes = (isAuthenticated) => {
                     <Route path="/events/:id" element={<EventView />} />
                     <Route path="/events/create" element={<EventCreationForm />} />
                     <Route path='verify/:token' element={<VerifyEmailPage />} />
+                    <Route path='/profile' element={<Profile/>}/>
                 </Routes>
             </>
         )
