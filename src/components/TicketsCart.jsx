@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import TicketInCart from './TicketInCart';
 import { useDispatch, useSelector } from 'react-redux';
-import { payTickets } from '../redux/cartSlice';
+import { clearCart, payTickets } from '../redux/cartSlice';
 
 const calculateTotal = (items) => {
     // console.log(items);
@@ -12,7 +12,7 @@ const calculateTotal = (items) => {
     return total;
 }
 
-const TicketsCart = () => {
+const TicketsCart = ({closeCart}) => {
 
     const dispatch = useDispatch();
     const cartItems = useSelector(state => state.cart.cartItems);
@@ -25,8 +25,8 @@ const TicketsCart = () => {
         setTotal(calculateTotal(cartItems));
     }, [cartItems]);
 
-    const handleCancel = () => {
-
+    const handleClear = () =>{
+        dispatch(clearCart());
     }
 
     const handlePay = () => {
@@ -47,6 +47,7 @@ const TicketsCart = () => {
                         </h3>
                         <button
                             className="p-1 ml-auto bg-transparent border-0 text-black opacity-3 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                            onClick={closeCart}
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="black" className="w-8 h-8">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -65,10 +66,20 @@ const TicketsCart = () => {
                         </div>
                     </div>
                     {/*footer*/}
-                    <div className="flex items-center justify-end p-3 border-t border-solid border-beige rounded-b">
+                    <div className="flex items-center p-3 border-t border-solid border-beige rounded-b">
+                        <div className='flex w-1/2 justify-start'>
+                        <button
+                            className="text-neutral-300 border border-beige rounded-full hover:text-pink-700 background-transparent font-bold uppercase px-3 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-250"
+                            type="button"
+                            onClick={handleClear}
+                        >Clear
+                        </button>     
+                        </div>
+                        <div className='flex w-1/2 justify-end'>
                         <button
                             className="text-pink-700 hover:text-pink-600 background-transparent font-bold uppercase px-3 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-250"
                             type="button"
+                            onClick={closeCart}
                         >Cancel
                         </button>
                         <button
@@ -77,6 +88,8 @@ const TicketsCart = () => {
                             onClick={handlePay}
                         >Pay
                         </button>
+                        </div>
+
                     </div>
                 </div>
             </div>

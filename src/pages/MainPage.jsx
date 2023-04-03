@@ -5,7 +5,6 @@ import Header from '../components/Header';
 import { getCategories } from '../redux/categoriesSlice';
 import { getAllEvents } from '../redux/eventsSlice';
 import EventsContainer from '../components/EventsContainer';
-import TicketsCart from '../components/TicketsCart';
 
 
 const MainPage = () => {
@@ -14,7 +13,6 @@ const MainPage = () => {
     const events = useSelector(state => state.events.events);
     const themes = useSelector(state => state.categories.themes);
     const formats = useSelector(state => state.categories.formats);
-    const [openedForm, setForm] = useState(null);
 
     const [state, setState] = useState({
         sort: 'date',
@@ -86,7 +84,6 @@ const MainPage = () => {
         <div className='flex flex-col w-full h-screen'>
             <Header />
             {/* <EventCreationForm /> */}
-            {/* <TicketsCart /> */}
             <EventsContainer events={events} formats={formats} themes={themes} handleChange={handleChange} />
         </div>
     );

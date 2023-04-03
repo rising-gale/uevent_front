@@ -6,7 +6,7 @@ const EventsContainer = ({events, formats, themes, handleChange}) => {
     return (
         <div className='p-1 flex flex-col bg-dark-purple text-light-beige '>
             {/*Search and filtration bar */}
-            <div className='flex w-full h-12 justify-around'>
+            <div className='flex w-full h-12 justify-around mt-3'>
                 <div className='p-1 w-2/5 h-full flex items-center'>
                     <input autoComplete='off' type="text" name="search" className='w-5/6 text-base p-3 border-2 border-beige focus:border-purple-600 rounded-lg h-full outline-none bg-light-beige text-black' placeholder='Input name of event ...' onChange={handleChange}/>
                     {/* <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-9 h-9 ml-2 hover:cursor-pointer">
