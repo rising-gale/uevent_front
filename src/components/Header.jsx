@@ -48,7 +48,7 @@ const Header = () => {
                 <div className='w-1/2 flex flex-col items-end justify-center'>
                     {/* <div className='w-full text-center p-1'>Login to be nice</div> */}
                     <button 
-                        className="flex items-center justify-around border border-purple-900 rounded-full w-2/3 p-3 bg-violet-700 hover:bg-violet-500 transition duration-500 hover:ease-in font-semibold text-lg "
+                        className="flex items-center justify-around border border-purple-900 rounded-full w-2/3 p-3 bg-violet-700 hover:bg-violet-500 hover:border-purple-600 transition duration-500 hover:ease-in font-semibold text-lg "
                         onClick={logoutClick}
                     >
                         <div>Logout</div>

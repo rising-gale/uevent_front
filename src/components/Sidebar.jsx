@@ -12,7 +12,7 @@ const Sidebar = ({formats, themes, handleChange}) => {
 
                         if (format.content !== 'none')
                             return (
-                                <div className='flex p-1 m-1.5 border rounded-md' key={format._id}>
+                                <div className='flex p-1 m-1.5 border border-beige rounded-md' key={format._id}>
                                     <input type='checkbox' name='format' id={format._id} onChange={handleChange} />
                                     <div>{format.content}</div>
                                 </div>
@@ -28,7 +28,7 @@ const Sidebar = ({formats, themes, handleChange}) => {
                     themes && themes.map(theme => {
                         if (theme.content !== 'none')
                             return (
-                                <div className='flex p-1 m-1.5 border rounded-md' key={theme._id}>
+                                <div className='flex p-1 m-1.5 border border-beige rounded-md' key={theme._id}>
                                     <input type='checkbox' name='theme' id={theme._id} onChange={handleChange} />
                                     <div>{theme.content}</div>
                                 </div>

@@ -8,6 +8,7 @@ import { LoginPage } from '../pages/LoginPage';
 import { ResetPasswordPage } from '../pages/ResetPasswordPage';
 import EventView from '../components/EventView';
 import EventCreationForm from '../components/EventCreationForm';
+import CheckOutSuccess from '../pages/CheckOutSuccess';
 
 
 export const useRoutes = (isAuthenticated) => {
@@ -17,6 +18,7 @@ export const useRoutes = (isAuthenticated) => {
             <>
                 <Routes>
                     <Route path="/" element={<MainPage />} />
+                    <Route path="/checkout-success" element={<CheckOutSuccess />} />
                     <Route path="/events/:id" element={<EventView />} />
                     <Route path="/events/create" element={<EventCreationForm />} />
                     <Route path='verify/:token' element={<VerifyEmailPage />} />
