@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCategories } from '../redux/categoriesSlice';
-import { createEvent } from '../redux/EventsSlice.js';
+import { createEvent } from '../redux/eventsSlice.js';
 import MapContainer from './MapContainer';
 
 
 
-const EventCreationForm = () => {
+const EventCreationForm = ({closeForm}) => {
 
     const dispatch = useDispatch();
 
@@ -217,7 +217,6 @@ const EventCreationForm = () => {
                         <div className='flex flex-row items-center p-1.5 flex-wrap'>
                             {
                                 formats && formats.map(format => {
-                                    if(format.content != 'none')
                                     return (
                                         <div className='m-0.5 p-1 border border-purple-500 rounded-xl flex items-center justify-center' key={format._id}>
                                             <input name='format' type="checkbox" className="focus:border-none rounded-sm outline-none text-black w-3.5 h-3.5" onChange={handleChange} id={format._id} />
@@ -234,7 +233,6 @@ const EventCreationForm = () => {
                         <div className='flex flex-row items-center p-1.5 flex-wrap'>
                             {
                                 themes && themes.map(theme => {
-                                    if(theme.content != 'none')
                                     return (
                                         <div className='m-0.5 p-1 border border-fuchsia-600 rounded-xl flex items-center justify-center' key={theme._id}>
                                             <input name='theme' type="checkbox" className="focus:border-none rounded-sm outline-none text-black w-3.5 h-3.5" onChange={handleChange} id={theme._id} />

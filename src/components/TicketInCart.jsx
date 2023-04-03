@@ -1,19 +1,39 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { changeAmount } from '../redux/cartSlice';
 
-const TicketInCart = () => {
+const TicketInCart = ({ data }) => {
+    const dispatch = useDispatch();
+
+    // console.log('Ticket data in cart: ', data);
+    const handleIncreaseTickets = () =>{
+        let quantity = data.quantity;
+        if(quantity < data.tickets) quantity++;
+        dispatch(changeAmount({_id: data._id, quantity: quantity}));
+    }
+
+    const handleDecreaseTicket = () =>{
+        let quantity = data.quantity;
+        if(quantity > 1) quantity--;
+        dispatch(changeAmount({_id: data._id, quantity: quantity}));
+    }
+
     return (
-        <div className='border-y flex justify-between items-center py-2 w-full'>
-            <img src='logo.png' alt='logo' className='h-10' />
-            <div>Name of event</div>
-            <div>amount: 2</div>
-            <div>10$</div>
-            <div className='hover:cursor-pointer'>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="orange" className="w-6 h-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+        <div className='border-y flex justify-between items-center py-2 w-full text-light-beige text-lg border-beige'>
+            <img src={data.img ? 'http://localhost:3002/' + data.img : 'logo.png'} alt='logo' className='h-12' />
+            <div>{data.title}</div>
+            <div>{data.price} грн\шт.</div>
+            <div className='flex w-1/6 justify-between items-center select-none'>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7 hover:cursor-pointer" onClick={handleDecreaseTicket}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M18 12H6" />
+                </svg>
+                {data.quantity}
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7 hover:cursor-pointer" onClick={handleIncreaseTickets}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m6-6H6" />
                 </svg>
             </div>
             <div className='hover:cursor-pointer'>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="red" className="w-6 h-6">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="red" className="w-7 h-7">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </div>
