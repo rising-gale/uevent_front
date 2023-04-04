@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Link } from 'react-router-dom'
 import Header from '../components/Header';
 import { deleteUser } from "../redux/userSlice";
-import Tabs from "../components/Tabs";
+import Tabs from "../components/TabsProfilePage";
 
 
 import Button from '@material-ui/core/Button';
