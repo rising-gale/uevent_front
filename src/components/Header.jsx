@@ -32,7 +32,7 @@ const Header = () => {
             setBouncing(true);
         }
         setTimeout(()=>{setBouncing(false)}, 2500);
-    }, [cartItems]);
+    }, [cartItems.length]);
     
     return (
         <>

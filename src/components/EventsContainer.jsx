@@ -1,6 +1,7 @@
 import React from 'react';
 import Sidebar from './Sidebar';
 import CardOfEvent from './CardOfEvent';
+import PaginationContainer from './PaginationContainer';
 
 const EventsContainer = ({events, formats, themes, handleChange}) => {
     return (
@@ -31,8 +32,8 @@ const EventsContainer = ({events, formats, themes, handleChange}) => {
             </div>
             <div className='w-full min-h-screen max-h-full pl-4 flex flex-row mt-4'>
                 <Sidebar formats={formats} themes={themes} handleChange={handleChange}/>
-                <div className='w-full h-full p-2'>
-                    <div className='flex flex-row flex-wrap w-full'>
+                <div className='w-full h-full p-2 flex flex-col'>
+                    <div className='flex flex-row flex-wrap w-full h-full'>
                         {events.length > 0 && events.map(event => {
                             return (
                                 <>
@@ -41,8 +42,10 @@ const EventsContainer = ({events, formats, themes, handleChange}) => {
                             )
                         })}
                     </div>
+                    <PaginationContainer />
                 </div>
             </div>
+            
         </div>
     );
 }

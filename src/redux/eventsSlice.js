@@ -54,9 +54,17 @@ const eventsSlice = createSlice({
         events: [],
         viewingEventData: {},
         pages: 1,
+        curPage: 1
     },
     reducers: {
-        
+        incrementPage(state)
+        {
+            state.curPage = state.curPage + 1;
+        },
+        decrementPage(state)
+        {
+            state.curPage = state.curPage - 1;
+        }
     },
     extraReducers: {
         [getAllEvents.fulfilled]: (state, action) => {
@@ -73,5 +81,5 @@ const eventsSlice = createSlice({
 })
 
 export default eventsSlice.reducer
-// export const { } = eventsSlice.actions;
+export const {incrementPage, decrementPage} = eventsSlice.actions;
 

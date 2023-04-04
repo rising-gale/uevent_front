@@ -4,7 +4,11 @@ module.exports = {
   theme: {
     extend: {
       height:{
-        '2screen':'200vh'
+        '2screen':'200vh',
+        '1/2.1':'48%'
+      },
+      width:{
+        '1.5/6': '18.5%'
       },
       colors:{
         'dark-purple':'#22223B',

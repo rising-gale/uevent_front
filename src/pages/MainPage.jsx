@@ -13,10 +13,10 @@ const MainPage = () => {
     const events = useSelector(state => state.events.events);
     const themes = useSelector(state => state.categories.themes);
     const formats = useSelector(state => state.categories.formats);
+    const page = useSelector(state => state.events.curPage);
 
     const [state, setState] = useState({
         sort: 'date',
-        page: 1,
         filterThemes: [],
         filterFormats: [],
         search: '',
@@ -26,8 +26,8 @@ const MainPage = () => {
     useEffect(() => {
         dispatch(getCategories());
         console.log(state);
-        dispatch(getAllEvents({ page: state.page, sort: state.sort, filterThemes: state.filterThemes, filterFormats: state.filterFormats, search: state.search }));
-    }, [dispatch, state]);
+        dispatch(getAllEvents({ page: page, sort: state.sort, filterThemes: state.filterThemes, filterFormats: state.filterFormats, search: state.search }));
+    }, [dispatch, state, page]);
 
     const handleChange = (e) => {
         const { name, value, id } = e.target;

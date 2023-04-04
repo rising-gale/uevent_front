@@ -24,9 +24,9 @@ const CardOfEvent = ({ data }) => {
   }, [cartItems]);
 
   return (
-    <div className='border-2 rounded-lg border-beige m-2 p-2'>
+    <div className='border-2 rounded-lg border-beige m-2 p-2 w-1.5/6 h-fit'>
       <div className='relative'>
-        <img src={data.img ? 'http://localhost:3002/' + data.img : 'afisha.jpg'} alt="afisha" className='rounded-md' />
+          <img src={data.img ? 'http://localhost:3002/' + data.img : 'afisha.jpg'} alt="afisha" className='rounded-lg  w-full h-64' /> {/*w-48 h-64*/}
         <div className='p-3 opacity-0 hover:opacity-100 hover:bg-black hover:bg-opacity-50 duration-300 absolute left-0 top-0 h-full w-full flex flex-col justify-between z-10 text-lg font-semibold'>
           <div className='flex flex-col w-full h-1/3 text-white items-center justify-center'>
             <div className='text-sm'>{data.location.description}</div>
