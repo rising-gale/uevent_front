@@ -2,22 +2,12 @@ import React, { useEffect, useState } from 'react';
 import TicketInCart from './TicketInCart';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearCart, payTickets } from '../redux/cartSlice';
-
-const calculateTotal = (items) => {
-    // console.log(items);
-    let total = 0;
-    items.forEach(item => {
-        total = item.quantity * item.price;
-    });
-    return total;
-}
+import { calculateTotal } from '../functions/calculateTotal';
 
 const TicketsCart = ({closeCart}) => {
 
     const dispatch = useDispatch();
     const cartItems = useSelector(state => state.cart.cartItems);
-
-    // console.log(cartItems);
 
     const [total, setTotal] = useState(0);
 
@@ -30,7 +20,6 @@ const TicketsCart = ({closeCart}) => {
     }
 
     const handlePay = () => {
-        // console.log(cartItems);
         dispatch(payTickets(cartItems));
     }
 
@@ -61,8 +50,9 @@ const TicketsCart = ({closeCart}) => {
                                 <TicketInCart data={cartItem} />
                             )
                         })}
+                        {cartItems.length === 0 && <div className='text-light-beige text-xl'>Nothing to see here ...</div>}
                         <div className='flex justify-end items-center pt-3 w-full text-light-beige text-lg'>
-                            Total: {total} грн.
+                            Total: {total} UAH.
                         </div>
                     </div>
                     {/*footer*/}
