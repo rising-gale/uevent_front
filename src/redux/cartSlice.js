@@ -8,7 +8,8 @@ export const payTickets = createAsyncThunk(
         try {
             console.log(cartItems);
             let { data } = await axios.post(`http://localhost:3002/api/events/create-checkout-session`,{ cartItems: cartItems }, { withCredentials: true });
-            console.log('Data: ', data)
+            console.log('Data: ', data);
+            window.location.href = data.url;
             return data;
         } catch (error) {
             console.log(error);
