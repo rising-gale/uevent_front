@@ -156,6 +156,7 @@ const EventCreationForm = ({closeForm}) => {
                         </h3>
                         <button
                             className="p-1 ml-auto bg-transparent border-0 text-black opacity-3 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                            onClick={closeForm}
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="black" className="w-7 h-7">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -174,31 +175,31 @@ const EventCreationForm = ({closeForm}) => {
                         </div>
                         <div className='py-1 flex items-center w-full justify-between'>
                             <label className='text-xl text-beige w-1/5'>Tickets:</label>
-                            <input type={"number"} min={1} defaultValue={1} className="focus:border-none w-1/5 rounded-full outline-none text-black bg-light-beige p-2" name='tickets' onChange={handleChange} />
+                            <input type={"number"} min={1} defaultValue={1} className="border-2 border-purple-500 focus:border-emerald-600 w-1/5 rounded-full outline-none text-black bg-light-beige p-2" name='tickets' onChange={handleChange} />
                             <label className='text-xl text-beige w-1/5'>Price:</label>
-                            <input type={"number"} min={0} defaultValue={0} className="focus:border-none w-1/5 rounded-full outline-none text-black bg-light-beige p-2" name='price' onChange={handleChange} />
+                            <input type={"number"} min={0} defaultValue={0} className="border-2 border-purple-500 focus:border-emerald-600 w-1/5 rounded-full outline-none text-black bg-light-beige p-2" name='price' onChange={handleChange} />
                         </div>
                         <div className='py-1 flex items-center w-full justify-between text-black'>
                             <label className='text-beige text-xl'>Select date and time:</label>
-                            <input className='bg-light-beige m-2 p-2 outline-none rounded-lg border-2 focus:border-indigo-500' type='date' name="date_event" min="2022-01-01T00:00" onChange={handleChange} />
-                            <input className='bg-light-beige m-2 p-2 outline-none rounded-lg border-2 focus:border-indigo-500' type='time' name='time_start' step="1800" onChange={handleChange} />
+                            <input className='bg-light-beige m-2 p-2 outline-none rounded-lg border-2 border-purple-500 focus:border-emerald-600' type='date' name="date_event" min="2022-01-01T00:00" onChange={handleChange} />
+                            <input className='bg-light-beige m-2 p-2 outline-none rounded-lg border-2 border-purple-500 focus:border-emerald-600' type='time' name='time_start' step="1800" onChange={handleChange} />
                         </div>
                         <div className='py-1 flex items-center w-full justify-between'>
                             <div className='flex w-3/5 items-center'>
                                 <label className='text-xl text-beige w-4/5'>Notifications about new members:</label>
-                                <input type="checkbox" className="focus:border-none rounded-sm outline-none text-black bg-light-beige w-5 h-5" name='notifications' onChange={handleChange} />
+                                <input type="checkbox" className="border-2 border-purple-500 focus:border-emerald-600 rounded-sm outline-none text-black bg-light-beige w-5 h-5" name='notifications' onChange={handleChange} />
                             </div>
                             <div className='flex w-2/5 items-center'>
                                 <label className='text-xl text-beige w-2/3 '>Set post for later:</label>
-                                <input type="checkbox" className="focus:border-none rounded-sm outline-none text-black bg-light-beige w-5 h-5" name='latePost' onChange={handleChange} />
+                                <input type="checkbox" className="border-2 border-purple-500 focus:border-emerald-600 rounded-sm outline-none text-black bg-light-beige w-5 h-5" name='latePost' onChange={handleChange} />
                             </div>
                         </div>
                         {
                             state.latePost &&
                             <div className='py-1 flex items-center w-full justify-between text-black'>
                                 <label className='text-beige text-xl'>Select date and time when post will be shown:</label>
-                                <input className='bg-light-beige m-2 p-2 outline-none rounded-lg border-2 focus:border-indigo-500' type='date' name="date_post" min="2022-01-01T00:00" onChange={handleChange} />
-                                <input className='bg-light-beige m-2 p-2 outline-none rounded-lg border-2 focus:border-indigo-500' type='time' name='time_post' step="3600" onChange={handleChange} />
+                                <input className='bg-light-beige m-2 p-2 outline-none rounded-lg border-2 border-purple-500 focus:border-emerald-600' type='date' name="date_post" min="2022-01-01T00:00" onChange={handleChange} />
+                                <input className='bg-light-beige m-2 p-2 outline-none rounded-lg border-2 border-purple-500 focus:border-emerald-600' type='time' name='time_post' step="3600" onChange={handleChange} />
                             </div>
                         }
 
@@ -245,7 +246,7 @@ const EventCreationForm = ({closeForm}) => {
                         <div className='py-1 flex items-center w-full justify-between'>
                             <label className='text-xl text-beige w-2/3'>Visibility of members:</label>
                             <select defaultValue={'everyone'} name="members_visibles"
-                                className="w-2/3 h-full outline-none border text-base font-semibold rounded-full block p-2 hover:cursor-pointer text-black bg-light-beige"
+                                className="w-2/3 h-full outline-none border-2 border-purple-500 focus:border-emerald-600 text-base font-semibold rounded-full block p-2 hover:cursor-pointer text-black bg-light-beige"
                                 onChange={handleChange} >
                                 <option value="everyone">Everyone</option>
                                 <option value="nobody">Nobody</option>
@@ -259,8 +260,9 @@ const EventCreationForm = ({closeForm}) => {
                     {/*footer*/}
                     <div className="flex items-center justify-end p-3 border-t border-solid border-slate-200 rounded-b">
                         <button
-                            className="text-pink-700 background-transparent font-bold uppercase px-3 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                            className="text-pink-700 hover:text-pink-600 background-transparent font-bold uppercase px-3 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-350"
                             type="button"
+                            onClick={closeForm}
                         >Cancel
                         </button>
                         <button

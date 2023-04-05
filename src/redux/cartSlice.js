@@ -8,11 +8,26 @@ export const payTickets = createAsyncThunk(
         try {
             console.log(cartItems);
             let { data } = await axios.post(`http://localhost:3002/api/events/create-checkout-session`,{ cartItems: cartItems }, { withCredentials: true });
-            console.log('Data: ', data);
+            // console.log('Data: ', data);
             window.location.href = data.url;
             return data;
         } catch (error) {
             console.log(error);
+        }
+    }
+)
+
+export const sendTickets = createAsyncThunk(
+    'api/checkout-success/',
+    async function (bought_tickets, {dispatch}){
+        try {
+            console.log(bought_tickets);
+            let { data } = await axios.post(`http://localhost:3002/api/events/checkout-success`,{ bought_tickets: bought_tickets }, { withCredentials: true });
+            console.log('Data: ', data);
+            dispatch(clearCart());
+            return data;
+        } catch (error) {
+            
         }
     }
 )

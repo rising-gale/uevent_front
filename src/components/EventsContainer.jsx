@@ -1,11 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Sidebar from './Sidebar';
 import CardOfEvent from './CardOfEvent';
 import PaginationContainer from './PaginationContainer';
+import EventCreationForm from './EventCreationForm';
 
 const EventsContainer = ({events, formats, themes, handleChange}) => {
+
+    const [isFormOpened, changeFormState] = useState(false);
+
+    const formOpen = () => {
+        changeFormState(true);
+    }
+
+    const formClose = () =>{
+        changeFormState(false);
+    }
+
     return (
         <div className='p-1 flex flex-col bg-dark-purple text-light-beige '>
+            {isFormOpened && <EventCreationForm closeForm={formClose}/>}
             {/*Search and filtration bar */}
             <div className='flex w-full h-12 justify-around mt-3'>
                 <div className='p-1 w-2/5 h-full flex items-center'>
@@ -24,10 +37,10 @@ const EventsContainer = ({events, formats, themes, handleChange}) => {
                     </select>
                 </div>
                 <button 
-                        className="flex items-center justify-around border border-purple-900 rounded-full w-1/12 p-3 bg-violet-700 hover:bg-violet-500 hover:border-purple-600 transition duration-500 hover:ease-in font-semibold text-lg "
-                        
-                    >
-                        <div>Create</div>
+                    className="flex items-center justify-around border border-purple-900 rounded-full w-1/12 p-3 bg-violet-700 hover:bg-violet-500 hover:border-purple-600 transition duration-500 hover:ease-in font-semibold text-lg "
+                    onClick={formOpen}
+                >
+                <div>Create</div>
                 </button>
             </div>
             <div className='w-full min-h-screen max-h-full pl-4 flex flex-row mt-4'>

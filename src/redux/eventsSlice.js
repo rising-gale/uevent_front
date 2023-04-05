@@ -71,7 +71,7 @@ const eventsSlice = createSlice({
             state.events = action.payload.pageEvents;
             state.pages = action.payload.totalPages;
         },
-        [getAllEvents.rejected]: (state, action) => {
+        [getAllEvents.rejected]: () => {
             console.log('Rejected get all events.');
         },
         [getEvent.fulfilled]: (state, action) => {
