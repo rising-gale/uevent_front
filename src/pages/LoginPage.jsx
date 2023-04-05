@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { loginUser } from "../redux/authSlice"
-import './styles/loginPage.css'
+import '../styles/loginPage.css'
 
 export const LoginPage = () => {
     const [login, setLogin] = useState('')

@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+const colors = require('tailwindcss/colors')
+
 module.exports = {
   content: ["./src/**/*.{html,js,jsx}"],
   theme: {
@@ -16,6 +18,9 @@ module.exports = {
         'light-grey-pastel': '#9ABC98',
         'beige' : '#C9ADA7',
         'light-beige': '#F2E9E4',
+        'lilovii' : '#9A7197',
+        'light-blue': colors.lightBlue,
+        cyan: colors.cyan,
       },
     },
 

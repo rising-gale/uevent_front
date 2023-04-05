@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import TabNavItem from "./TabNavItem"
 import TabContent from "./TabContent";
-import './allTabs/TabsStyles.css'
+import '../styles/TabsStyles.css'
 import ProfileTab from "./allTabs/ProfileTab";
 import MyTicketsTab from "./allTabs/MyTicketsTab";
 import MyFollowedCompaniesTab from "./allTabs/MyFollowedCompaniesTab";

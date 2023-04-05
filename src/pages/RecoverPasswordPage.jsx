@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { passwordForgot } from "../redux/authSlice"
 
-import './styles/registerPage.css'
+import '../styles/registerPage.css'
 import { toast } from "react-toastify"
 
 

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { registerUser } from "../redux/authSlice";
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import './styles/registerPage.css'
+import '../styles/registerPage.css'
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 
