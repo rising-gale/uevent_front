@@ -4,8 +4,8 @@ import MapContainer from './MapContainer';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getEvent } from '../redux/eventsSlice';
-import LoadingScreen from './LoadingScreen';
-
+import LoadingPage from '../pages/LoadingPage';
+import { addItem } from '../redux/cartSlice';
 
 const EventView = () => {
 
@@ -23,6 +23,10 @@ const EventView = () => {
     const handleBackClick = () => {
         navigate('/')
     }
+
+    const addCartItem = () => {
+        dispatch(addItem({ ...eventInfo.event, quantity: 1 }));
+      }
 
     if (eventInfo.event) {
         return (
@@ -98,7 +102,7 @@ const EventView = () => {
                             </div>
                             <div className='flex flex-col items-center w-1/6'>
                                 <div className='font-semibold p-1 h-1/2'>Tickets left in stock: {eventInfo.event.tickets}</div>
-                                <button className='h-1/3 border border-purple-900 w-full text-center font-semibold rounded-full cursor-pointer bg-purple-900 hover:bg-purple-800 hover:border-purple-600 transition duration-500 hover:ease-in'>Buy tickets</button>
+                                <button onClick={addCartItem} className='h-1/3 border border-purple-900 w-full text-center font-semibold rounded-full cursor-pointer bg-purple-900 hover:bg-purple-800 hover:border-purple-600 transition duration-500 hover:ease-in'>Buy tickets</button>
                             </div>
                             <div className='flex flex-col items-center w-1/5'>
                                 <div className='font-semibold p-1 h-1/2 text-xl'>Price:</div>
@@ -120,7 +124,7 @@ const EventView = () => {
                 </div>
             </div>
         );
-    } else return <LoadingScreen />
+    } else return <LoadingPage />
 
 }
 

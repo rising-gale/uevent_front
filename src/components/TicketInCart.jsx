@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { changeAmount, deleteItem } from '../redux/cartSlice';
+import { changeAmount, changeOptionals, deleteItem } from '../redux/cartSlice';
 
 const TicketInCart = ({ data }) => {
     const dispatch = useDispatch();
     const [showOptionals, setShowOptionals] = useState(false);
-
+    const [state, setState] = useState({
+        remindMe: false,
+        showMe: false,
+        promocode: ''
+    })
     // console.log('Ticket data in cart: ', data);
     const handleIncreaseTickets = () => {
         let quantity = data.quantity;
@@ -21,6 +25,40 @@ const TicketInCart = ({ data }) => {
 
     const handleDeleteItem = () => {
         dispatch(deleteItem(data._id));
+    }
+
+    const handleChangeAdditionals = (e) => {
+        const { name, value } = e.target;
+        switch (name) {
+            case 'remindMe':
+                setState(prevState => ({
+                    ...prevState,
+                    remindMe: !state.remindMe
+                }));
+                dispatch(changeOptionals({_id: data._id, showMe: state.showMe, remindMe: !state.remindMe, promocode: state.promocode}));
+                break;
+            case 'showMe':
+                setState(prevState => ({
+                    ...prevState,
+                    showMe: !state.showMe
+                }));
+                dispatch(changeOptionals({_id: data._id, showMe: !state.showMe, remindMe: state.remindMe, promocode: state.promocode}));
+                break;
+            case 'promocode':
+                setState(prevState => ({
+                    ...prevState,
+                    promocode: value
+                }));
+                dispatch(changeOptionals({_id: data._id, showMe: state.showMe, remindMe: state.remindMe, promocode: value}));
+                break;
+            default:
+                break;
+        }
+        // setState(prevState => ({
+        //     ...prevState,
+        //     [name]: value
+        // }));
+        // dispatch(changeOptionals({_id: data._id, showMe: state.showMe, remindMe: state.remindMe, promocode: state.promocode}));
     }
 
     return (
@@ -60,16 +98,16 @@ const TicketInCart = ({ data }) => {
                 {showOptionals &&
                     <div className='flex p-1 flex-col'>
                         <div className='flex items-center'>
-                            <input type='checkbox' />
+                            <input type='checkbox' name="showMe" onChange={handleChangeAdditionals}/>
                             <div className='ml-2'>Show me in members list</div>
                         </div>
                         <div className='flex items-center mt-1'>
-                            <input type='checkbox' name='remindme'/>
+                            <input type='checkbox' name='remindMe' onChange={handleChangeAdditionals}/>
                             <div className='ml-2'>Remind me the day before</div>
                         </div>
                         <div className='flex items-center mt-1'>
                             <div className='mr-2'>Promocode:</div>
-                            <input type='text' className='rounded-full pl-2 bg-light-beige text-black outline-none focus:border-none'/> 
+                            <input onChange={handleChangeAdditionals} type='text' name='promocode' className='rounded-full pl-2 bg-light-beige text-black outline-none focus:border-none'/> 
                         </div>
                     </div>
                 }

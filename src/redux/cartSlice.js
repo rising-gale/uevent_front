@@ -71,6 +71,17 @@ const cartSlice = createSlice({
                 newCart[idx].quantity = action.payload.quantity;
                 state.cartItems = newCart;
             }
+        },
+        changeOptionals(state, action) {
+            let idx = state.cartItems.findIndex((item) => item._id === action.payload._id);
+            if(idx >= 0)
+            {
+                let newCart = state.cartItems;
+                newCart[idx].showMe = action.payload.showMe;
+                newCart[idx].remindMe = action.payload.remindMe;
+                newCart[idx].promocode = action.payload.promocode;
+                state.cartItems = newCart;
+            }
         }
 
     },
@@ -80,5 +91,5 @@ const cartSlice = createSlice({
 })
 
 export default cartSlice.reducer
-export const { addItem, deleteItem, changeAmount, clearCart } = cartSlice.actions;
+export const { addItem, deleteItem, changeAmount, clearCart, changeOptionals } = cartSlice.actions;
 
