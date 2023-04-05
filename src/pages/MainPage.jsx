@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import EventCreationForm from '../components/EventCreationForm';
 import Header from '../components/Header';
 import { getCategories } from '../redux/categoriesSlice';
 import { getAllEvents } from '../redux/eventsSlice';
@@ -83,7 +82,6 @@ const MainPage = () => {
     return (
         <div className='flex flex-col w-full h-screen'>
             <Header />
-            {/* <EventCreationForm /> */}
             <EventsContainer events={events} formats={formats} themes={themes} handleChange={handleChange} />
         </div>
     );

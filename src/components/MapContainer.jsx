@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Map from './Map';
 import { useJsApiLoader } from '@react-google-maps/api';
 import PlacesAutocomplete from './Autocomplete';
@@ -9,6 +9,7 @@ const API_KEY = process.env.REACT_APP_API_KEY;
 //     lat: 50.449709821421386,
 //     lng: 30.52762771951049
 // };
+
 const libraries = ['places'];
 
 const MapContainer = ({center, creationMode, searchBar, setLocation}) => {

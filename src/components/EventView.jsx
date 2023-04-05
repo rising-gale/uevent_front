@@ -4,6 +4,7 @@ import MapContainer from './MapContainer';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getEvent } from '../redux/eventsSlice';
+import LoadingScreen from './LoadingScreen';
 
 
 const EventView = () => {
@@ -119,7 +120,7 @@ const EventView = () => {
                 </div>
             </div>
         );
-    } else return <div>Loading ...</div>
+    } else return <LoadingScreen />
 
 }
 

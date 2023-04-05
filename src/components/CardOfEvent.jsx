@@ -21,7 +21,7 @@ const CardOfEvent = ({ data }) => {
     if (idx >= 0) {
       setEventInCart(true);
     } else setEventInCart(false);
-  }, [cartItems]);
+  }, [cartItems, data._id]);
 
   return (
     <div className='border-2 rounded-lg border-beige m-2 p-2 w-1.5/6 h-fit'>

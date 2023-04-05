@@ -44,13 +44,13 @@ const TicketsCart = ({closeCart}) => {
                         </button>
                     </div>
                     {/*body*/}
-                    <div className="relative p-5 flex flex-col overflow-y-scroll scroll h-5/6">
+                    <div className="relative p-5 flex flex-col overflow-y-auto scrollbar h-5/6">
                         {cartItems.map(cartItem => {
                             return(
                                 <TicketInCart data={cartItem} />
                             )
                         })}
-                        {cartItems.length === 0 && <div className='text-light-beige text-xl'>Nothing to see here ...</div>}
+                        {cartItems.length === 0 && <div className='text-light-beige text-xl h-full w-full flex justify-center'>Nothing to see here ...</div>}
                         <div className='flex justify-end items-center pt-3 w-full text-light-beige text-lg'>
                             Total: {total} UAH.
                         </div>

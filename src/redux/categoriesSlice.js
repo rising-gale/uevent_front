@@ -34,5 +34,5 @@ const categoriesSlice = createSlice({
 })
 
 export default categoriesSlice.reducer
-export const { } = categoriesSlice.actions;
+// export const { } = categoriesSlice.actions;
 

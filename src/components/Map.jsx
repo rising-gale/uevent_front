@@ -1,6 +1,6 @@
 import { GoogleMap, Marker } from '@react-google-maps/api';
 import React, { useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 // import { useSelector } from 'react-redux';
 
 import { defaultTheme } from './Theme';
@@ -28,7 +28,7 @@ const defaultOptions={
 }
 
 const Map = ({ center, creationMode }) => {
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const mapRef = useRef(undefined)
     const [curMarker, setMarker] = useState(undefined);
     // const location = useSelector(state => state.eventCreation.location);

@@ -10,6 +10,7 @@ import EventView from '../components/EventView';
 import EventCreationForm from '../components/EventCreationForm';
 import { Profile } from '../pages/Profile';
 import CheckOutSuccess from '../pages/CheckOutSuccess';
+// import LoadingScreen from '../components/LoadingScreen';
 
 
 export const useRoutes = (isAuthenticated) => {
@@ -20,6 +21,7 @@ export const useRoutes = (isAuthenticated) => {
                 <Routes>
                     <Route path="/" element={<MainPage />} />
                     <Route path="/checkout-success/:cartItems" element={<CheckOutSuccess />} />
+                    {/* <Route path='/loading' element={<LoadingScreen />} /> */}
                     <Route path="/events/:id" element={<EventView />} />
                     <Route path="/events/create" element={<EventCreationForm />} />
                     <Route path='verify/:token' element={<VerifyEmailPage />} />
