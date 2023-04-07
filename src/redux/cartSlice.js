@@ -24,7 +24,6 @@ export const sendTickets = createAsyncThunk(
             console.log(bought_tickets);
             let { data } = await axios.post(`http://localhost:3002/api/events/checkout-success`,{ bought_tickets: bought_tickets }, { withCredentials: true });
             console.log('Data: ', data);
-            dispatch(clearCart());
             return data;
         } catch (error) {
             
@@ -41,9 +40,13 @@ const cartSlice = createSlice({
         addItem(state, action) {
             // console.log(action.payload);
             let idx = state.cartItems.findIndex((item) => item._id === action.payload._id);
+            let obj = action.payload;
+            obj.remindMe =  false;
+            obj.showMe = true;
+            obj.promocode = '';
             if(idx < 0)
             {
-                state.cartItems.push(action.payload);
+                state.cartItems.push(obj);
             }
         },
         deleteItem(state, action)

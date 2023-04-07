@@ -7,7 +7,7 @@ const TicketInCart = ({ data }) => {
     const [showOptionals, setShowOptionals] = useState(false);
     const [state, setState] = useState({
         remindMe: false,
-        showMe: false,
+        showMe: true,
         promocode: ''
     })
     // console.log('Ticket data in cart: ', data);
@@ -54,6 +54,7 @@ const TicketInCart = ({ data }) => {
             default:
                 break;
         }
+        
         // setState(prevState => ({
         //     ...prevState,
         //     [name]: value
@@ -98,7 +99,7 @@ const TicketInCart = ({ data }) => {
                 {showOptionals &&
                     <div className='flex p-1 flex-col'>
                         <div className='flex items-center'>
-                            <input type='checkbox' name="showMe" onChange={handleChangeAdditionals}/>
+                            <input defaultChecked type='checkbox' name="showMe" onChange={handleChangeAdditionals}/>
                             <div className='ml-2'>Show me in members list</div>
                         </div>
                         <div className='flex items-center mt-1'>
