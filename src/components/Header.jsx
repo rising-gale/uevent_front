@@ -45,7 +45,7 @@ const Header = () => {
             <div className='w-1/4 flex flex-row justify-between items-center'>
                 <Link to='/' className='flex justify-center items-center text-lg m-5 text-beige hover:animate-pulse'>Main page</Link>
                 <Link to='/profile' className='flex justify-center items-center text-lg m-5 text-beige hover:animate-pulse'>Profile</Link>
-                <Link to='/events/my' className='flex justify-center items-center text-lg m-5 text-beige hover:animate-pulse'>My events</Link>  
+                <Link to='/calendar' className='flex justify-center items-center text-lg m-5 text-beige hover:animate-pulse'>Calendar</Link>  
             </div>
             <div className='w-1/4 flex flex-row '>
                 <div onClick={ticketsCartOpen} className='text-beige w-1/2 flex items-center border-2 border-purple-900 rounded-xl p-1 hover:cursor-pointer hover:underline text-semibold underline-offset-2 font-serif'>

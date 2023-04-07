@@ -25,6 +25,8 @@ const EventCreationForm = ({closeForm}) => {
         date_event: null,
         time_start: null,
 
+        date_end: null,
+        time_end: null,
         // time_end: null,
 
         latePost: false,
@@ -113,6 +115,14 @@ const EventCreationForm = ({closeForm}) => {
                     }));
                 }
                 break;
+            case 'date_event':
+                setState(prevState => ({
+                    ...prevState,
+                    date_event: value,
+                    date_end: value,
+                    errMessage: ''
+                }));
+            break;
             default:
                 setState(prevState => ({
                     ...prevState,
@@ -127,7 +137,7 @@ const EventCreationForm = ({closeForm}) => {
         // console.log(state);
         // console.log(location);
         if (state.title && state.tickets >= 1 && state.price >= 0 && state.date_event && state.time_start
-            && state.formats.length > 0 && state.themes.length >= 0 && location) {
+            && state.formats.length > 0 && state.themes.length >= 0 && state.date_end && state.time_end && location) {
             // console.log("OK");
             dispatch(createEvent({ ...state, location, company_id: user.companies[0] }));
         } else {
@@ -165,24 +175,32 @@ const EventCreationForm = ({closeForm}) => {
                     </div>
                     {/*body*/}
                     <div className="relative px-8 py-3 flex flex-col m-1">
-                        <div className='pb-1 flex items-center w-full justify-between'>
-                            <label className='text-xl text-beige w-2/3'>Title (required):</label>
+                        <div className='pb-1 my-1 flex items-center w-full '>
+                            <label className='text-xl text-beige w-1/3'>Title (required):</label>
                             <input type={"text"} className="border-2 border-purple-500 focus:border-emerald-600 focus:border-2 w-2/3 rounded-full outline-none text-black p-2 bg-light-beige" name='title' onChange={handleChange} />
                         </div>
-                        <div className='py-1 flex items-center w-full justify-between'>
-                            <label className='text-xl text-beige w-2/3'>Description:</label>
-                            <textarea className='w-full rounded-lg text-black p-1 outline-none bg-light-beige border-2 border-purple-500 focus:border-emerald-600'/>
+                        <div className='py-1 my-1 flex items-center w-full'>
+                            <label className='text-xl text-beige w-1/3'>Description:</label>
+                            <textarea className='w-2/3 rounded-lg text-black p-1 outline-none bg-light-beige border-2 border-purple-500 focus:border-emerald-600'/>
                         </div>
-                        <div className='py-1 flex items-center w-full justify-between'>
-                            <label className='text-xl text-beige w-1/5'>Tickets:</label>
-                            <input type={"number"} min={1} defaultValue={1} className="border-2 border-purple-500 focus:border-emerald-600 w-1/5 rounded-full outline-none text-black bg-light-beige p-2" name='tickets' onChange={handleChange} />
-                            <label className='text-xl text-beige w-1/5'>Price:</label>
-                            <input type={"number"} min={0} defaultValue={0} className="border-2 border-purple-500 focus:border-emerald-600 w-1/5 rounded-full outline-none text-black bg-light-beige p-2" name='price' onChange={handleChange} />
+                        <div className='py-1 flex items-center w-full'>
+                            <div className='w-1/2 flex items-center'>
+                                <label className='text-xl text-beige w-1/3'>Tickets:</label>
+                                <input type={"number"} min={1} defaultValue={1} className="border-2 border-purple-500 focus:border-emerald-600 w-1/3 rounded-full outline-none text-black bg-light-beige p-2" name='tickets' onChange={handleChange} />
+                            </div>
+                            <div className='w-1/2 flex items-center'>
+                                <label className='text-xl text-beige w-1/3'>Price:</label>
+                                <input type={"number"} min={0} defaultValue={0} className="border-2 border-purple-500 focus:border-emerald-600 w-1/3 rounded-full outline-none text-black bg-light-beige p-2" name='price' onChange={handleChange} />
+                            </div>
                         </div>
                         <div className='py-1 flex items-center w-full justify-between text-black'>
-                            <label className='text-beige text-xl'>Select date and time:</label>
+                            <label className='text-beige text-xl'>Select start date and time:</label>
                             <input className='bg-light-beige m-2 p-2 outline-none rounded-lg border-2 border-purple-500 focus:border-emerald-600' type='date' name="date_event" min="2022-01-01T00:00" onChange={handleChange} />
                             <input className='bg-light-beige m-2 p-2 outline-none rounded-lg border-2 border-purple-500 focus:border-emerald-600' type='time' name='time_start' step="1800" onChange={handleChange} />
+                        </div>
+                        <div className='pb-1 my-1 flex items-center w-full justify-start text-black'>
+                            <label className='text-beige text-xl w-1/3'>Select end time:</label>
+                            <input className='bg-light-beige mx-2 p-2 outline-none rounded-lg border-2 border-purple-500 focus:border-emerald-600' type='time' name='time_end' step="1800" onChange={handleChange} />
                         </div>
                         <div className='py-1 flex items-center w-full justify-between'>
                             <div className='flex w-3/5 items-center'>

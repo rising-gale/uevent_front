@@ -1,6 +1,19 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from "axios"
 
+export const getTickets = createAsyncThunk(
+    'api/user/tickets',
+    async function (_) {
+        try {
+            let { data } = await axios.get(`http://localhost:3002/api/users/tickets`, { withCredentials: true })
+            console.log(data);
+            return data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+)
+
 export const createEvent = createAsyncThunk(
     'api/events/create',
     async function (submitData, { dispatch }) {
@@ -52,6 +65,8 @@ const eventsSlice = createSlice({
     name: 'createEvent',
     initialState: {
         events: [],
+        tickets: [],
+        ticketsEvents: [],
         viewingEventData: {},
         pages: 1,
         curPage: 1
@@ -76,6 +91,14 @@ const eventsSlice = createSlice({
         },
         [getEvent.fulfilled]: (state, action) => {
             state.viewingEventData = action.payload;
+        },
+        [getTickets.fulfilled]: (state, action) => {
+            let ticketsEvents = [];
+            action.payload.forEach(ticket => {
+                ticketsEvents.push(ticket.event);
+            });
+            state.tickets = action.payload;
+            state.ticketsEvents = ticketsEvents;
         },
     }
 })
