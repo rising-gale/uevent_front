@@ -6,7 +6,7 @@ import ProfileTab from "./allTabs/ProfileTab";
 import MyTicketsTab from "./allTabs/MyTicketsTab";
 import MyFollowedCompaniesTab from "./allTabs/MyFollowedCompaniesTab";
 
-const Tabs = () => {
+const ProfilePageTabs = () => {
     const [activeTab, setActiveTab] = useState("profile");
 
     return (
@@ -41,4 +41,4 @@ const Tabs = () => {
     );
 };
 
-export default Tabs;
+export default ProfilePageTabs;
