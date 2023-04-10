@@ -65,85 +65,62 @@ const ProfileTab = () => {
   //Part for EditBlock
   //---------------------------------------------------------------------
   const { status } = useSelector((state) => state.user)
-  //const { updatedUser } = useSelector((state) => state.user)
 
-  const [username, setUsername] = useState(user.username)
-  const [fullname, setFullname] = useState(user.full_name)
-  const [oldImage, setOldImage] = useState(user.avatar)
-  const [newImage, setNewImage] = useState('')
-  const [password, setPassword] = useState('')
-  const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [email, setEmail] = useState(user.email)
   const [emailColorBg, setEmailColorBg] = useState('gray-400')
   const [loginColorBg, setLoginColorBg] = useState('gray-400')
   const [passwordColorBg, setPasswordColorBg] = useState('gray-400')
 
-  // const fillOldUserData = (user) => {
-  //     setUsername(user.username)
-  //     setFullname(user.full_name)
-  //     setOldImage(user.avatar)
-  //     setEmail(user.email)
+  const [state, setState] = useState({
+    id: user._id,
+    username: user.username,
+    full_name: user.full_name,
+    password: '',
+    oldPassword: '',
 
-  //     console.log(user.avatar)
-  // }
-
-  // const [user1, setUser] = useState(async () => {
-  //     const { data } = await axios.get('http://localhost:3002/api/auth/me')
-  //     console.log(data)
-  //     setUser(data)
-  //     fillOldUserData(data)
-  // })
+    email: user.email,
+    companies: user.companies,
+    my_social_net: user.social_net
+  })
 
   const dispatch = useDispatch()
 
   const submitHandler = () => {
     try {
-      if (username === '' || email === '' || password === '') {
-        // if (password === '' && user._id === user1._id) {
+      if (state.username === '' || state.email === '' || state.oldPassword === '') {
         console.log("Fill all required fields")
         return
-        // }
       }
 
-      if (!email.includes('@')) {
+      if (!state.email.includes('@')) {
         setEmailColorBg('red-500')
-        //toast("Uncorrect email")
         console.log("Uncorrect email")
         return
       }
 
-      let data = new FormData()
-      data.append('id', user._id)
-      data.append('username', username)
-      data.append('full_name', fullname)
-      data.append('avatar', newImage)
-      data.append('password', password)
-      data.append('email', email)
-      if (newPassword !== '') {
-        data.append('newPassword', newPassword)
+
+      if (state.password !== '') {
         if (confirmPassword === '') {
-          //toast("Please, repeat new password for confirmation")
           console.log("Please, repeat new password for confirmation")
           return
         }
-        data.append('confirmPassword', confirmPassword)
-      } else {
-        data.append('newPassword', '')
-        data.append('confirmPassword', '')
+        if (state.password !== confirmPassword) {
+          console.log("New password and its confirmation are different. Please, try again.")
+          setState(prevState => ({
+            ...prevState,
+            password: ''
+          }))
+          setConfirmPassword('')
+          return
+        }
       }
 
-      // for(var pair of data.entries()){
-      //     console.log("", pair[0]+', '+pair[1])
-      // }
-
-      dispatch(updateUserData(data))
+      console.log(state.id)
+      dispatch(updateUserData({ ...state }))
       if (status && !user) {
-        // toast(status)
         console.log(status)
         return
       }
-      // navigate('/profile')
       setEditBoxOpen(false)
 
     } catch (error) {
@@ -151,7 +128,77 @@ const ProfileTab = () => {
     }
   }
 
+  const changeHandler = (e) => {
+    const { name, value } = e.target
+    switch (name) {
+      case 'image':
+        setState(prevState => ({
+          ...prevState,
+          [name]: e.target.files[0],
+          errMessage: ''
+        }));
+        break;
+      case 'username': {
+        if (value === '') {
+          setLoginColorBg('red-500')
+        } else {
+          setLoginColorBg('gray-400')
+        }
+        setState(prevState => ({
+          ...prevState,
+          [name]: value,
+          errMessage: ''
+        }));
+        break;
+      }
+      case 'email': {
+        if (value === '' || !value.includes('@')) {
+          setEmailColorBg('red-500')
+        } else {
+          setEmailColorBg('gray-400')
+        }
+        setState(prevState => ({
+          ...prevState,
+          [name]: value,
+          errMessage: ''
+        }));
+        break;
+      }
+      case 'oldPassword': {
+        if (value === '') {
+          setPasswordColorBg('red-500')
+        } else {
+          setPasswordColorBg('gray-400')
+        }
+        setState(prevState => ({
+          ...prevState,
+          'oldPassword': value,
+          errMessage: ''
+        }));
+        break;
+      }
+      default: {
+        setState(prevState => ({
+          ...prevState,
+          [name]: value,
+          errMessage: ''
+        }));
+      }
+    }
+  }
+
   const cancelHandler = () => {
+    setState(({
+      id: user._id,
+      username: user.username,
+      full_name: user.full_name,
+      password: '',
+      oldPassword: '',
+
+      email: user.email,
+      companies: user.companies,
+      my_social_net: user.social_net
+    }))
     setEditBoxOpen(false)
   }
   //----------------------------------------------------------------------------------------------
@@ -171,21 +218,17 @@ const ProfileTab = () => {
 
               <div
                 className="text-[16px] mt-5 flex flex-row space-x-3 px-3 py-2 rounded-3xl hover:bg-opacity-70 bg-beige border-dark-purple text-dark-purple"
-                //to={`/profile/edit`}
                 onClick={() => { setEditBoxOpen(true) }}>
                 <img className="w-6" src='editing_icon.png' alt='edit info' />
                 Edit profile
               </div>
 
               {/* Full name */}
-              <div className="" value={fullname}
-                onChange={e => {
-                  setUsername(user.full_name)
-                }
-                }>{user.full_name}</div>
+              <p className=""
+              >{state.full_name}</p>
 
               {/* Nickname */}
-              <div className="text-xl">{user.username}</div>
+              <p className="text-xl" >{state.username}</p>
 
 
             </div>
@@ -237,6 +280,131 @@ const ProfileTab = () => {
           //     setEditBoxOpen(true)
           //   }
           // }} />
+          // <div className="bg-dark-purple">
+          //   <form
+          //     className="w-1/3 mx-auto py-10"
+          //     onSubmit={(e) => e.preventDefault()}
+          //   >
+          //     <label
+          //       className="text-gray-300 py-2 bg-gray-600 text-xs mt-2 flex items-center justify-center border-2 border-dotted cursor-pointer">
+          //       Add image
+          //       <input
+          //         type="file"
+          //         className="hidden"
+          //         onChange={(e) => {
+          //           setNewImage(e.target.files[0])
+          //           // console.log(e.target.files[0])
+          //           setOldImage('')
+          //         }} />
+          //     </label>
+          //     <div className="flex object-cover py-2">
+          //       {oldImage &&
+          //         <img src={`http://localhost:3002/${oldImage}`} alt={oldImage.name} />
+
+          //       }
+          //       {newImage &&
+          //         <img src={URL.createObjectURL(newImage)} alt={newImage.name} />
+          //       }
+          //     </div>
+
+          //     <label className="text-md text-white opacity-70">
+          //       Username (login) <span className="text-2xl text-red-500"> *</span>
+          //       <input type="text"
+          //         placeholder="Username"
+          //         value={username}
+          //         onChange={e => {
+          //           setUsername(e.target.value)
+          //           if (e.target.value === '') {
+          //             setLoginColorBg('red-500')
+          //           } else {
+          //             setLoginColorBg('gray-400')
+          //           }
+          //         }
+          //         }
+          //         className={`mt-1 text-black w-full rounded-lg bg-${loginColorBg} border py-1 px-2 text-xs outline-none placeholder:text-gray-700`} />
+          //     </label>
+
+          //     <label className="text-md text-white opacity-70">
+          //       Email <span className="text-red-500 text-2xl"> *</span>
+          //       <input type="email"
+          //         placeholder="email"
+          //         value={email}
+          //         onChange={e => {
+          //           setEmail(e.target.value)
+          //           if (e.target.value === '') {
+          //             setEmailColorBg('red-500')
+          //           } else {
+          //             setEmailColorBg('gray-400')
+          //           }
+          //         }
+          //         }
+          //         className={`mt-1 text-black w-full rounded-lg bg-${emailColorBg} border py-1 px-2 text-xs outline-none placeholder:text-gray-700`} />
+          //     </label>
+
+          //     <label className="text-md text-white opacity-70">
+          //       Full name
+          //       <input type="text"
+          //         placeholder="Fullname"
+          //         value={fullname}
+          //         onChange={e => setFullname(e.target.value)}
+          //         className="mt-1 text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
+          //     </label>
+
+
+          //     <div>Change password</div>
+          //     <label className="text-md text-white">
+          //       Current password <span className="text-2xl text-red-700"> *</span>
+          //       <input
+          //         type="password"
+          //         value={password}
+          //         onChange={e => {
+          //           setPassword(e.target.value)
+          //           if (e.target.value === '') {
+          //             setPasswordColorBg('red-500')
+          //           } else {
+          //             setPasswordColorBg('gray-400')
+          //           }
+          //         }}
+          //         placeholder="current password"
+          //         className={`mt-1 text-black w-full rounded-lg bg-${passwordColorBg} border py-1 px-2 text-xs outline-none placeholder:text-gray-700`}
+          //       />
+          //     </label>
+          //     <label className="text-xs text-gray-400">
+          //       New password
+          //       <input
+          //         type="password"
+          //         value={newPassword}
+          //         onChange={e => setNewPassword(e.target.value)}
+          //         placeholder="new password"
+          //         className="mt-1 text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none placeholder:text-gray-700"
+          //       />
+          //     </label>
+          //     <label className="text-xs text-gray-400">
+          //       Confirm new password
+          //       <input
+          //         type="password"
+          //         value={confirmPassword}
+          //         onChange={e => setConfirmPassword(e.target.value)}
+          //         placeholder="repeat new password"
+          //         className="mt-1 text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none placeholder:text-gray-700"
+          //       />
+          //     </label>
+
+          //     <div className="flex gap-8 items-center justify-center mt-4">
+          //       <button
+          //         onClick={submitHandler}
+          //         className="flex justify-center items-center bg-gray-600 text-xs text-white rounded-sm py-2 px-4">
+          //         Save changes
+          //       </button>
+          //       <button
+          //         onClick={cancelHandler}
+          //         className="flex justify-center items-center bg-red-500 text-xs text-white rounded-sm py-2 px-4">
+          //         Cancel
+          //       </button>
+          //     </div>
+          //   </form>
+          // </div>
+
           <div className="bg-dark-purple">
             <form
               className="w-1/3 mx-auto py-10"
@@ -248,19 +416,22 @@ const ProfileTab = () => {
                 <input
                   type="file"
                   className="hidden"
-                  onChange={(e) => {
-                    setNewImage(e.target.files[0])
-                    // console.log(e.target.files[0])
-                    setOldImage('')
-                  }} />
+                  name='image'
+                  // onChange={(e) => {
+                  //     setNewImage(e.target.files[0])
+                  //     // console.log(e.target.files[0])
+                  //     setOldImage('')
+                  // }} 
+                  onChange={changeHandler}
+                />
               </label>
               <div className="flex object-cover py-2">
-                {oldImage &&
-                  <img src={`http://localhost:3002/${oldImage}`} alt={oldImage.name} />
-
-                }
-                {newImage &&
-                  <img src={URL.createObjectURL(newImage)} alt={newImage.name} />
+                {/* {oldImage &&
+                        <img src={`http://localhost:3002/${state.oldImage}`} alt={state.oldImage.name} />
+                        
+                    } */}
+                {state.image &&
+                  <img src={URL.createObjectURL(state.image)} alt={state.image.name} />
                 }
               </div>
 
@@ -268,16 +439,19 @@ const ProfileTab = () => {
                 Username (login) <span className="text-2xl text-red-500"> *</span>
                 <input type="text"
                   placeholder="Username"
-                  value={username}
-                  onChange={e => {
-                    setUsername(e.target.value)
-                    if (e.target.value === '') {
-                      setLoginColorBg('red-500')
-                    } else {
-                      setLoginColorBg('gray-400')
-                    }
-                  }
-                  }
+                  value={state.username}
+                  name='username'
+                  // onChange={e => {
+                  //     setUsername(e.target.value)
+                  //     if (e.target.value === '') {
+                  //         setLoginColorBg('red-500')
+                  //     } else {
+                  //         setLoginColorBg('gray-400')
+                  //     }
+                  // }
+                  // }
+                  onChange={changeHandler}
+
                   className={`mt-1 text-black w-full rounded-lg bg-${loginColorBg} border py-1 px-2 text-xs outline-none placeholder:text-gray-700`} />
               </label>
 
@@ -285,16 +459,19 @@ const ProfileTab = () => {
                 Email <span className="text-red-500 text-2xl"> *</span>
                 <input type="email"
                   placeholder="email"
-                  value={email}
-                  onChange={e => {
-                    setEmail(e.target.value)
-                    if (e.target.value === '') {
-                      setEmailColorBg('red-500')
-                    } else {
-                      setEmailColorBg('gray-400')
-                    }
-                  }
-                  }
+                  name='email'
+                  value={state.email}
+                  // onChange={e => {
+                  //     setEmail(e.target.value)
+                  //     if (e.target.value === '') {
+                  //         setEmailColorBg('red-500')
+                  //     } else {
+                  //         setEmailColorBg('gray-400')
+                  //     }
+                  // }
+                  // }
+
+                  onChange={changeHandler}
                   className={`mt-1 text-black w-full rounded-lg bg-${emailColorBg} border py-1 px-2 text-xs outline-none placeholder:text-gray-700`} />
               </label>
 
@@ -302,8 +479,10 @@ const ProfileTab = () => {
                 Full name
                 <input type="text"
                   placeholder="Fullname"
-                  value={fullname}
-                  onChange={e => setFullname(e.target.value)}
+                  name='full_name'
+                  value={state.full_name}
+                  // onChange={e => setFullname(e.target.value)}
+                  onChange={changeHandler}
                   className="mt-1 text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
               </label>
 
@@ -313,15 +492,17 @@ const ProfileTab = () => {
                 Current password <span className="text-2xl text-red-700"> *</span>
                 <input
                   type="password"
-                  value={password}
-                  onChange={e => {
-                    setPassword(e.target.value)
-                    if (e.target.value === '') {
-                      setPasswordColorBg('red-500')
-                    } else {
-                      setPasswordColorBg('gray-400')
-                    }
-                  }}
+                  value={state.oldPassword}
+                  name='oldPassword'
+                  // onChange={e => {
+                  //     setPassword(e.target.value)
+                  //     if (e.target.value === '') {
+                  //         setPasswordColorBg('red-500')
+                  //     } else {
+                  //         setPasswordColorBg('gray-400')
+                  //     }
+                  // }}
+                  onChange={changeHandler}
                   placeholder="current password"
                   className={`mt-1 text-black w-full rounded-lg bg-${passwordColorBg} border py-1 px-2 text-xs outline-none placeholder:text-gray-700`}
                 />
@@ -330,8 +511,10 @@ const ProfileTab = () => {
                 New password
                 <input
                   type="password"
-                  value={newPassword}
-                  onChange={e => setNewPassword(e.target.value)}
+                  value={state.password}
+                  name='password'
+                  // onChange={e => setNewPassword(e.target.value)}
+                  onChange={changeHandler}
                   placeholder="new password"
                   className="mt-1 text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none placeholder:text-gray-700"
                 />
@@ -361,6 +544,7 @@ const ProfileTab = () => {
               </div>
             </form>
           </div>
+
         }
       </div>
 

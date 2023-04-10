@@ -29,9 +29,9 @@ const initialState = {
 
 export const updateUserData = createAsyncThunk('user/updateUserData', async (submitData, {dispatch}) => {
     try {
-        console.log(submitData.get('id'))
-        const { data } = await axios.patch(`http://localhost:3002/api/users/${submitData.get('id')}`, submitData)
-        dispatch(getUserData())
+        console.log(submitData.username)
+        const { data } = await axios.patch(`http://localhost:3002/api/users/${submitData.id}`, submitData, {withCredentials: true})
+        // dispatch(getUserData())
         console.log(data.message)
         return data
     } catch (error) {
