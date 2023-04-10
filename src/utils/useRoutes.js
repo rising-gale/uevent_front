@@ -11,6 +11,7 @@ import EventCreationForm from '../components/EventCreationForm';
 import { Profile } from '../pages/Profile';
 import CheckOutSuccess from '../pages/CheckOutSuccess';
 import LoadingPage from '../pages/LoadingPage';
+import { EditUserPage } from '../pages/EditUserPage';
 
 
 export const useRoutes = (isAuthenticated) => {
@@ -26,6 +27,7 @@ export const useRoutes = (isAuthenticated) => {
                     <Route path="/events/create" element={<EventCreationForm />} />
                     <Route path='verify/:token' element={<VerifyEmailPage />} />
                     <Route path='/profile' element={<Profile/>}/>
+                    <Route path='/profile/edit' element={<EditUserPage/>}/>
                 </Routes>
             </>
         )
