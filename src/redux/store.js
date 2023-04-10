@@ -12,11 +12,8 @@ const rootReducer = combineReducers({
     events: eventsSlice,
     categories: categoriesSlice,
     cart: cartSlice,
-<<<<<<< HEAD
-    user: userSlice
-=======
+    user: userSlice,
     calendars: calendarSlice
->>>>>>> f1a5b03538f68f868df4680a024b3ffe8e73e079
 })
 
 export const store = configureStore({reducer: rootReducer})
