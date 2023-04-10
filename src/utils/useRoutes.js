@@ -10,9 +10,9 @@ import EventView from '../components/EventView';
 import EventCreationForm from '../components/EventCreationForm';
 import { Profile } from '../pages/Profile';
 import CheckOutSuccess from '../pages/CheckOutSuccess';
-import LoadingPage from '../pages/LoadingPage';
 import { EditUserPage } from '../pages/EditUserPage';
-
+import CalendarPage from '../pages/CalendarPage';
+// import LoadingPage from '../pages/LoadingPage';
 
 export const useRoutes = (isAuthenticated) => {
 
@@ -22,9 +22,10 @@ export const useRoutes = (isAuthenticated) => {
                 <Routes>
                     <Route path="/" element={<MainPage />} />
                     <Route path="/checkout-success/:cartItems" element={<CheckOutSuccess />} />
-                    <Route path='/loading' element={<LoadingPage />} />
+                    {/* <Route path='/loading' element={<LoadingPage />} /> */}
                     <Route path="/events/:id" element={<EventView />} />
-                    <Route path="/events/create" element={<EventCreationForm />} />
+                    <Route path="/calendar" element={<CalendarPage />} />
+                    {/* <Route path="/events/create" element={<EventCreationForm />} /> */}
                     <Route path='verify/:token' element={<VerifyEmailPage />} />
                     <Route path='/profile' element={<Profile/>}/>
                     <Route path='/profile/edit' element={<EditUserPage/>}/>
