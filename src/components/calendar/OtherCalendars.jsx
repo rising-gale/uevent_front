@@ -24,10 +24,7 @@ export default function OtherCalendars() {
     }
 
     const onChange = (event) => {
-        // console.log(event.target.id);
         let idx = choosed.indexOf(event.target.id);
-        // console.log(idx);
-
         if (idx >= 0) {
             let newArr = [...choosed];
             newArr.splice(idx, 1);

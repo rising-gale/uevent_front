@@ -15,13 +15,11 @@ export default function DailyView(props) {
     }, [props.currentDay]);
 
     const events = useSelector(state => state.events.ticketsEvents);
+
     const calendars = useSelector(state => state.calendars.calendars);
 
-    const drawDay = (events, month, year, day) => {
+    const EventsToJSX = (hoursEvents) => {
         let content = [];
-        let eventsOfDay = getEventsOfDay(events, day, month, year);
-        let hoursEvents = getEventsByHours(eventsOfDay);
-        console.log(events);
         for (let i = 0; i < 24; i++) {
             const eventsOfHour = hoursEvents.filter(hour_event => hour_event.hour === i);
             if (eventsOfHour.length > 0) {
@@ -111,6 +109,12 @@ export default function DailyView(props) {
             }
         }
         return content;
+    }
+
+    const drawDay = (events, month, year, day) => {
+        let eventsOfDay = getEventsOfDay(events, day, month, year);
+        let hoursEvents = getEventsByHours(eventsOfDay);
+        return EventsToJSX(hoursEvents);
     }
 
     const incrementDay = () => {

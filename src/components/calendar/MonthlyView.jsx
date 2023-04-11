@@ -52,19 +52,19 @@ export default function MonthlyView(props) {
     return content;
   }
 
-  const getMonthEvents = (weeks, daysCount, firstDay, month, year, currentDay, events) => {
+  const getMonthEvents = (weeks, daysCount, firstDay, month, year,  events) => {
     let content = [];
     for (let i = 1; i <= weeks; i++) {
       content.push(
         <div className='flex flex-row px-1 w-full h-full '>
-          {getEventsGrid(i, daysCount, firstDay, month, year, currentDay, events)}
+          {getEventsGrid(i, daysCount, firstDay, month, year, events)}
         </div>
       )
     }
     return content;
   }
 
-  const getEventsGrid = (week, daysCount, firstDay, month, year, currentDay, events) => {
+  const getEventsGrid = (week, daysCount, firstDay, month, year, events) => {
     // console.log(events);
     let content = [];
     // let offset = 42 - daysCount - firstDay;
@@ -154,7 +154,7 @@ export default function MonthlyView(props) {
           )
         })}
       </div>
-      {getMonthEvents(weeks, props.daysCount, props.firstDay, props.month, props.year, props.currentDay, events)}
+      {getMonthEvents(weeks, props.daysCount, props.firstDay, props.month, props.year, events)}
 
     </div>
   )

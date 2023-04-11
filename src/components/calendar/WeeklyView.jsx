@@ -30,7 +30,7 @@ export default function WeeklyView(props) {
 
     }, [props.daysCount, props.firstDay, props.currentDay]);
 
-    const drawWeekGrid = (events, daysCount, firstDay, month, year, currentDay, week) => {
+    const drawWeekGrid = (events, daysCount, firstDay, month, year, week) => {
         let content = [];
         switch (week) {
             case 1:
@@ -249,7 +249,7 @@ export default function WeeklyView(props) {
                 {drawTimeColumn(true)}
                 <div className='w-6/7 flex flex-row '>
                     {
-                        drawWeekGrid(events, props.daysCount, props.firstDay, props.month, props.year, props.currentDay, week)
+                        drawWeekGrid(events, props.daysCount, props.firstDay, props.month, props.year, week)
                     }
                 </div>
             </div>

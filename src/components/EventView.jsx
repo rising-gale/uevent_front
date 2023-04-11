@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getEvent } from '../redux/eventsSlice';
 import LoadingPage from '../pages/LoadingPage';
 import { addItem } from '../redux/cartSlice';
+import CardOfEvent from './CardOfEvent';
 
 const EventView = () => {
 
@@ -27,6 +28,18 @@ const EventView = () => {
     const addCartItem = () => {
         dispatch(addItem({ ...eventInfo.event, quantity: 1 }));
       }
+
+    const events = useSelector(state => state.events.events);
+
+    const print5Events = (events) => {
+        let content = [];
+        for (let i = 0; i < 5; i++) {
+            content.push(
+                <CardOfEvent data={events[i]} />
+            )
+        }
+        return content;
+    }
 
     if (eventInfo.event) {
         return (
@@ -53,7 +66,7 @@ const EventView = () => {
                                 User list:
                             </div>
                         </div>
-                        <div className='mt-3 w-full max-h-screen overflow-y-scroll'>
+                        <div className='mt-3 w-full max-h-screen overflow-y-auto scrollbar h-5/6'>
                             {eventInfo.members.map(member => {
                                 return (
                                     <p className='w-full text-lg text-center my-1'>{member.username}</p>
@@ -119,6 +132,12 @@ const EventView = () => {
                             <div className='p-3'>
                                 {eventInfo.event.description}
                             </div>
+                        </div>
+                        <div className='w-full text-center text-2xl font-semibold pb-2 '>
+                                Similar events:
+                        </div>
+                        <div className='w-full h-full flex'>
+                            {events.length > 0 && print5Events(events)}
                         </div>
                     </div>
                 </div>
