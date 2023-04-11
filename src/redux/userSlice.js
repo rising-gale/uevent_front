@@ -27,14 +27,27 @@ const initialState = {
 //     }
 // })
 
-export const updateUserData = createAsyncThunk('user/updateUserData', async (submitData, {dispatch}) => {
+export const updateUserData = createAsyncThunk('user/updateUserData', async (submitData, { dispatch }) => {
     try {
-        console.log(submitData.username)
-        const { data } = await axios.patch(`http://localhost:3002/api/users/${submitData.id}`, submitData, {withCredentials: true})
+        // const {state} = submitData.state
+        // console.log(state.id)
+       // const {data} = submitData.data
+      console.log(submitData.state.id)
+
+        const { data } = await axios.patch(`http://localhost:3002/api/users/${submitData.state.id}`, submitData.state, { withCredentials: true })
         // dispatch(getUserData())
-        console.log(data.message)
-        return data
+        // console.log(data.message)
+        return {data}
     } catch (error) {
+        console.log(error)
+    }
+})
+
+export const uploadUserAvatar = createAsyncThunk('user/uploadUserAvatar', async (req) => {
+    try{
+        const {data} = await axios.patch(`http://localhost:3002/api/users/${req.get('id')}/pic-load`, req, { withCredentials: true })
+        return {data}
+    } catch(error) {
         console.log(error)
     }
 })

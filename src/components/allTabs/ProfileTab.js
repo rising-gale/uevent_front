@@ -16,7 +16,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import CompanyListItem from "../CompanyListItem";
 // import { EditUserPage } from "../../pages/EditUserPage";
 
-import { updateUserData } from "../../redux/userSlice"
+import { updateUserData, uploadUserAvatar } from "../../redux/userSlice"
 
 const ProfileTab = () => {
   const [activeTabCompanies, setActiveTabCompanies] = useState("following")
@@ -67,6 +67,8 @@ const ProfileTab = () => {
   const { status } = useSelector((state) => state.user)
 
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [oldImage, setOldImage] = useState(user.avatar)
+  const [newImage, setNewImage] = useState(null)
   const [emailColorBg, setEmailColorBg] = useState('gray-400')
   const [loginColorBg, setLoginColorBg] = useState('gray-400')
   const [passwordColorBg, setPasswordColorBg] = useState('gray-400')
@@ -115,8 +117,15 @@ const ProfileTab = () => {
         }
       }
 
-      console.log(state.id)
-      dispatch(updateUserData({ ...state }))
+      //console.log(state.id)
+      //state.image = newImage.name
+      let data = new FormData()
+      data.append('id', user._id)
+      data.append('files', newImage)
+      // dispatch(updateUserData({ ...state }))
+      dispatch(updateUserData({state}))
+      dispatch(uploadUserAvatar(data))
+
       if (status && !user) {
         console.log(status)
         return
@@ -131,13 +140,17 @@ const ProfileTab = () => {
   const changeHandler = (e) => {
     const { name, value } = e.target
     switch (name) {
-      case 'image':
+      case 'image': {
         setState(prevState => ({
           ...prevState,
-          [name]: e.target.files[0],
+          [name]: e.target.files[0].name,
           errMessage: ''
         }));
+        setNewImage(e.target.files[0])
+        setOldImage(null)
         break;
+      }
+
       case 'username': {
         if (value === '') {
           setLoginColorBg('red-500')
@@ -201,6 +214,10 @@ const ProfileTab = () => {
     }))
     setEditBoxOpen(false)
   }
+
+  const isNewImage = () => {
+    return !state.image && oldImage
+  }
   //----------------------------------------------------------------------------------------------
 
   return (
@@ -225,10 +242,10 @@ const ProfileTab = () => {
 
               {/* Full name */}
               <p className=""
-              >{state.full_name}</p>
+              >{user.full_name}</p>
 
               {/* Nickname */}
-              <p className="text-xl" >{state.username}</p>
+              <p className="text-xl" >{user.username}</p>
 
 
             </div>
@@ -273,143 +290,16 @@ const ProfileTab = () => {
 
         {
           editBoxOpen &&
-          // <EditUserPage user={user} func={(submit) => {
-          //   if (submit) {
-          //     setEditBoxOpen(false)
-          //   } else {
-          //     setEditBoxOpen(true)
-          //   }
-          // }} />
-          // <div className="bg-dark-purple">
-          //   <form
-          //     className="w-1/3 mx-auto py-10"
-          //     onSubmit={(e) => e.preventDefault()}
-          //   >
-          //     <label
-          //       className="text-gray-300 py-2 bg-gray-600 text-xs mt-2 flex items-center justify-center border-2 border-dotted cursor-pointer">
-          //       Add image
-          //       <input
-          //         type="file"
-          //         className="hidden"
-          //         onChange={(e) => {
-          //           setNewImage(e.target.files[0])
-          //           // console.log(e.target.files[0])
-          //           setOldImage('')
-          //         }} />
-          //     </label>
-          //     <div className="flex object-cover py-2">
-          //       {oldImage &&
-          //         <img src={`http://localhost:3002/${oldImage}`} alt={oldImage.name} />
-
-          //       }
-          //       {newImage &&
-          //         <img src={URL.createObjectURL(newImage)} alt={newImage.name} />
-          //       }
-          //     </div>
-
-          //     <label className="text-md text-white opacity-70">
-          //       Username (login) <span className="text-2xl text-red-500"> *</span>
-          //       <input type="text"
-          //         placeholder="Username"
-          //         value={username}
-          //         onChange={e => {
-          //           setUsername(e.target.value)
-          //           if (e.target.value === '') {
-          //             setLoginColorBg('red-500')
-          //           } else {
-          //             setLoginColorBg('gray-400')
-          //           }
-          //         }
-          //         }
-          //         className={`mt-1 text-black w-full rounded-lg bg-${loginColorBg} border py-1 px-2 text-xs outline-none placeholder:text-gray-700`} />
-          //     </label>
-
-          //     <label className="text-md text-white opacity-70">
-          //       Email <span className="text-red-500 text-2xl"> *</span>
-          //       <input type="email"
-          //         placeholder="email"
-          //         value={email}
-          //         onChange={e => {
-          //           setEmail(e.target.value)
-          //           if (e.target.value === '') {
-          //             setEmailColorBg('red-500')
-          //           } else {
-          //             setEmailColorBg('gray-400')
-          //           }
-          //         }
-          //         }
-          //         className={`mt-1 text-black w-full rounded-lg bg-${emailColorBg} border py-1 px-2 text-xs outline-none placeholder:text-gray-700`} />
-          //     </label>
-
-          //     <label className="text-md text-white opacity-70">
-          //       Full name
-          //       <input type="text"
-          //         placeholder="Fullname"
-          //         value={fullname}
-          //         onChange={e => setFullname(e.target.value)}
-          //         className="mt-1 text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
-          //     </label>
-
-
-          //     <div>Change password</div>
-          //     <label className="text-md text-white">
-          //       Current password <span className="text-2xl text-red-700"> *</span>
-          //       <input
-          //         type="password"
-          //         value={password}
-          //         onChange={e => {
-          //           setPassword(e.target.value)
-          //           if (e.target.value === '') {
-          //             setPasswordColorBg('red-500')
-          //           } else {
-          //             setPasswordColorBg('gray-400')
-          //           }
-          //         }}
-          //         placeholder="current password"
-          //         className={`mt-1 text-black w-full rounded-lg bg-${passwordColorBg} border py-1 px-2 text-xs outline-none placeholder:text-gray-700`}
-          //       />
-          //     </label>
-          //     <label className="text-xs text-gray-400">
-          //       New password
-          //       <input
-          //         type="password"
-          //         value={newPassword}
-          //         onChange={e => setNewPassword(e.target.value)}
-          //         placeholder="new password"
-          //         className="mt-1 text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none placeholder:text-gray-700"
-          //       />
-          //     </label>
-          //     <label className="text-xs text-gray-400">
-          //       Confirm new password
-          //       <input
-          //         type="password"
-          //         value={confirmPassword}
-          //         onChange={e => setConfirmPassword(e.target.value)}
-          //         placeholder="repeat new password"
-          //         className="mt-1 text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none placeholder:text-gray-700"
-          //       />
-          //     </label>
-
-          //     <div className="flex gap-8 items-center justify-center mt-4">
-          //       <button
-          //         onClick={submitHandler}
-          //         className="flex justify-center items-center bg-gray-600 text-xs text-white rounded-sm py-2 px-4">
-          //         Save changes
-          //       </button>
-          //       <button
-          //         onClick={cancelHandler}
-          //         className="flex justify-center items-center bg-red-500 text-xs text-white rounded-sm py-2 px-4">
-          //         Cancel
-          //       </button>
-          //     </div>
-          //   </form>
-          // </div>
-
           <div className="bg-dark-purple">
             <form
               className="w-1/3 mx-auto py-10"
               onSubmit={(e) => e.preventDefault()}
             >
+              <button
+                onClick={cancelHandler}
+                className="flex justify-center items-center bg-red-500 text-xs text-white rounded-sm py-2 px-4">
+                Cancel
+              </button>
               <label
                 className="text-gray-300 py-2 bg-gray-600 text-xs mt-2 flex items-center justify-center border-2 border-dotted cursor-pointer">
                 Add image
@@ -417,21 +307,21 @@ const ProfileTab = () => {
                   type="file"
                   className="hidden"
                   name='image'
-                  // onChange={(e) => {
-                  //     setNewImage(e.target.files[0])
-                  //     // console.log(e.target.files[0])
-                  //     setOldImage('')
-                  // }} 
-                  onChange={changeHandler}
+                  onChange={(e) => {
+                      setNewImage(e.target.files[0])
+                      // console.log(e.target.files[0])
+                      setOldImage('')
+                  }} 
+                  // onChange={changeHandler}
                 />
               </label>
               <div className="flex object-cover py-2">
-                {/* {oldImage &&
-                        <img src={`http://localhost:3002/${state.oldImage}`} alt={state.oldImage.name} />
-                        
-                    } */}
-                {state.image &&
-                  <img src={URL.createObjectURL(state.image)} alt={state.image.name} />
+                {isNewImage() &&
+                  <img src={`http://localhost:3002/${oldImage}`} alt={oldImage.name} />
+
+                }
+                {newImage &&
+                  <img src={URL.createObjectURL(newImage)} alt={newImage.name} />
                 }
               </div>
 
