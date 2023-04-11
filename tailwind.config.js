@@ -49,6 +49,9 @@ module.exports = {
         'lilovii' : '#9A7197',
         'light-blue': colors.lightBlue,
         cyan: colors.cyan,
+        'plum' : '#f092dd',
+        'bone' : '#dad2bc',
+        'pomp-and-power':'#8f6593'
       },
     },
 

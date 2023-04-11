@@ -3,6 +3,7 @@ import authSlice from './authSlice'
 import categoriesSlice from './categoriesSlice'
 import eventsSlice from './eventsSlice'
 import cartSlice from './cartSlice'
+import userSlice from './userSlice'
 import calendarSlice from './calendarSlice'
 
 
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
     events: eventsSlice,
     categories: categoriesSlice,
     cart: cartSlice,
+    user: userSlice,
     calendars: calendarSlice
 })
 

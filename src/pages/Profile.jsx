@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Link } from 'react-router-dom'
 import Header from '../components/Header';
 import { deleteUser } from "../redux/userSlice";
-import Tabs from "../components/TabsProfilePage";
+import ProfilePageTabs from "../components/TabsProfilePage";
 
 
 import Button from '@material-ui/core/Button';
@@ -24,7 +24,7 @@ export const Profile = () => {
     const navigate = useNavigate()
     const params = useParams()
 
-    const { user } = useSelector(state => state.auth)
+    const { user } = useSelector(state => state.user)
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -60,7 +60,7 @@ export const Profile = () => {
 
     return <div className='flex flex-col w-full h-screen bg-dark-purple'>
         <Header />
-        <Tabs/>
+        <ProfilePageTabs/>
 
         {/* <div className="flex flex-col max-w-[1200px] mx-auto bg-dark-purple">
             <div className="flex flex-row space-x-12">
