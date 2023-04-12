@@ -3,22 +3,25 @@ import Sidebar from './Sidebar';
 import CardOfEvent from './CardOfEvent';
 import PaginationContainer from './PaginationContainer';
 import EventCreationForm from './EventCreationForm';
+import FavouritesEvents from './FavouritesEvents';
 
 const EventsContainer = ({events, formats, themes, handleChange}) => {
 
-    const [isFormOpened, changeFormState] = useState(false);
+    const [isFormOpen, changeFormState] = useState(null);
 
-    const formOpen = () => {
-        changeFormState(true);
+    const formOpen = (e) => {
+        // console.log(e.target.name);
+        changeFormState(e.target.name);
     }
 
     const formClose = () =>{
-        changeFormState(false);
+        changeFormState(null);
     }
 
     return (
         <div className='p-1 flex flex-col bg-dark-purple text-light-beige '>
-            {isFormOpened && <EventCreationForm closeForm={formClose}/>}
+            {isFormOpen == 'eventCreate' && <EventCreationForm closeForm={formClose}/>}
+            {isFormOpen == 'favouritesForm' && <FavouritesEvents closeForm={formClose}/>}
             {/*Search and filtration bar */}
             <div className='flex w-full h-12 justify-around mt-3'>
                 <div className='p-1 w-2/5 h-full flex items-center'>
@@ -39,8 +42,16 @@ const EventsContainer = ({events, formats, themes, handleChange}) => {
                 <button 
                     className="flex items-center justify-around border border-purple-900 rounded-full w-1/12 p-3 bg-violet-700 hover:bg-violet-500 hover:border-purple-600 transition duration-500 hover:ease-in font-semibold text-lg "
                     onClick={formOpen}
+                    name='favouritesForm'
                 >
-                <div>Create</div>
+                Favourites
+                </button>
+                <button 
+                    className="flex items-center justify-around border border-purple-900 rounded-full w-1/12 p-3 bg-violet-700 hover:bg-violet-500 hover:border-purple-600 transition duration-500 hover:ease-in font-semibold text-lg "
+                    onClick={formOpen}
+                    name='eventCreate'
+                >
+                Create
                 </button>
             </div>
             <div className='w-full min-h-screen max-h-full pl-4 flex flex-row mt-4'>
@@ -49,9 +60,7 @@ const EventsContainer = ({events, formats, themes, handleChange}) => {
                     <div className='flex flex-row flex-wrap w-full h-full'>
                         {events.length > 0 && events.map(event => {
                             return (
-                                <>
-                                    <CardOfEvent key={event._id} data={event} />
-                                </>
+                                <CardOfEvent key={event._id} data={event} />
                             )
                         })}
                     </div>

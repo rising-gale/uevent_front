@@ -81,7 +81,7 @@ const MainPage = () => {
 
     return (
         <div className='flex flex-col w-full h-screen'>
-            <Header />
+            {/* <Header /> */}
             <EventsContainer events={events} formats={formats} themes={themes} handleChange={handleChange} />
         </div>
     );

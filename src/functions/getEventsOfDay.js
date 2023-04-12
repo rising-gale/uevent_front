@@ -1,6 +1,6 @@
 export default function getEventsOfDay(events, day, month, year) {
     let eventsOfDay = [];
-    console.log(events, day, month, year);
+    // console.log(events, day, month, year);
     
     events.forEach(event => {
         var dateObjStart = new Date(event.date_event);
@@ -31,7 +31,7 @@ export default function getEventsOfDay(events, day, month, year) {
         //     hoursEnd = 1;
         // }
 
-        console.log(dayStart, monthStart, yearStart, hourStart);
+        // console.log(dayStart, monthStart, yearStart, hourStart);
         // let repeatDay = dayStart;
         // let repeatMonth = monthStart;
         // let repeatYear = yearStart;

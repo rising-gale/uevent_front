@@ -121,7 +121,13 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-
+    setUserData(state, action) {
+      state.isLoading = false
+      state.status = null
+      // console.log(action.payload);
+      state.user = action.payload?.user
+      state.userId = action.payload?.user._id
+    }
   },
   extraReducers: {
     //Registration
@@ -164,7 +170,6 @@ export const authSlice = createSlice({
       state.user = null
       state.isLoading = false
       state.status = action.payload?.message
-      state.me = null
       state.userId = null
     },
     [logout.rejected]: (state, action) => {
@@ -180,6 +185,7 @@ export const authSlice = createSlice({
     [getUserData.fulfilled]: (state, action) => {
       state.isLoading = false
       state.status = null
+      console.log(action.payload);
       state.user = action.payload?.user
       state.userId = action.payload?.user._id
     },
@@ -220,3 +226,4 @@ export const authSlice = createSlice({
 })
 
 export default authSlice.reducer
+export const { setUserData } = authSlice.actions;

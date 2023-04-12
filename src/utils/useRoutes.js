@@ -7,26 +7,26 @@ import { VerifyEmailPage } from '../pages/VerifyEmailPage';
 import { LoginPage } from '../pages/LoginPage';
 import { ResetPasswordPage } from '../pages/ResetPasswordPage';
 import EventView from '../components/EventView';
-import EventCreationForm from '../components/EventCreationForm';
 import { Profile } from '../pages/Profile';
 import CheckOutSuccess from '../pages/CheckOutSuccess';
 import { EditUserPage } from '../pages/EditUserPage';
 import CalendarPage from '../pages/CalendarPage';
-// import LoadingPage from '../pages/LoadingPage';
+import Header from '../components/Header';
 
 export const useRoutes = (isAuthenticated) => {
 
     if (isAuthenticated) {
         return (
             <>
+                <Header />
                 <Routes>
                     <Route path="/" element={<MainPage />} />
                     <Route path="/checkout-success/:cartItems" element={<CheckOutSuccess />} />
-                    {/* <Route path='/loading' element={<LoadingPage />} /> */}
                     <Route path="/events/:id" element={<EventView />} />
                     <Route path="/calendar" element={<CalendarPage />} />
-                    {/* <Route path="/events/create" element={<EventCreationForm />} /> */}
+
                     <Route path='verify/:token' element={<VerifyEmailPage />} />
+
                     <Route path='/profile' element={<Profile/>}/>
                     <Route path='/profile/edit' element={<EditUserPage/>}/>
                 </Routes>

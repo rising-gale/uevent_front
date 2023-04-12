@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from "axios"
+import { setUserData } from "./authSlice";
 
 export const getTickets = createAsyncThunk(
     'api/user/tickets',
@@ -55,6 +56,45 @@ export const getEvent = createAsyncThunk(
             let { data } = await axios.get(`http://localhost:3002/api/events/${id}`, { withCredentials: true });
             // console.log('Event: ', data)
             return data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+)
+
+export const loadAfisha = createAsyncThunk(
+    'api/events/:id/pic-load',
+    async function (formData) {
+
+    }
+)
+
+export const subscribeToEvent = createAsyncThunk(
+    'api/users/subscriptionTo/:id event',
+    async function (id, {dispatch})
+    {
+        try {
+            // console.log('ID: ',id);
+            let { data } = await axios.get(`http://localhost:3002/api/users/subscriptionTo/${id}`, { withCredentials: true });
+            console.log('Subscription data: ', data);   
+            dispatch(setUserData(data));
+            return data;            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+)
+
+export const unsubsribeFromEvent = createAsyncThunk(
+    'api/users/unsubscribeFrom/:id event',
+    async function (id, {dispatch})
+    {
+        try {
+            // console.log('ID: ',id);
+            let { data } = await axios.get(`http://localhost:3002/api/users/subscriptionTo/${id}`, { withCredentials: true });
+            console.log('Subscription data: ', data);   
+            dispatch(setUserData(data));
+            return data;            
         } catch (error) {
             console.log(error);
         }
