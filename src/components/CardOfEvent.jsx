@@ -22,15 +22,16 @@ const CardOfEvent = ({ data }) => {
       setEventInCart(true);
     } else setEventInCart(false);
   }, [cartItems, data._id]);
+  
 
   return (
-    <div className='border-2 rounded-lg border-beige m-2 p-2 w-1.5/6 h-fit'>
+    <div className='border-2 rounded-lg border-beige m-2 p-1.5 w-1.5/6 h-fit'>
       <div className='relative'>
           <img src={data.img ? 'http://localhost:3002/' + data.img : 'afisha.jpg'} alt="afisha" className='rounded-lg  w-full h-64' /> {/*w-48 h-64*/}
         <div className='p-2 opacity-0 hover:opacity-100 hover:bg-black hover:bg-opacity-50 duration-300 absolute left-0 top-0 h-full w-full flex flex-col justify-between z-10 text-lg font-semibold'>
-          <div className='flex flex-col w-full h-1/3 text-white items-center justify-center'>
-            <div className='text-sm'>{data.location.description}</div>
-            <div className='text-2xl select-none text-center text-light-grey-pastel hover:cursor-pointer hover:underline underline-offset-2' onClick={() => { navigate(`/events/${data._id}`) }}>{data.title}</div>
+          <div className='flex flex-col w-full h-1/2 text-white items-center justify-center'>
+            <div className='text-xs text-center'>{data.location.description}</div>
+            <div className='text-xl select-none text-center text-light-grey-pastel hover:cursor-pointer hover:underline underline-offset-2' onClick={() => { navigate(`/events/${data._id}`) }}>{data.title}</div>
           </div>
           <div className='flex flex-col w-full h-1/3 text-white justify-end'>
             <div className='text-yellow-500'>Price: {data.price} грн.</div>
@@ -50,7 +51,7 @@ const CardOfEvent = ({ data }) => {
           </div>
         </div>
       </div>
-      <p className='text-xl font-semibold text-center p-1 text-light-beige' > {data.title}</p>
+      <p className='text-lg font-semibold text-center p-1 text-light-beige' > {data.title}</p>
       <p className='text-sm text-center p-1 text-light-beige'>Starts {new Date(data.date_event).toLocaleString()}</p>
     </div>
   );

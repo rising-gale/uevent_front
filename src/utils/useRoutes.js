@@ -1,5 +1,5 @@
 import React from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import { RecoverPasswordPage } from '../pages/RecoverPasswordPage';
 import MainPage from '../pages/MainPage';
 import { RegistrationPage } from '../pages/RegistrationPage';
@@ -29,6 +29,8 @@ export const useRoutes = (isAuthenticated) => {
 
                     <Route path='/profile' element={<Profile/>}/>
                     <Route path='/profile/edit' element={<EditUserPage/>}/>
+
+                    <Route path="*" element={<Navigate to="/" />} />
                 </Routes>
             </>
         )

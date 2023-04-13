@@ -122,11 +122,7 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     setUserData(state, action) {
-      state.isLoading = false
-      state.status = null
-      // console.log(action.payload);
-      state.user = action.payload?.user
-      state.userId = action.payload?.user._id
+      state.user = action.payload;
     }
   },
   extraReducers: {

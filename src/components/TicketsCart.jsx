@@ -20,6 +20,7 @@ const TicketsCart = ({closeCart}) => {
     }
 
     const handlePay = () => {
+        if(cartItems.length > 0)
         dispatch(payTickets(cartItems));
     }
 
@@ -73,8 +74,13 @@ const TicketsCart = ({closeCart}) => {
                         >Cancel
                         </button>
                         <button
-                            className="bg-emerald-600 text-light-beige active:bg-emerald-600 font-bold uppercase text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 hover:bg-emerald-500 transition duration-500 hover:ease-in"
+                            className={cartItems.length > 0 ?
+                                "bg-emerald-600 text-light-beige active:bg-emerald-600 font-bold uppercase text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 hover:bg-emerald-500 transition duration-500 hover:ease-in"
+                                :
+                                "bg-emerald-600 text-light-beige active:bg-emerald-600 disabled:bg-gray-400 font-bold uppercase text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 hover:bg-emerald-500 transition duration-500 hover:ease-in"
+                            }
                             type="button"
+                            disabled={cartItems.length <= 0}
                             onClick={handlePay}
                         >Pay
                         </button>

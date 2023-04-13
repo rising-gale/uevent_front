@@ -184,7 +184,7 @@ export default function MainPage() {
   if (state.month !== null)
     return (
       <div className="flex flex-col min-h-screen">
-        <Header />
+        {/* <Header /> */}
         <CalendarHeader incrementMonth={incrementMonth} decrementMonth={decrementMonth} hideClick={hideClick} months={months} month={state.month} year={state.year} />
         <div className='px-4 flex flex-row bg-dark-purple  h-full w-full'>
           {

@@ -86,12 +86,16 @@ export const subscribeToEvent = createAsyncThunk(
 )
 
 export const unsubsribeFromEvent = createAsyncThunk(
-    'api/users/unsubscribeFrom/:id event',
-    async function (id, {dispatch})
+    'api/users/subs event',
+    async function ({id, userFavourites}, {dispatch})
     {
         try {
-            // console.log('ID: ',id);
-            let { data } = await axios.get(`http://localhost:3002/api/users/subscriptionTo/${id}`, { withCredentials: true });
+            // console.log('ID: ',id, userFavourites);
+            let idx = userFavourites.findIndex(item => item._id === id);
+            let newArr = [...userFavourites];
+            newArr.splice(idx, 1);
+            console.log(newArr);
+            let { data } = await axios.patch(`http://localhost:3002/api/users/subs`, {subscriptions_events: newArr}, { withCredentials: true });
             console.log('Subscription data: ', data);   
             dispatch(setUserData(data));
             return data;            

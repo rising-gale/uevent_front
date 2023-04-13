@@ -1,11 +1,16 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { unsubsribeFromEvent } from '../redux/eventsSlice';
 
-const EventInFavourite = ({ data }) => {
+const EventInFavourite = ({ data, userFavourites }) => {
+    let dispatch = useDispatch();
+
     const unSubscribe = () => {
-        console.log('unsub')
+        // console.log('unsub');
+        dispatch(unsubsribeFromEvent({id: data._id, userFavourites}));
     }
     return (
-        <div className='border-y py-1 mb-0.5 flex flex-col border-beige'>
+        <div className='border-y px-1 py-1 flex flex-col border-beige'>
             <div className='flex justify-between items-center p-2 w-full text-light-beige text-lg border-beige'>
                 <img src={data.img ? 'http://localhost:3002/' + data.img : 'logo.png'} alt='logo' className='h-14 w-1/12' />
                 <div className='w-1/3 flex justify-center items-center'>{data.title}</div>
