@@ -83,9 +83,9 @@ export default function MonthlyView(props) {
           if (month > 0) {
             eventsOfDay = getEventsOfDay(events, i, month - 1, year);
           } else eventsOfDay = getEventsOfDay(events, i, 11, year - 1);
-          // console.log(eventsOfDay);
+          console.log(eventsOfDay);
           let hoursEvents = getEventsByHours(eventsOfDay);
-          // console.log(hoursEvents);
+          console.log(hoursEvents);
           content.push(
             <div className='text-center border border-slate-700 w-1/6 h-full bg-slate-500 flex flex-col'>
               <div className='font-bold text-lg p-1'>{i}</div>

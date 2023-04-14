@@ -118,10 +118,13 @@ const EventCreationForm = ({closeForm}) => {
             case 'date_event':
                 setState(prevState => ({
                     ...prevState,
-                    date_event: value,
-                    date_end: value,
+                    date_event: value + ' ' + state.time_start,
+                    date_end: value + ' ' + state.time_end,
                     errMessage: ''
                 }));
+                // let date_string = value + ' ' + state.time_start.toString();
+                // console.log(date_string);
+                // console.log(Date(date_string))
             break;
             default:
                 setState(prevState => ({
