@@ -77,7 +77,7 @@ const ProfileTab = () => {
   useEffect(() => {
     dispatch(getUserData())
     console.log(user.avatar)
-  }, [dispatch])
+  }, [dispatch, user.avatar])
 
   //Part for EditBlock
   //---------------------------------------------------------------------
