@@ -7,9 +7,12 @@ import Header from '../components/Header';
 const CheckOutSuccess = () => {
     const params = useParams();
     const dispatch = useDispatch();
-
+    console.log(params)
     useEffect(() => {
         let parsed = JSON.parse(params.cartItems);
+        
+        console.log(parsed);
+
         dispatch(sendTickets(parsed))
     }, [params, dispatch]);
 

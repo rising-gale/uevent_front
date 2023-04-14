@@ -222,6 +222,14 @@ const ProfileTab = () => {
     if (newImage) { return true }
     else { return false }
   }
+
+  useEffect(() => {
+    setState(prevState => ({
+      ...prevState,
+      oldImage: user.avatar,
+      errMessage: ''
+    }));
+  }, [user.avatar]);
   //----------------------------------------------------------------------------------------------
 
   return (
