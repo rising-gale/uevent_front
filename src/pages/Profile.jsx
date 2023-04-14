@@ -23,7 +23,7 @@ export const Profile = () => {
     const navigate = useNavigate()
     const params = useParams()
 
-    const { user } = useSelector(state => state.user)
+    const { user } = useSelector(state => state.auth)
 
     const handleClickOpen = () => {
         setOpen(true);

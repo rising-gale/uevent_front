@@ -5,6 +5,7 @@ import '../styles/TabsStyles.css'
 import ProfileTab from "./allTabs/ProfileTab";
 import MyTicketsTab from "./allTabs/MyTicketsTab";
 import MyFollowedCompaniesTab from "./allTabs/MyFollowedCompaniesTab";
+import MyCompanyTab from "./allTabs/MyCompanyTab";
 
 const ProfilePageTabs = () => {
     const [activeTab, setActiveTab] = useState("profile");
@@ -20,7 +21,7 @@ const ProfilePageTabs = () => {
             >
                 <TabNavItem title="PROFILE" id="profile" activeTab={activeTab} setActiveTab={setActiveTab} />
                 <TabNavItem title="MY TICKETS" id="myTickets" activeTab={activeTab} setActiveTab={setActiveTab} />
-                <TabNavItem title="MY FOLLOWED COMPANIES" id="myFollowedCompanies" activeTab={activeTab} setActiveTab={setActiveTab} />
+                <TabNavItem title="MY COMPANY" id="myCompany" activeTab={activeTab} setActiveTab={setActiveTab} />
             </ul>
 
             <div 
@@ -33,8 +34,8 @@ const ProfilePageTabs = () => {
                 <TabContent id="myTickets" activeTab={activeTab}>
                     <MyTicketsTab/>
                 </TabContent>
-                <TabContent id="myFollowedCompanies" activeTab={activeTab}>
-                    <MyFollowedCompaniesTab/>
+                <TabContent id="myCompany" activeTab={activeTab}>
+                    <MyCompanyTab/>
                 </TabContent>
             </div>
         </div>

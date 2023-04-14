@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
+import { setUserData } from './authSlice'
 
 const initialState = {
     // users: [],
@@ -40,10 +41,11 @@ export const updateUserData = createAsyncThunk('user/updateUserData', async (sub
     }
 })
 
-export const uploadUserAvatar = createAsyncThunk('user/uploadUserAvatar', async (req) => {
+export const uploadUserAvatar = createAsyncThunk('user/uploadUserAvatar', async (req, {dispatch}) => {
     try {
-        const { data } = await axios.patch(`http://localhost:3002/api/users/${req.get('id')}/pic-load`, req, { withCredentials: true })
+        const { data } = await axios.patch(`http://localhost:3002/api/users//pic-load`, req, { withCredentials: true })
         console.log(data.message)
+        dispatch(setUserData(data))
         return { data }
     } catch (error) {
         console.log(error)
@@ -68,24 +70,12 @@ export const deleteUser = createAsyncThunk('user/deleteUser', async (userID) => 
     }
 })
 
-export const getUserData = createAsyncThunk('auth/getUserData', async () => {
-    try {
-        const { data } = await axios.get('http://localhost:3002/api/auth/me', { withCredentials: true })
-        return data
-    } catch (error) {
-        console.log(error)
-    }
-},
-)
+
 
 export const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        // updateUserData: (state, action) => {
-        //     state.user = action.payload
-        //     //state.message = action.payload?.message
-        // }
     },
     extraReducers: {
 
@@ -96,9 +86,6 @@ export const userSlice = createSlice({
         },
         [updateUserData.fulfilled]: (state, action) => {
             state.loading = false
-            // const index = state.users.findIndex((user) => user._id === action.payload._id) 
-            // state.users[index] = action.payload.updatedUser
-            // state.user = action.payload.user
             state.status = action.payload?.message
         },
         [updateUserData.rejected]: (state, action) => {
@@ -144,22 +131,7 @@ export const userSlice = createSlice({
         [deleteUser.rejected]: (state, action) => {
             state.loading = false
             state.status = action.payload?.message
-        },
-
-        //Check authorization (Get ME)
-        [getUserData.pending]: (state) => {
-            state.isLoading = true
-            state.status = null
-        },
-        [getUserData.fulfilled]: (state, action) => {
-            state.isLoading = false
-            state.status = null
-            state.user = action.payload?.user
-        },
-        [getUserData.rejected]: (state, action) => {
-            state.status = action.payload?.message
-            state.isLoading = false
-        },
+        }
     }
 })
 

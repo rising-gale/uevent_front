@@ -14,11 +14,12 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import CompanyListItem from "../CompanyListItem";
+// import { EditUserPage } from "../../pages/EditUserPage";
 
 import { updateUserData, uploadUserAvatar } from "../../redux/userSlice"
 import { getUserData } from "../../redux/authSlice";
 
-const ProfileTab = () => {
+const MyCompanyTab = () => {
   const [activeTabCompanies, setActiveTabCompanies] = useState("following")
   const [editBoxOpen, setEditBoxOpen] = useState(false)
 
@@ -73,30 +74,11 @@ const ProfileTab = () => {
   })
 
 
-  useEffect(() => {
-    dispatch(getUserData())
-    console.log(user.avatar)
-    // setState(prevState => ({ 
-    //   ...prevState, 
-    //   oldImage: user.avatar, 
-    //   errMessage: '' 
-    // })); 
-  }, [dispatch, user.avatar])
-
-  // useEffect(() => { 
-  //   setState(prevState => ({ 
-  //     ...prevState, 
-  //     oldImage: user.avatar, 
-  //     errMessage: '' 
-  //   })); 
-  // }, [user.avatar]);
-
   //Part for EditBlock
   //---------------------------------------------------------------------
   const { status } = useSelector((state) => state.user)
 
   const [confirmPassword, setConfirmPassword] = useState('')
-  // const [oldImage, setOldImage] = useState(user.avatar)
   const [newImage, setNewImage] = useState(null)
   const [emailColorBg, setEmailColorBg] = useState('gray-400')
   const [loginColorBg, setLoginColorBg] = useState('gray-400')
@@ -223,24 +205,12 @@ const ProfileTab = () => {
 
       email: user.email,
       companies: user.companies,
-      my_social_net: user.social_net,
+      my_social_net: user.social_net, 
       oldImage: user.avatar
     }))
     setEditBoxOpen(false)
   }
-  
-  const isNewImage = () => {
-    if (newImage) { return true }
-    else { return false }
-  }
 
-  useEffect(() => {
-    setState(prevState => ({
-      ...prevState,
-      oldImage: user.avatar,
-      errMessage: ''
-    }));
-  }, [user.avatar]);
   //----------------------------------------------------------------------------------------------
 
   return (
@@ -251,8 +221,9 @@ const ProfileTab = () => {
             <div className="flex w-1/2 flex-col text-[2rem] items-center text-center min-h-[400px]">
 
               <div className="justify-center w-40 mt-5 ">
-                <img alt={state.oldImage} className="items-center rounded-[3rem]"
-                  src={`http://localhost:3002/${state.oldImage}`}
+                <img alt={user.avatar} className="items-center rounded-[3rem]"
+                  //src={`http://localhost:3002/${user.avatar}`}
+                  src = 'https://www.onedrop.org/image/1/400/267/uploads/rich-content/cds_groupe_fr_bw_lightback-fr-1550002446.png'
                 />
               </div>
 
@@ -264,57 +235,25 @@ const ProfileTab = () => {
               </div>
 
               {/* Full name */}
+
+
+
               {state.full_name}
 
               {/* Nickname */}
               <p className="text-xl" >{state.username}</p>
 
-              <div className="flex flex-col items-center justify-center w-2/3">
-                <div className="flex">Contacts</div>
-                <div className="flex flex-row space-x-3 p-2 justify-center rounded-3xl bg-plum bg-opacity-60">
-                  <a 
-                    href='https://www.instagram.com/?hl=ru' target="_blank"
-                    // href={user.social_net?.instagram}
-                  >
-                    <img className='w-1/7 min-w-[30px]' alt='instagram' src='http://localhost:3000/instagram.png'></img>
-                  </a>
-                  <a
-                    href='https://www.facebook.com/' target="_blank"
-                    // href={user.social_net?.facebook}
-                  >
-                    <img className='w-1/7 min-w-[30px]' alt='facebook' src='http://localhost:3000/facebook.png'></img>
-                  </a>
-                  <a
-                    href='https://web.telegram.org/z/' target="_blank"
-                    // href = {user.social_net?.telegram}
-                  >
-                    <img className='w-1/7 min-w-[30px]' alt='telegram' src='http://localhost:3000/telegram.png'></img>
-                  </a>
-                  <a
-                    href='https://www.whatsapp.com/' target="_blank"
-                    // href={user.social_net?.whatsapp}
-                  >
-                    <img className='w-1/7 min-w-[30px]' alt='whatsapp' src='http://localhost:3000/whatsapp.png'></img>
-                  </a>
-                  <a 
-                    href='https://www.viber.com/ua/' target="_blank"
-                    // href={user.social_net?.viber}
-                  >
-                    <img className='w-1/7 min-w-[30px]' alt='viber' src='http://localhost:3000/viber.png'></img>
-                  </a>
 
-                </div>
-              </div>
             </div>
 
             <div className="w-1/2 min-h-[519px] bg-dark-purple bg-opacity-80 p-[1rem] text-sm text-beige border-[2px] border-beige rounded-2xl">
               <ul className="Horizontalnav">
-                <TabNavItem title={`${arrayItemsCount(user.subscriptions_companies)} followed companies`} id="following_companies" activeTab={activeTabCompanies} setActiveTab={setActiveTabCompanies} />
-                <TabNavItem title={`${arrayItemsCount(user.subscriptions_events)} followed events`} id="followed_events" activeTab={activeTabCompanies} setActiveTab={setActiveTabCompanies} />
+                <TabNavItem title={`${arrayItemsCount(user.subscriptions_companies)} followed companies`} id="following" activeTab={activeTabCompanies} setActiveTab={setActiveTabCompanies} />
+                <TabNavItem title={`${arrayItemsCount(user.companies)} created companies`} id="created" activeTab={activeTabCompanies} setActiveTab={setActiveTabCompanies} />
               </ul>
 
               <div>
-                <TabContent id="following_companies" activeTab={activeTabCompanies}>
+                <TabContent id="following" activeTab={activeTabCompanies}>
                   <ul className="w-full pr-5 space-y-3 first-letter overflow-y-scroll scrollbar h-[400px]">
                     {array1.map((company, index) => (
                       <CompanyListItem
@@ -324,7 +263,7 @@ const ProfileTab = () => {
                   </ul>
 
                 </TabContent>
-                <TabContent id="followed_events" activeTab={activeTabCompanies}>
+                <TabContent id="created" activeTab={activeTabCompanies}>
                   <ul className="w-full pr-5 space-y-3 first-letter overflow-y-scroll scrollbar h-[400px]">
                     <div className="text-sm w-full border-[2px] mb-12 py-5 bg-dark-blue-pastel border-purple-900 text-black rounded-md">
                       CREATE A NEW COMPANY
@@ -364,11 +303,7 @@ const ProfileTab = () => {
                   type="file"
                   className="hidden"
                   name='image'
-                  onChange={changeHandler
-                    // console.log(e.target.files[0])
-                    // setOldImage('')
-                  }
-                // onChange={changeHandler}
+                  onChange={changeHandler}
                 />
               </label>
               <div className="flex object-cover py-2">
@@ -387,15 +322,6 @@ const ProfileTab = () => {
                   placeholder="Username"
                   value={state.username}
                   name='username'
-                  // onChange={e => {
-                  //     setUsername(e.target.value)
-                  //     if (e.target.value === '') {
-                  //         setLoginColorBg('red-500')
-                  //     } else {
-                  //         setLoginColorBg('gray-400')
-                  //     }
-                  // }
-                  // }
                   onChange={changeHandler}
 
                   className={`mt-1 text-black w-full rounded-lg bg-${loginColorBg} border py-1 px-2 text-xs outline-none placeholder:text-gray-700`} />
@@ -407,15 +333,6 @@ const ProfileTab = () => {
                   placeholder="email"
                   name='email'
                   value={state.email}
-                  // onChange={e => {
-                  //     setEmail(e.target.value)
-                  //     if (e.target.value === '') {
-                  //         setEmailColorBg('red-500')
-                  //     } else {
-                  //         setEmailColorBg('gray-400')
-                  //     }
-                  // }
-                  // }
 
                   onChange={changeHandler}
                   className={`mt-1 text-black w-full rounded-lg bg-${emailColorBg} border py-1 px-2 text-xs outline-none placeholder:text-gray-700`} />
@@ -427,7 +344,6 @@ const ProfileTab = () => {
                   placeholder="Fullname"
                   name='full_name'
                   value={state.full_name}
-                  // onChange={e => setFullname(e.target.value)}
                   onChange={changeHandler}
                   className="mt-1 text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
               </label>
@@ -440,14 +356,6 @@ const ProfileTab = () => {
                   type="password"
                   value={state.oldPassword}
                   name='oldPassword'
-                  // onChange={e => {
-                  //     setPassword(e.target.value)
-                  //     if (e.target.value === '') {
-                  //         setPasswordColorBg('red-500')
-                  //     } else {
-                  //         setPasswordColorBg('gray-400')
-                  //     }
-                  // }}
                   onChange={changeHandler}
                   placeholder="current password"
                   className={`mt-1 text-black w-full rounded-lg bg-${passwordColorBg} border py-1 px-2 text-xs outline-none placeholder:text-gray-700`}
@@ -459,7 +367,6 @@ const ProfileTab = () => {
                   type="password"
                   value={state.password}
                   name='password'
-                  // onChange={e => setNewPassword(e.target.value)}
                   onChange={changeHandler}
                   placeholder="new password"
                   className="mt-1 text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none placeholder:text-gray-700"
@@ -490,6 +397,7 @@ const ProfileTab = () => {
               </div>
             </form>
           </div>
+
         }
       </div>
 
@@ -512,4 +420,4 @@ const ProfileTab = () => {
     </div >
   );
 };
-export default ProfileTab;
+export default MyCompanyTab;
