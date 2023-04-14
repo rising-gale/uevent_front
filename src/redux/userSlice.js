@@ -10,32 +10,13 @@ const initialState = {
     status: null
 }
 
-// export const getAllUsers = createAsyncThunk('user/getAllUsers', async () => {
-//     try {
-//         const { data } = await axios.get('http://localhost:3002/api/users')
-//         return ({ users: data })
-//     } catch (error) {
-//         console.log(error)
-//     }
-// })
-
-// export const getUserById = createAsyncThunk('user/getUserById', async (userId) => {
-//     try {
-//         const { data } = await axios.get(`http://localhost:3002/api/users/${userId}`)
-//         return data
-//     } catch (error) {
-//         console.log(error)
-//     }
-// })
-
 export const updateUserData = createAsyncThunk('user/updateUserData', async (submitData, { dispatch }) => {
     try {
-        console.log(submitData.state.full_name)
-
-        const { data } = await axios.patch(`http://localhost:3002/api/users`, submitData.state, { withCredentials: true })
-        // dispatch(getUserData())
-        console.log(data.message)
-        return data
+        // console.log(submitData.state.full_name)
+        const { data } = await axios.patch(`http://localhost:3002/api/users`, submitData, { withCredentials: true })
+        console.log(data.user)        
+        dispatch(setUserData(data.user))
+        return {data}
     } catch (error) {
         console.log(error)
     }
@@ -43,9 +24,9 @@ export const updateUserData = createAsyncThunk('user/updateUserData', async (sub
 
 export const uploadUserAvatar = createAsyncThunk('user/uploadUserAvatar', async (req, {dispatch}) => {
     try {
-        const { data } = await axios.patch(`http://localhost:3002/api/users//pic-load`, req, { withCredentials: true })
-        console.log(data.message)
-        dispatch(setUserData(data))
+        const { data } = await axios.patch(`http://localhost:3002/api/users/pic-load`, req, { withCredentials: true })
+        console.log(data.user)
+        dispatch(setUserData(data.user))
         return { data }
     } catch (error) {
         console.log(error)
