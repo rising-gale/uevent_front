@@ -14,7 +14,6 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import CompanyListItem from "../CompanyListItem";
-// import { EditUserPage } from "../../pages/EditUserPage";
 
 import { updateUserData, uploadUserAvatar } from "../../redux/userSlice"
 import { getUserData } from "../../redux/authSlice";
@@ -77,7 +76,20 @@ const ProfileTab = () => {
   useEffect(() => {
     dispatch(getUserData())
     console.log(user.avatar)
+    setState(prevState => ({ 
+      ...prevState, 
+      oldImage: user.avatar, 
+      errMessage: '' 
+    })); 
   }, [dispatch, user.avatar])
+
+  // useEffect(() => { 
+  //   setState(prevState => ({ 
+  //     ...prevState, 
+  //     oldImage: user.avatar, 
+  //     errMessage: '' 
+  //   })); 
+  // }, [user.avatar]);
 
   //Part for EditBlock
   //---------------------------------------------------------------------
@@ -124,10 +136,9 @@ const ProfileTab = () => {
       let data = new FormData()
       data.append('id', user._id)
       data.append('files', newImage)
-
-      dispatch(updateUserData({ state }))
       dispatch(uploadUserAvatar(data))
-      dispatch(getUserData())
+      dispatch(updateUserData({ state }))
+      dispatch(getUserData)
 
       if (status && !user) {
         console.log(status)
@@ -212,16 +223,12 @@ const ProfileTab = () => {
 
       email: user.email,
       companies: user.companies,
-      my_social_net: user.social_net, 
+      my_social_net: user.social_net,
       oldImage: user.avatar
     }))
     setEditBoxOpen(false)
   }
 
-  const isNewImage = () => {
-    if (newImage) { return true }
-    else { return false }
-  }
   //----------------------------------------------------------------------------------------------
 
   return (
@@ -245,25 +252,57 @@ const ProfileTab = () => {
               </div>
 
               {/* Full name */}
-
-
-
               {state.full_name}
 
               {/* Nickname */}
               <p className="text-xl" >{state.username}</p>
 
+              <div className="flex flex-col items-center justify-center w-2/3">
+                <div className="flex">Contacts</div>
+                <div className="flex flex-row space-x-3 p-2 justify-center rounded-3xl bg-plum bg-opacity-60">
+                  <a 
+                    href='https://www.instagram.com/?hl=ru' target="_blank"
+                    // href={user.social_net?.instagram}
+                  >
+                    <img className='w-1/7 min-w-[30px]' alt='instagram' src='http://localhost:3000/instagram.png'></img>
+                  </a>
+                  <a
+                    href='https://www.facebook.com/' target="_blank"
+                    // href={user.social_net?.facebook}
+                  >
+                    <img className='w-1/7 min-w-[30px]' alt='facebook' src='http://localhost:3000/facebook.png'></img>
+                  </a>
+                  <a
+                    href='https://web.telegram.org/z/' target="_blank"
+                    // href = {user.social_net?.telegram}
+                  >
+                    <img className='w-1/7 min-w-[30px]' alt='telegram' src='http://localhost:3000/telegram.png'></img>
+                  </a>
+                  <a
+                    href='https://www.whatsapp.com/' target="_blank"
+                    // href={user.social_net?.whatsapp}
+                  >
+                    <img className='w-1/7 min-w-[30px]' alt='whatsapp' src='http://localhost:3000/whatsapp.png'></img>
+                  </a>
+                  <a 
+                    href='https://www.viber.com/ua/' target="_blank"
+                    // href={user.social_net?.viber}
+                  >
+                    <img className='w-1/7 min-w-[30px]' alt='viber' src='http://localhost:3000/viber.png'></img>
+                  </a>
 
+                </div>
+              </div>
             </div>
 
             <div className="w-1/2 min-h-[519px] bg-dark-purple bg-opacity-80 p-[1rem] text-sm text-beige border-[2px] border-beige rounded-2xl">
               <ul className="Horizontalnav">
-                <TabNavItem title={`${arrayItemsCount(user.subscriptions_companies)} followed companies`} id="following" activeTab={activeTabCompanies} setActiveTab={setActiveTabCompanies} />
-                <TabNavItem title={`${arrayItemsCount(user.companies)} created companies`} id="created" activeTab={activeTabCompanies} setActiveTab={setActiveTabCompanies} />
+                <TabNavItem title={`${arrayItemsCount(user.subscriptions_companies)} followed companies`} id="following_companies" activeTab={activeTabCompanies} setActiveTab={setActiveTabCompanies} />
+                <TabNavItem title={`${arrayItemsCount(user.subscriptions_events)} followed events`} id="followed_events" activeTab={activeTabCompanies} setActiveTab={setActiveTabCompanies} />
               </ul>
 
               <div>
-                <TabContent id="following" activeTab={activeTabCompanies}>
+                <TabContent id="following_companies" activeTab={activeTabCompanies}>
                   <ul className="w-full pr-5 space-y-3 first-letter overflow-y-scroll scrollbar h-[400px]">
                     {array1.map((company, index) => (
                       <CompanyListItem
@@ -273,7 +312,7 @@ const ProfileTab = () => {
                   </ul>
 
                 </TabContent>
-                <TabContent id="created" activeTab={activeTabCompanies}>
+                <TabContent id="followed_events" activeTab={activeTabCompanies}>
                   <ul className="w-full pr-5 space-y-3 first-letter overflow-y-scroll scrollbar h-[400px]">
                     <div className="text-sm w-full border-[2px] mb-12 py-5 bg-dark-blue-pastel border-purple-900 text-black rounded-md">
                       CREATE A NEW COMPANY
@@ -321,7 +360,7 @@ const ProfileTab = () => {
                 />
               </label>
               <div className="flex object-cover py-2">
-                {!isNewImage() &&
+                {!newImage &&
                   <img src={`http://localhost:3002/${state.oldImage}`} alt={state.oldImage} />
 
                 }
@@ -439,7 +478,6 @@ const ProfileTab = () => {
               </div>
             </form>
           </div>
-
         }
       </div>
 
