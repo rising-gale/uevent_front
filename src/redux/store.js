@@ -5,6 +5,7 @@ import eventsSlice from './eventsSlice'
 import cartSlice from './cartSlice'
 import userSlice from './userSlice'
 import calendarSlice from './calendarSlice'
+import companySlice from './companySlice'
 
 
 const rootReducer = combineReducers({
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
     categories: categoriesSlice,
     cart: cartSlice,
     user: userSlice,
-    calendars: calendarSlice
+    calendars: calendarSlice,
+    company: companySlice
 })
 
 export const store = configureStore({reducer: rootReducer})

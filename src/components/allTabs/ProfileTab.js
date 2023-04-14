@@ -178,6 +178,26 @@ const ProfileTab = () => {
         }));
         break;
       }
+      case 'instagram': {
+        
+        break;
+      }
+      case 'facebook': {
+        
+        break;
+      }
+      case 'viber': {
+        
+        break;
+      }
+      case 'telegram': {
+        
+        break;
+      }
+      case 'whatsapp': {
+        
+        break;
+      }
       default: {
         setState(prevState => ({
           ...prevState,
@@ -271,42 +291,44 @@ const ProfileTab = () => {
           {/* Nickname */}
           <p className="text-xl" >{user.username}</p>
 
-          {/* <div className="flex flex-col items-center justify-center "> */}
-            {/* <div className="flex text-[20px] text-light-beige uppercase mt-5"><b>Contacts</b></div> */}
-            <div className="flex flex-row  mt-5 w-2/3 space-x-8 p-3 justify-center items-center rounded-3xl bg-plum bg-opacity-60">
-              <a
-                href='https://www.instagram.com/?hl=ru' target="_blank"
-              // href={user.social_net?.instagram}
-              >
-                <img className='w-1/7 min-w-[30px]' alt='instagram' src='http://localhost:3000/instagram.png'></img>
-              </a>
-              <a
-                href='https://www.facebook.com/' target="_blank"
-              // href={user.social_net?.facebook}
-              >
-                <img className='w-1/7 min-w-[30px]' alt='facebook' src='http://localhost:3000/facebook.png'></img>
-              </a>
-              <a
-                href='https://web.telegram.org/z/' target="_blank"
-              // href = {user.social_net?.telegram}
-              >
-                <img className='w-1/7 min-w-[30px]' alt='telegram' src='http://localhost:3000/telegram.png'></img>
-              </a>
-              <a
-                href='https://www.whatsapp.com/' target="_blank"
-              // href={user.social_net?.whatsapp}
-              >
-                <img className='w-1/7 min-w-[30px]' alt='whatsapp' src='http://localhost:3000/whatsapp.png'></img>
-              </a>
-              <a
-                href='https://www.viber.com/ua/' target="_blank"
-              // href={user.social_net?.viber}
-              >
-                <img className='w-1/7 min-w-[30px]' alt='viber' src='http://localhost:3000/viber.png'></img>
-              </a>
+          <div className="flex flex-row  mt-5 w-2/3 space-x-8 p-3 justify-center items-center rounded-3xl bg-plum bg-opacity-60">
+            <a
+              // href='https://www.instagram.com/?hl=ru' 
+              target="_blank"
+              href={user.social_net?.instagram}
+            >
+              <img className='w-1/7 min-w-[30px]' alt='instagram' src='http://localhost:3000/instagram.png'></img>
+            </a>
+            <a
+              // href='https://www.facebook.com/' 
+              target="_blank"
+              href={user.social_net?.facebook}
+            >
+              <img className='w-1/7 min-w-[30px]' alt='facebook' src='http://localhost:3000/facebook.png'></img>
+            </a>
+            <a
+              // href='https://web.telegram.org/z/' 
+              target="_blank"
+              href={user.social_net?.telegram}
+            >
+              <img className='w-1/7 min-w-[30px]' alt='telegram' src='http://localhost:3000/telegram.png'></img>
+            </a>
+            <a
+              // href='https://www.whatsapp.com/' 
+              target="_blank"
+              href={user.social_net?.whatsapp}
+            >
+              <img className='w-1/7 min-w-[30px]' alt='whatsapp' src='http://localhost:3000/whatsapp.png'></img>
+            </a>
+            <a
+              // href='https://www.viber.com/ua/' 
+              target="_blank"
+              href={user.social_net?.viber}
+            >
+              <img className='w-1/7 min-w-[30px]' alt='viber' src='http://localhost:3000/viber.png'></img>
+            </a>
 
-            </div>
-          {/* </div> */}
+          </div>
 
           <div
             className="text-[16px] mt-5 flex flex-row space-x-3 px-3 py-2 rounded-3xl hover:bg-opacity-70 bg-beige border-dark-purple text-dark-purple"
@@ -362,6 +384,56 @@ const ProfileTab = () => {
                     onChange={changeHandler}
                     className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
                 </label>
+
+                <div className="rounded-2xl border-[2px] border-beige bg-lilovii bg-opacity-50 mt-8 mb-6 p-4">
+                  <div className="text-[18px] uppercase">social nets</div>
+
+                  <label className="text-sm text-beige">
+                    facebook
+                    <input type="text"
+                      placeholder="link to your facebook"
+                      name='facebook'
+                      value={state.my_social_net?.facebook}
+                      onChange={changeHandler}
+                      className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
+                  </label>
+                  <label className="text-sm text-beige">
+                    instagram
+                    <input type="text"
+                      placeholder="link to your instagram"
+                      name='instagram'
+                      value={state.my_social_net?.instagram}
+                      onChange={changeHandler}
+                      className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
+                  </label>
+                  <label className="text-sm text-beige">
+                    whatsapp
+                    <input type="text"
+                      placeholder="link to your whatsapp"
+                      name='whatsapp'
+                      value={state.my_social_net?.whatsapp}
+                      onChange={changeHandler}
+                      className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
+                  </label>
+                  <label className="text-sm text-beige">
+                    telegram
+                    <input type="text"
+                      placeholder="link to your telegram"
+                      name='telegram'
+                      value={state.my_social_net?.telegram}
+                      onChange={changeHandler}
+                      className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
+                  </label>
+                  <label className="text-sm text-beige">
+                    viber
+                    <input type="text"
+                      placeholder="link to your viber"
+                      name='viber'
+                      value={state.my_social_net?.viber}
+                      onChange={changeHandler}
+                      className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
+                  </label>
+                </div>
 
                 <div className="rounded-2xl border-[2px] border-beige bg-lilovii bg-opacity-50 mt-8 mb-6 p-4">
                   <div className="text-[18px] uppercase">Change password</div>

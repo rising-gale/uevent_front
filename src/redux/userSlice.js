@@ -3,8 +3,6 @@ import axios from 'axios'
 import { setUserData } from './authSlice'
 
 const initialState = {
-    // users: [],
-    // user: null,
     updatedUser: null,
     loading: false,
     status: null
@@ -12,7 +10,6 @@ const initialState = {
 
 export const updateUserData = createAsyncThunk('user/updateUserData', async (submitData, { dispatch }) => {
     try {
-        // console.log(submitData.state.full_name)
         const { data } = await axios.patch(`http://localhost:3002/api/users`, submitData, { withCredentials: true })
         console.log(data.user)        
         dispatch(setUserData(data.user))
@@ -32,15 +29,6 @@ export const uploadUserAvatar = createAsyncThunk('user/uploadUserAvatar', async 
         console.log(error)
     }
 })
-
-// export const createUser = createAsyncThunk('user/createUser', async(req) => {
-//     try {
-//         const {data} = await axios.post('http://localhost:3002/api/users', req)
-//         return data
-//     } catch (error) {
-//         console.log(error)
-//     }
-// })
 
 export const deleteUser = createAsyncThunk('user/deleteUser', async (userID) => {
     try {
@@ -86,19 +74,6 @@ export const userSlice = createSlice({
             state.loading = false
             state.status = action.payload?.message
         },
-
-
-        // // Create user
-        // [createUser.pending] : (state) => {
-        //     state.loading = true
-        // },
-        // [createUser.fulfilled] : (state, action) => {
-        //     state.loading = false
-        //     state.users.push(action.payload)
-        // },
-        // [createUser.rejected] : (state) => {
-        //     state.loading = false
-        // },
 
         // Delete user
         [deleteUser.pending]: (state) => {
