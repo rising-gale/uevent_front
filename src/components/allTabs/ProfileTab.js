@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
@@ -17,13 +17,14 @@ import CompanyListItem from "../CompanyListItem";
 // import { EditUserPage } from "../../pages/EditUserPage";
 
 import { updateUserData, uploadUserAvatar } from "../../redux/userSlice"
+import { getUserData } from "../../redux/authSlice";
 
 const ProfileTab = () => {
   const [activeTabCompanies, setActiveTabCompanies] = useState("following")
   const [editBoxOpen, setEditBoxOpen] = useState(false)
 
-
-  const { user } = useSelector(state => state.user)
+  const dispatch = useDispatch()
+  const { user } = useSelector((state) => state.auth)
 
   const array1 = [
     { name: 'Company1' },
@@ -60,21 +61,7 @@ const ProfileTab = () => {
     }
   }
 
-
-
-  //Part for EditBlock
-  //---------------------------------------------------------------------
-  const { status } = useSelector((state) => state.user)
-
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [oldImage, setOldImage] = useState(user.avatar)
-  const [newImage, setNewImage] = useState(null)
-  const [emailColorBg, setEmailColorBg] = useState('gray-400')
-  const [loginColorBg, setLoginColorBg] = useState('gray-400')
-  const [passwordColorBg, setPasswordColorBg] = useState('gray-400')
-
   const [state, setState] = useState({
-    id: user._id,
     username: user.username,
     full_name: user.full_name,
     password: '',
@@ -82,10 +69,28 @@ const ProfileTab = () => {
 
     email: user.email,
     companies: user.companies,
-    my_social_net: user.social_net
+    my_social_net: user.social_net,
+    oldImage: user.avatar
   })
 
-  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getUserData())
+    console.log(user.avatar)
+  }, [dispatch])
+
+  //Part for EditBlock
+  //---------------------------------------------------------------------
+  const { status } = useSelector((state) => state.user)
+
+  const [confirmPassword, setConfirmPassword] = useState('')
+  // const [oldImage, setOldImage] = useState(user.avatar)
+  const [newImage, setNewImage] = useState(null)
+  const [emailColorBg, setEmailColorBg] = useState('gray-400')
+  const [loginColorBg, setLoginColorBg] = useState('gray-400')
+  const [passwordColorBg, setPasswordColorBg] = useState('gray-400')
+
+
 
   const submitHandler = () => {
     try {
@@ -99,7 +104,6 @@ const ProfileTab = () => {
         console.log("Uncorrect email")
         return
       }
-
 
       if (state.password !== '') {
         if (confirmPassword === '') {
@@ -117,21 +121,19 @@ const ProfileTab = () => {
         }
       }
 
-      //console.log(state.id)
-      //state.image = newImage.name
       let data = new FormData()
       data.append('id', user._id)
       data.append('files', newImage)
-      // dispatch(updateUserData({ ...state }))
-      dispatch(updateUserData({state}))
+
+      dispatch(updateUserData({ state }))
       dispatch(uploadUserAvatar(data))
+      dispatch(getUserData())
 
       if (status && !user) {
         console.log(status)
         return
       }
       setEditBoxOpen(false)
-
     } catch (error) {
       console.log(error)
     }
@@ -143,11 +145,11 @@ const ProfileTab = () => {
       case 'image': {
         setState(prevState => ({
           ...prevState,
-          [name]: e.target.files[0].name,
+          'oldImage': e.target.files[0].name,
           errMessage: ''
         }));
         setNewImage(e.target.files[0])
-        setOldImage(null)
+        // setOldImage(null)
         break;
       }
 
@@ -210,13 +212,15 @@ const ProfileTab = () => {
 
       email: user.email,
       companies: user.companies,
-      my_social_net: user.social_net
+      my_social_net: user.social_net, 
+      oldImage: user.avatar
     }))
     setEditBoxOpen(false)
   }
 
   const isNewImage = () => {
-    return !state.image && oldImage
+    if (newImage) { return true }
+    else { return false }
   }
   //----------------------------------------------------------------------------------------------
 
@@ -228,8 +232,8 @@ const ProfileTab = () => {
             <div className="flex w-1/2 flex-col text-[2rem] items-center text-center min-h-[400px]">
 
               <div className="justify-center w-40 mt-5 ">
-                <img alt='user avatar' className="items-center rounded-[3rem]"
-                  src={`http://localhost:3002/${user.avatar}`}
+                <img alt={state.oldImage} className="items-center rounded-[3rem]"
+                  src={`http://localhost:3002/${state.oldImage}`}
                 />
               </div>
 
@@ -241,11 +245,13 @@ const ProfileTab = () => {
               </div>
 
               {/* Full name */}
-              <p className=""
-              >{user.full_name}</p>
+
+
+
+              {state.full_name}
 
               {/* Nickname */}
-              <p className="text-xl" >{user.username}</p>
+              <p className="text-xl" >{state.username}</p>
 
 
             </div>
@@ -307,17 +313,16 @@ const ProfileTab = () => {
                   type="file"
                   className="hidden"
                   name='image'
-                  onChange={(e) => {
-                      setNewImage(e.target.files[0])
-                      // console.log(e.target.files[0])
-                      setOldImage('')
-                  }} 
-                  // onChange={changeHandler}
+                  onChange={changeHandler
+                    // console.log(e.target.files[0])
+                    // setOldImage('')
+                  }
+                // onChange={changeHandler}
                 />
               </label>
               <div className="flex object-cover py-2">
-                {isNewImage() &&
-                  <img src={`http://localhost:3002/${oldImage}`} alt={oldImage.name} />
+                {!isNewImage() &&
+                  <img src={`http://localhost:3002/${state.oldImage}`} alt={state.oldImage} />
 
                 }
                 {newImage &&

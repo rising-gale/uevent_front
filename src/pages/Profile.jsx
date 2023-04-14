@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from "react-router-dom";
 import { Link } from 'react-router-dom'
-import Header from '../components/Header';
 import { deleteUser } from "../redux/userSlice";
 import ProfilePageTabs from "../components/TabsProfilePage";
 
@@ -59,7 +58,6 @@ export const Profile = () => {
     }
 
     return <div className='flex flex-col w-full h-screen bg-dark-purple'>
-        <Header />
         <ProfilePageTabs/>
 
         {/* <div className="flex flex-col max-w-[1200px] mx-auto bg-dark-purple">

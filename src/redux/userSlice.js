@@ -3,7 +3,7 @@ import axios from 'axios'
 
 const initialState = {
     // users: [],
-    user: null,
+    // user: null,
     updatedUser: null,
     loading: false,
     status: null
@@ -29,25 +29,23 @@ const initialState = {
 
 export const updateUserData = createAsyncThunk('user/updateUserData', async (submitData, { dispatch }) => {
     try {
-        // const {state} = submitData.state
-        // console.log(state.id)
-       // const {data} = submitData.data
-      console.log(submitData.state.id)
+        console.log(submitData.state.full_name)
 
-        const { data } = await axios.patch(`http://localhost:3002/api/users/${submitData.state.id}`, submitData.state, { withCredentials: true })
+        const { data } = await axios.patch(`http://localhost:3002/api/users`, submitData.state, { withCredentials: true })
         // dispatch(getUserData())
-        // console.log(data.message)
-        return {data}
+        console.log(data.message)
+        return data
     } catch (error) {
         console.log(error)
     }
 })
 
 export const uploadUserAvatar = createAsyncThunk('user/uploadUserAvatar', async (req) => {
-    try{
-        const {data} = await axios.patch(`http://localhost:3002/api/users/${req.get('id')}/pic-load`, req, { withCredentials: true })
-        return {data}
-    } catch(error) {
+    try {
+        const { data } = await axios.patch(`http://localhost:3002/api/users/${req.get('id')}/pic-load`, req, { withCredentials: true })
+        console.log(data.message)
+        return { data }
+    } catch (error) {
         console.log(error)
     }
 })
@@ -84,53 +82,43 @@ export const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        updateUserData: (state, action) => {
-            state.user = action.payload
-            state.message = action.payload?.message
-        }
+        // updateUserData: (state, action) => {
+        //     state.user = action.payload
+        //     //state.message = action.payload?.message
+        // }
     },
     extraReducers: {
-        // // Get all users
-        // [getAllUsers.pending]: (state) => {
-        //     state.loading = true
-        // },
-        // [getAllUsers.fulfilled]: (state, action) => {
-        //     state.loading = false
-        //     state.users = action.payload.users
-        // },
-        // [getAllUsers.rejected]: (state) => {
-        //     state.loading = false
-        // },
-
-        // // Get user by id
-        // [getUserById.pending]: (state) => {
-        //     state.loading = true
-        // },
-        // [getUserById.fulfilled]: (state, action) => {
-        //     state.loading = false
-        //     state.user = action.payload
-        // },
-        // [getUserById.rejected]: (state) => {
-        //     state.loading = false
-        // },
 
         // Update user data
-        // [updateUserData.pending]: (state) => {
-        //     state.loading = true
-        //     state.status = null
-        // },
-        // [updateUserData.fulfilled]: (state, action) => {
-        //     state.loading = false
-        //     // const index = state.users.findIndex((user) => user._id === action.payload._id) 
-        //     // state.users[index] = action.payload.updatedUser
-        //     state.user = action.payload.user
-        //     state.status = action.payload?.message
-        // },
-        // [updateUserData.rejected]: (state, action) => {
-        //     state.loading = false
-        //     state.status = action.payload?.message
-        //     console.log(action.payload.message)
-        // },
+        [updateUserData.pending]: (state) => {
+            state.loading = true
+            state.status = null
+        },
+        [updateUserData.fulfilled]: (state, action) => {
+            state.loading = false
+            // const index = state.users.findIndex((user) => user._id === action.payload._id) 
+            // state.users[index] = action.payload.updatedUser
+            // state.user = action.payload.user
+            state.status = action.payload?.message
+        },
+        [updateUserData.rejected]: (state, action) => {
+            state.loading = false
+            state.status = action.payload?.message
+            console.log(action.payload.message)
+        },
+        [uploadUserAvatar.pending]: (state) => {
+            state.loading = true
+            state.status = null
+        },
+        [uploadUserAvatar.fulfilled]: (state, action) => {
+            state.loading = false
+            state.status = action.payload?.message
+        },
+        [uploadUserAvatar.rejected]: (state, action) => {
+            state.loading = false
+            state.status = action.payload?.message
+        },
+
 
         // // Create user
         // [createUser.pending] : (state) => {

@@ -47,6 +47,7 @@ export const loginUser = createAsyncThunk(
 export const getUserData = createAsyncThunk('auth/getUserData', async () => {
   try {
     const { data } = await axios.get('http://localhost:3002/api/auth/me', { withCredentials: true })
+    console.log(3)
     return data
   } catch (error) {
     console.log(error)
