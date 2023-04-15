@@ -4,6 +4,8 @@ import { setUserData } from './authSlice'
 
 const initialState = {
     company: null,
+    members: null,
+    events: null,
     loading: false,
     status: null
 }
@@ -12,7 +14,7 @@ export const updateCompanyData = createAsyncThunk('company/updateCompanyData', a
     try {
         const { data } = await axios.patch(`http://localhost:3002/api/companies/${submitData.get('id')}`, submitData, { withCredentials: true })
         console.log(data)
-        return {data}
+        return { data }
     } catch (error) {
         console.log(error)
     }
@@ -28,9 +30,9 @@ export const uploadCompanyAvatar = createAsyncThunk('company/uploadCompanyAvatar
     }
 })
 
-export const createCompany = createAsyncThunk('company/createCompany', async(req) => {
+export const createCompany = createAsyncThunk('company/createCompany', async (req) => {
     try {
-        const {data} = await axios.post('http://localhost:3002/api/companies', req)
+        const { data } = await axios.post('http://localhost:3002/api/companies', req, { withCredentials: true })
         return data
     } catch (error) {
         console.log(error)
@@ -39,8 +41,27 @@ export const createCompany = createAsyncThunk('company/createCompany', async(req
 
 export const deleteCompany = createAsyncThunk('company/deleteCompany', async (companyID) => {
     try {
-        const { data } = await axios.delete(`http://localhost:3002/api/companies/${companyID}`)
+        const { data } = await axios.delete(`http://localhost:3002/api/companies/${companyID}`, { withCredentials: true })
         return data
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+export const getCompaniesEvents = createAsyncThunk('company/getCompaniesEvents', async (companyID) => {
+    try {
+        const { data } = await axios.get(`http://localhost:3002/api/${companyID}/events`, { withCredentials: true })
+        // setCompaniesEvents(data)
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+export const getMyCompany = createAsyncThunk('company/getMyCompany', async () => {
+    try {
+        const { data } = await axios.get('http://localhost:3002/api/users/companies', { withCredentials: true })
+        console.log(data)
+        return data.my_company[0]
     } catch (error) {
         console.log(error)
     }
@@ -52,6 +73,10 @@ export const companySlice = createSlice({
     name: 'company',
     initialState,
     reducers: {
+        setCompaniesEvents(state, action) {
+            state.events = action.payload
+            state.status = action.payload?.message
+        }
     },
     extraReducers: {
         // Create company
@@ -61,6 +86,7 @@ export const companySlice = createSlice({
         },
         [createCompany.fulfilled]: (state, action) => {
             state.loading = false
+            state.company = action.payload.company
             state.status = action.payload?.message
         },
         [createCompany.rejected]: (state, action) => {
@@ -75,6 +101,7 @@ export const companySlice = createSlice({
         },
         [updateCompanyData.fulfilled]: (state, action) => {
             state.loading = false
+            state.company = action.payload.company
             state.status = action.payload?.message
         },
         [updateCompanyData.rejected]: (state, action) => {
@@ -88,6 +115,7 @@ export const companySlice = createSlice({
         },
         [uploadCompanyAvatar.fulfilled]: (state, action) => {
             state.loading = false
+            state.company = action.payload.company
             state.status = action.payload?.message
         },
         [uploadCompanyAvatar.rejected]: (state, action) => {
@@ -101,11 +129,30 @@ export const companySlice = createSlice({
         },
         [deleteCompany.fulfilled]: (state, action) => {
             state.loading = false
+            state.company = null
+            state.members = null
+            state.events = null
             state.status = action.payload?.message
         },
         [deleteCompany.rejected]: (state, action) => {
             state.loading = false
             state.status = action.payload?.message
+        },
+
+        //get My Company
+        [getMyCompany.pending]: (state) => {
+            state.loading = true
+            state.status = null
+        },
+        [getMyCompany.fulfilled]: (state, action) => {
+            state.loading = false
+            state.company = action.payload
+            console.log(action.payload)
+            state.status = action.payload?.message
+        },
+        [getMyCompany.rejected]: (state, action) => {
+            state.loading = false
+            state.status = action.payload.message
         }
     }
 })
