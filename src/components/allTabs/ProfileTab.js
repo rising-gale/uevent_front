@@ -126,6 +126,7 @@ const ProfileTab = () => {
   const onClickBut = () => {
     let data = new FormData()
     data.append('files', newImage)
+    console.log(data)
     dispatch(uploadUserAvatar(data))
     setNewImage(null)
     setUpdateImage(false)

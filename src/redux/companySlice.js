@@ -33,6 +33,7 @@ export const uploadCompanyAvatar = createAsyncThunk('company/uploadCompanyAvatar
 export const createCompany = createAsyncThunk('company/createCompany', async (req) => {
     try {
         const { data } = await axios.post('http://localhost:3002/api/companies', req, { withCredentials: true })
+
         return data
     } catch (error) {
         console.log(error)
@@ -86,7 +87,7 @@ export const companySlice = createSlice({
         },
         [createCompany.fulfilled]: (state, action) => {
             state.loading = false
-            state.company = action.payload.company
+            state.company = action.payload.newCompany
             state.status = action.payload?.message
         },
         [createCompany.rejected]: (state, action) => {

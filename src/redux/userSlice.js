@@ -22,8 +22,8 @@ export const updateUserData = createAsyncThunk('user/updateUserData', async (sub
 export const uploadUserAvatar = createAsyncThunk('user/uploadUserAvatar', async (req, {dispatch}) => {
     try {
         const { data } = await axios.patch(`http://localhost:3002/api/users/pic-load`, req, { withCredentials: true })
-        console.log(data.user)
-        dispatch(setUserData(data.user))
+        console.log(data)
+        if(data.user) dispatch(setUserData(data.user))
         return { data }
     } catch (error) {
         console.log(error)

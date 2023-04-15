@@ -27,10 +27,6 @@ export const Profile = () => {
 
     const { user } = useSelector(state => state.auth)
 
-    useEffect(() => {
-        dispatch(getMyCompany())
-    }, [dispatch])
-
     const handleClickOpen = () => {
         setOpen(true);
     };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TabNavItem from "./TabNavItem"
 import TabContent from "./TabContent";
 import '../styles/TabsStyles.css'
@@ -6,10 +6,15 @@ import ProfileTab from "./allTabs/ProfileTab";
 import MyTicketsTab from "./allTabs/MyTicketsTab";
 import MyFollowedCompaniesTab from "./allTabs/MyFollowedCompaniesTab";
 import MyCompanyTab from "./allTabs/MyCompanyTab";
+import { useDispatch } from "react-redux";
+import { getMyCompany } from "../redux/companySlice";
 
 const ProfilePageTabs = () => {
     const [activeTab, setActiveTab] = useState("profile");
-
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(getMyCompany())
+    }, [dispatch])
     return (
         <div 
             // className="Tabs"
