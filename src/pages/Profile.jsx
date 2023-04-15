@@ -15,6 +15,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { logout } from "../redux/authSlice";
+import { getMyCompany } from "../redux/companySlice";
+import { useEffect } from "react";
 
 export const Profile = () => {
     // const [activeTab, setActiveTab] = useState('profile')
@@ -24,6 +26,10 @@ export const Profile = () => {
     const params = useParams()
 
     const { user } = useSelector(state => state.auth)
+
+    useEffect(() => {
+        dispatch(getMyCompany())
+    }, [dispatch])
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -58,7 +64,7 @@ export const Profile = () => {
     }
 
     return <div className='flex flex-col w-full h-screen bg-dark-purple'>
-        <ProfilePageTabs/>
+        <ProfilePageTabs />
 
         {/* <div className="flex flex-col max-w-[1200px] mx-auto bg-dark-purple">
             <div className="flex flex-row space-x-12">
