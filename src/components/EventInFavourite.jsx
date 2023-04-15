@@ -13,7 +13,7 @@ const EventInFavourite = ({ data, userFavourites }) => {
         <div className='border-y px-1 py-1 flex flex-col border-beige'>
             <div className='flex justify-between items-center p-2 w-full text-light-beige text-lg border-beige'>
                 <img src={data.img ? 'http://localhost:3002/' + data.img : 'logo.png'} alt='logo' className='h-14 w-1/12' />
-                <div className='w-1/3 flex justify-center items-center'>{data.title}</div>
+                <div className='w-1/3 flex justify-center items-center text-center'>{data.title}</div>
                 <div className='w-1/3 flex justify-center items-center'>{data.price} UAH\itm.</div>
                 <div className='hover:cursor-pointer text-rose-600 w-1/6 flex justify-end items-center' onClick={unSubscribe}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 leading-none">

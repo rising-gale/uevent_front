@@ -64,10 +64,10 @@ const TicketInCart = ({ data }) => {
 
     return (
         <div className='border-y py-1 flex flex-col border-beige'>
-            <div className='flex justify-between items-center py-2 w-full text-light-beige text-lg border-beige'>
+            <div className='flex justify-between items-center p-2 w-full text-light-beige text-lg border-beige'>
                 <img src={data.img ? 'http://localhost:3002/' + data.img : 'logo.png'} alt='logo' className='h-12' />
-                <div>{data.title}</div>
-                <div>{data.price} UAH\itm.</div>
+                <div className='w-1/3 flex justify-center items-center text-center'>{data.title}</div>
+                <div className='w-1/3 flex justify-center items-center'>{data.price} UAH\itm.</div>
                 <div className='flex w-1/6 justify-between items-center select-none'>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7 hover:cursor-pointer" onClick={handleDecreaseTicket}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M18 12H6" />

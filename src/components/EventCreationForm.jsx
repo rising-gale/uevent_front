@@ -4,9 +4,10 @@ import { getCategories } from '../redux/categoriesSlice';
 import { createEvent } from '../redux/eventsSlice.js';
 import MapContainer from './MapContainer';
 
+const defaultLocation = { lat: 50.449709821421386, lng: 30.52762771951049 }
 
 
-const EventCreationForm = ({closeForm}) => {
+const EventCreationForm = ({ closeForm }) => {
 
     const dispatch = useDispatch();
 
@@ -49,7 +50,7 @@ const EventCreationForm = ({closeForm}) => {
 
     const handleChange = (e) => {
         const { name, value, id } = e.target;
-        // console.log(name, value, id);
+        console.log(name, value, id);
 
         switch (name) {
             case 'image':
@@ -125,7 +126,7 @@ const EventCreationForm = ({closeForm}) => {
                 // let date_string = value + ' ' + state.time_start.toString();
                 // console.log(date_string);
                 // console.log(Date(date_string))
-            break;
+                break;
             default:
                 setState(prevState => ({
                     ...prevState,
@@ -180,20 +181,37 @@ const EventCreationForm = ({closeForm}) => {
                     <div className="relative px-8 py-3 flex flex-col m-1">
                         <div className='pb-1 my-1 flex items-center w-full '>
                             <label className='text-xl text-beige w-1/3'>Title (required):</label>
-                            <input type={"text"} className="border-2 border-purple-500 focus:border-emerald-600 focus:border-2 w-2/3 rounded-full outline-none text-black p-2 bg-light-beige" name='title' onChange={handleChange} />
+                            <input type={"text"}
+                                className={state.title.length > 25 ?
+                                    "border-2 border-purple-500 focus:border-2 focus:border-red-600 w-2/3 rounded-full outline-none text-black p-2 bg-light-beige"
+                                    :
+                                    "border-2 border-purple-500 focus:border-emerald-600 focus:border-2 w-2/3 rounded-full outline-none text-black p-2 bg-light-beige"
+                                } name='title' onChange={handleChange} />
                         </div>
+                        {state.title.length > 0 && state.title.length > 25 && <div className='text-red-600 text-xs w-full text-end px-3'>(must be 1 - 25 symbols)</div>}
                         <div className='py-1 my-1 flex items-center w-full'>
                             <label className='text-xl text-beige w-1/3'>Description:</label>
-                            <textarea className='w-2/3 rounded-lg text-black p-1 outline-none bg-light-beige border-2 border-purple-500 focus:border-emerald-600'/>
+                            <textarea className='w-2/3 rounded-lg text-black p-1 outline-none bg-light-beige border-2 border-purple-500 focus:border-emerald-600' />
                         </div>
                         <div className='py-1 flex items-center w-full'>
                             <div className='w-1/2 flex items-center'>
-                                <label className='text-xl text-beige w-1/3'>Tickets:</label>
-                                <input type={"number"} min={1} defaultValue={1} className="border-2 border-purple-500 focus:border-emerald-600 w-1/3 rounded-full outline-none text-black bg-light-beige p-2" name='tickets' onChange={handleChange} />
+                                <div className='flex flex-col'>
+                                    <div className='w-full flex items-center'>
+                                        <label className='text-xl text-beige w-1/3'>Tickets:</label>
+                                        <input type={"number"} min={1} defaultValue={1} className="border-2 border-purple-500 focus:border-emerald-600 w-1/3 rounded-full outline-none text-black bg-light-beige p-2" name='tickets' onChange={handleChange} />
+                                    </div>
+                                    {state.tickets == ' ' || state.tickets <= 0 && <div className='text-red-600 text-xs w-full text-start px-3'>(must be 1 at least)</div>}
+                                </div>
                             </div>
+                            
                             <div className='w-1/2 flex items-center'>
-                                <label className='text-xl text-beige w-1/3'>Price:</label>
-                                <input type={"number"} min={0} defaultValue={0} className="border-2 border-purple-500 focus:border-emerald-600 w-1/3 rounded-full outline-none text-black bg-light-beige p-2" name='price' onChange={handleChange} />
+                                <div className='flex flex-col'>
+                                    <div className='w-full flex items-center'>
+                                        <label className='text-xl text-beige w-1/3'>Price {<div className='text-xs'>(keep 0 if it`s free):</div>}</label>
+                                        <input type={"number"} min={0} defaultValue={0} className="border-2 border-purple-500 focus:border-emerald-600 w-1/3 rounded-full outline-none text-black bg-light-beige p-2" name='price' onChange={handleChange} />
+                                    </div>
+                                    {state.price == ' ' || state.price < 0 && <div className='text-red-600 text-xs w-full text-start px-3'>(must be 0 or higher)</div>}
+                                </div>
                             </div>
                         </div>
                         <div className='py-1 flex items-center w-full justify-between text-black'>
@@ -227,11 +245,8 @@ const EventCreationForm = ({closeForm}) => {
                         <div className='py-1 my-2 flex flex-col w-full items-center'>
                             <label className='pb-2 text-beige text-xl'>Choose a location of event:</label>
                             <MapContainer center={location} creationMode={false} searchBar={true} setLocation={setLocation} />
+                            {location.lat == defaultLocation.lat && <div className='text-red-600 text-sm pt-1 w-full text-center px-3'>Choose location with search bar.</div>}
                         </div>
-                        {/* <div className='py-1 flex items-center w-full justify-between'>
-                            <label className='text-lg text-beige w-1/2'>Afisha:</label>
-                            <input type={"file"} min={1} className="w-2/3 rounded-full outline-none text-black p-2" name='image' onChange={handleChange} />
-                        </div> */}
                         <div className='py-1 flex flex-col items-center w-full justify-start'>
                             <label className='text-lg text-beige w-full '>Select formats of event:</label>
                             <div className='w-full text-xs text-light-beige'>(minimum 1 must be choosen)</div>
