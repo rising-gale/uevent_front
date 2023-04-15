@@ -21,8 +21,10 @@ export const createEvent = createAsyncThunk(
         try {
             console.log(submitData);
             let { data } = await axios.post(`http://localhost:3002/api/events/company/${submitData.company_id}`, { ...submitData }, { withCredentials: true })
-            // console.log(data);
+            console.log(data);
+            dispatch(getAllEvents());
             return data;
+            
         } catch (error) {
             console.log(error);
         }
@@ -113,7 +115,8 @@ const eventsSlice = createSlice({
         ticketsEvents: [],
         viewingEventData: {},
         pages: 1,
-        curPage: 1
+        curPage: 1,
+        createStatus: ''
     },
     reducers: {
         incrementPage(state)
@@ -144,6 +147,9 @@ const eventsSlice = createSlice({
             state.tickets = action.payload;
             state.ticketsEvents = ticketsEvents;
         },
+        [createEvent.fulfilled] : (state, action) => {
+            state.createStatus = action.payload.message;
+        }
     }
 })
 

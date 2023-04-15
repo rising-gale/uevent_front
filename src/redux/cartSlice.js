@@ -21,9 +21,9 @@ export const sendTickets = createAsyncThunk(
     'api/checkout-success/',
     async function (bought_tickets, {dispatch}){
         try {
-            console.log(bought_tickets);
+            // console.log(bought_tickets);
             let { data } = await axios.post(`http://localhost:3002/api/events/checkout-success`,{ bought_tickets: bought_tickets }, { withCredentials: true });
-            console.log('Data: ', data);
+            // console.log('Data: ', data);
             return data;
         } catch (error) {
             console.log(error);
