@@ -12,8 +12,8 @@ const initialState = {
 
 export const updateCompanyData = createAsyncThunk('company/updateCompanyData', async (submitData) => {
     try {
-        console.log(submitData.my_social_net)
-        const { data } = await axios.patch(`http://localhost:3002/api/companies/${submitData.get('id')}`, submitData, { withCredentials: true })
+        console.log(submitData)
+        const { data } = await axios.patch(`http://localhost:3002/api/companies/${submitData?.id}`, {...submitData}, { withCredentials: true })
         console.log(data)
         return { data }
     } catch (error) {
