@@ -65,14 +65,9 @@ const MyCompanyTab = () => {
   const [emailColorBg, setEmailColorBg] = useState('gray-400')
   const [companyNameColorBg, setCompanyNameColorBg] = useState('gray-400')
 
-  const [location, setLocation] = useState(company?.location);
+  const [location, setLocation] = useState({ lat: 50.449709821421386, lng: 30.52762771951049 });
 
-  useEffect(() => {
-
-    dispatch(getMyCompany())
-    // setLocation(company?.location);
-
-  }, [dispatch])
+  
 
 
   const submitHandler = () => {
@@ -250,7 +245,7 @@ const MyCompanyTab = () => {
   }
 
 
-
+  
 
   if (!company) {
     return <div>
@@ -267,8 +262,7 @@ const MyCompanyTab = () => {
       }
 
       {
-        createCompanyBlock &&
-        <>
+        createCompanyBlock && <>
           <div className="bg-dark-purple w-full rounded-3xl">
             <img
               src='http://localhost:3000/back_icon_beige.png'
@@ -375,25 +369,6 @@ const MyCompanyTab = () => {
                 </button>
               </div>
             </form>
-          </div>
-          {/* MAP */}
-          <div className='py-1 my-2 flex flex-col w-full items-center'>
-            <label className='pb-2 text-beige text-xl'>Choose a location of your company:</label>
-            <MapContainer center={location} creationMode={false} searchBar={true} setLocation={setLocation} />
-            {location.lat == defaultLocation.lat && <div className='text-red-600 text-sm pt-1 w-full text-center px-3'>Choose location with search bar.</div>}
-          </div>
-          {/*BUTTONS*/}
-          <div className="flex gap-8 items-center justify-center mt-4">
-            <button
-              onClick={submitHandler}
-              className="flex justify-center items-center bg-gray-600 text-xs text-white rounded-sm py-2 px-4">
-              Save changes
-            </button>
-            <button
-              onClick={cancelHandler}
-              className="flex justify-center items-center bg-red-500 text-xs text-white rounded-sm py-2 px-4">
-              Cancel
-            </button>
           </div>
         </>
       }
