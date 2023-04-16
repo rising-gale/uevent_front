@@ -20,8 +20,8 @@ const EventsContainer = ({events, formats, themes, handleChange}) => {
 
     return (
         <div className='p-1 flex flex-col bg-dark-purple text-light-beige '>
-            {isFormOpen == 'eventCreate' && <EventCreationForm closeForm={formClose}/>}
-            {isFormOpen == 'favouritesForm' && <FavouritesEvents closeForm={formClose}/>}
+            {isFormOpen === 'eventCreate' && <EventCreationForm closeForm={formClose}/>}
+            {isFormOpen === 'favouritesForm' && <FavouritesEvents closeForm={formClose}/>}
             {/*Search and filtration bar */}
             <div className='flex w-full h-12 justify-around mt-3'>
                 <div className='p-1 w-2/5 h-full flex items-center'>

@@ -72,7 +72,7 @@ const Event = (props) => {
     }, [props?.color]);
 
     return (
-        <div className={`relative border border-slate-900 inline-block ${props.width} ${props.height} text-center tooltip p-1 mb-1 ${props.type !== 'holiday' ? color : 'bg-indigo-400'} rounded-md`}>
+        <div className={`relative border border-slate-900 inline-block ${props.width} ${props.height} text-center tooltip p-1 mb-1 bg-indigo-400 rounded-md`}>
             <div className={viewType === 'week' || viewType === 'day' ? 'text-xs font-semibold hover:cursor-pointer' : 'text-sm font-semibold hover:cursor-pointer'} id={props.id} onClick={props.type !== 'holiday' ? editEvent : null}>{props.name} {props.type ? '(' + props.type + ')' : ''}</div>
             <div className="text-sm tooltiptext bg-gradient-to-b from-dark-purple via-lighter-purple to-black-purple border-2 border-purple-900 text-emerald-50">
                 <div className='text-center text-base text-emerald-100'>Description:</div>

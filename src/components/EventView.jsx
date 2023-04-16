@@ -7,6 +7,7 @@ import { getEvent, subscribeToEvent } from '../redux/eventsSlice';
 import LoadingPage from '../pages/LoadingPage';
 import { addItem } from '../redux/cartSlice';
 import CardOfEvent from './CardOfEvent';
+import EventEditForm from './EventEditForm';
 
 const EventView = () => {
 
@@ -19,9 +20,10 @@ const EventView = () => {
 
     const cartItems = useSelector(state => state.cart.cartItems);
     const userFavourites = useSelector(state => state.auth.user?.subscriptions_events);
-    
+
     const [isEventInCart, setEventInCart] = useState(false);
     const [isEventSubscribed, setEventSubscribed] = useState(false);
+    const [isFormOpen, changeFormState] = useState(false);
 
     useEffect(() => {
         dispatch(getEvent(params.id));
@@ -51,8 +53,8 @@ const EventView = () => {
         if (idx >= 0) {
             setEventSubscribed(true);
         } else setEventSubscribed(false);
-
-    }, [cartItems, userFavourites, eventInfo ]);
+        changeFormState(false);
+    }, [cartItems, userFavourites, eventInfo]);
 
     const printFiveSimilar = (events) => {
         let content = [];
@@ -64,9 +66,22 @@ const EventView = () => {
         return content;
     }
 
+    const editEventClick = () => {
+        changeFormState(true);
+    }
+
+    const formClose = () =>{
+        changeFormState(false);
+    }
+
+    const deleteEventClick = () => {
+
+    }
+
     if (eventInfo.event) {
         return (
             <div className='flex flex-col w-full h-screen'>
+                {isFormOpen && <EventEditForm data={eventInfo.event} closeForm={formClose}/>}
                 {/* <Header /> */}
                 <div className='p-5 flex flex-row bg-dark-purple text-light-beige'>
                     <div className='w-1/5 p-3 pr-4 flex flex-col'>
@@ -100,7 +115,7 @@ const EventView = () => {
                     <div className='p-2 m-2 flex flex-col w-full h-full border-l-2 border-violet-900'>
                         <div className='flex justify-start ml-5 p-1 w-full'>
                             <button
-                                className="flex items-center justify-center leading-none px-3 py-2 text-neutral-300 border border-beige rounded-full hover:text-beige background-transparent font-bold uppercase text-sm outline-none focus:outline-none ease-linear transition-all duration-250"
+                                className="flex items-center justify-center leading-none px-4 py-2 text-neutral-300 border border-beige rounded-full hover:text-beige background-transparent font-bold uppercase text-sm outline-none focus:outline-none ease-linear transition-all duration-250"
                                 type="button"
                                 onClick={handleBackClick}
                             >
@@ -109,6 +124,20 @@ const EventView = () => {
                                 </svg>
                                 Back
                             </button>
+                            <button
+                                className="flex items-center justify-around border border-purple-900 rounded-full w-1/12 mx-5 p-2 bg-violet-700 hover:bg-violet-500 hover:border-purple-600 transition duration-500 hover:ease-in font-semibold"
+                                onClick={editEventClick}
+                                name='edit'
+                            >
+                                Edit
+                            </button>
+                            {/* <button
+                                className="flex items-center justify-around border border-purple-900 rounded-full w-1/12 mx-1 p-2 bg-rose-800 hover:bg-rose-700 hover:border-purple-600 transition duration-500 hover:ease-in font-semibold"
+                                onClick={deleteEventClick}
+                                name='delete'
+                            >
+                                Delete
+                            </button> */}
                         </div>
                         <p className='text-center text-3xl font-semibold font-serif tracking-wider'>{eventInfo.event.title}</p>
                         <div className='flex flex-row justify-around p-5 m-5'>

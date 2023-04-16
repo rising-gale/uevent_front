@@ -173,10 +173,10 @@ export default function WeeklyView(props) {
                                             height = 'h-[560%]'
                                             break;
                                         case 6:
-                                            height = 'h-[670%]'
+                                            height = 'h-[650%]'
                                             break;
                                         case 7:
-                                            height = 'h-[790%]'
+                                            height = 'h-[760%]'
                                             break;
                                         default:
                                             break;
