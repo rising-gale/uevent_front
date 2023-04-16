@@ -31,9 +31,9 @@ export const uploadCompanyAvatar = createAsyncThunk('company/uploadCompanyAvatar
     }
 })
 
-export const createCompany = createAsyncThunk('company/createCompany', async (req) => {
+export const createCompany = createAsyncThunk('company/createCompany', async (submitData) => {
     try {
-        const { data } = await axios.post('http://localhost:3002/api/companies', req, { withCredentials: true })
+        const { data } = await axios.post('http://localhost:3002/api/companies', {...submitData}, { withCredentials: true })
 
         return data
     } catch (error) {

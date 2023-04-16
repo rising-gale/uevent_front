@@ -65,7 +65,8 @@ const MyCompanyTab = () => {
   const [emailColorBg, setEmailColorBg] = useState('gray-400')
   const [companyNameColorBg, setCompanyNameColorBg] = useState('gray-400')
 
-  const [location, setLocation] = useState({ lat: 50.449709821421386, lng: 30.52762771951049 });
+  const [location, setLocation] = useState(company?.location);
+
 
 
 
@@ -231,7 +232,7 @@ const MyCompanyTab = () => {
         return
       }
 
-      dispatch(createCompany({ ...state, my_social_net: socialNet }))
+      dispatch(createCompany({ ...state, location, my_social_net: socialNet }))
 
       if (status && !company) {
         console.log(status)
@@ -261,6 +262,7 @@ const MyCompanyTab = () => {
   };
 
 
+
   if (!company) {
     return <div>
 
@@ -276,7 +278,8 @@ const MyCompanyTab = () => {
       }
 
       {
-        createCompanyBlock && <>
+        createCompanyBlock &&
+        <>
           <div className="bg-dark-purple w-full rounded-3xl">
             <img
               src='http://localhost:3000/back_icon_beige.png'
@@ -383,6 +386,25 @@ const MyCompanyTab = () => {
                 </button>
               </div>
             </form>
+          </div>
+          {/* MAP */}
+          <div className='py-1 my-2 flex flex-col w-full items-center'>
+            <label className='pb-2 text-beige text-xl'>Choose a location of your company:</label>
+            <MapContainer center={location} creationMode={false} searchBar={true} setLocation={setLocation} />
+            {location.lat == defaultLocation.lat && <div className='text-red-600 text-sm pt-1 w-full text-center px-3'>Choose location with search bar.</div>}
+          </div>
+          {/*BUTTONS*/}
+          <div className="flex gap-8 items-center justify-center mt-4">
+            <button
+              onClick={submitCreationHandler}
+              className="flex justify-center items-center bg-gray-600 text-xs text-white rounded-sm py-2 px-4">
+              Save changes
+            </button>
+            <button
+              onClick={cancelCreateHandler}
+              className="flex justify-center items-center bg-red-500 text-xs text-white rounded-sm py-2 px-4">
+              Cancel
+            </button>
           </div>
         </>
       }
@@ -625,16 +647,31 @@ const MyCompanyTab = () => {
 
             }
 
-          }
+            {!editBoxOpen && <>
+              <ul className="Horizontalnav">
+                <TabNavItem title={`${arrayItemsCount(members)} members`} id="members" activeTab={activeTabMembers} setActiveTab={setActiveTabMembers} />
+                {/* <TabNavItem title={`${arrayItemsCount(user.subscriptions_events)} followed events`} id="followed_events" activeTab={activeTabCompanies} setActiveTab={setActiveTabCompanies} /> */}
+              </ul>
 
-          {!editBoxOpen && <>
-            <ul className="Horizontalnav">
-              <TabNavItem title={`${arrayItemsCount(members)} members`} id="members" activeTab={activeTabMembers} setActiveTab={setActiveTabMembers} />
-              {/* <TabNavItem title={`${arrayItemsCount(user.subscriptions_events)} followed events`} id="followed_events" activeTab={activeTabCompanies} setActiveTab={setActiveTabCompanies} /> */}
-            </ul>
+              <div>
+                <TabContent id="members" activeTab={activeTabMembers}>
 
-            <div>
-              <TabContent id="members" activeTab={activeTabMembers}>
+                  {
+                    members?.length < 1 &&
+                    <div className="text-beige m-auto text-md h-full w-full">
+                      No members in this company yet...
+                    </div>
+                  }
+                  {members?.length > 0 &&
+                    <ul className="w-full pr-5 space-y-3 first-letter overflow-y-scroll scrollbar h-[400px]">
+                      {
+                        members?.map((member, index) => (
+                          <MemberListItem
+                            key={index}
+                            member={member} />
+                        ))}
+                    </ul>
+                  }
 
                 </TabContent>
 
