@@ -16,9 +16,6 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import MemberListItem from "../MemberListItem";
 
-import EventInFavourite from "../EventInFavourite";
-import { render } from "react-dom";
-
 const MyCompanyTab = () => {
   const [activeTabMembers, setActiveTabMembers] = useState("members")
   const [editBoxOpen, setEditBoxOpen] = useState(false)
@@ -26,16 +23,28 @@ const MyCompanyTab = () => {
   const [createCompanyBlock, setCreateCompanyBlock] = useState(false)
 
   const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(getMyCompany())
+  }, [dispatch])
   const { company } = useSelector((state) => state.company)
   const { members } = useSelector((state) => state.company)
 
+  const [socialNet, setSocialNet] = useState({
+    instagram : company?.social_net.instagram,
+    facebook: company?.social_net.facebook,
+    viber: company?.social_net.viber,
+    telegram : company?.social_net.telegram,
+    whatsapp : company?.social_net.whatsapp
+  })
+
   const [state, setState] = useState({
+    id: company?._id,
     company_name: company?.company_name,
     location: company?.location,
 
     email: company?.email,
     members: members,
-    my_social_net: company?.social_net
+    my_social_net: socialNet
   })
 
   const arrayItemsCount = (array) => {
@@ -54,35 +63,28 @@ const MyCompanyTab = () => {
   const [companyNameColorBg, setCompanyNameColorBg] = useState('gray-400')
 
 
+
   const submitHandler = () => {
     try {
       if (state.company_name === '' || state.email === '') {
         console.log("Fill all required fields")
         return
       }
+      
 
       if (!state.email.includes('@')) {
         setEmailColorBg('red-500')
         console.log("Uncorrect email")
         return
       }
+      
+      setState(prevState => ({
+        ...prevState,
+        my_social_net: socialNet,
+        errMessage: ''
+      }))
 
-      // if (state.password !== '') {
-      //   if (confirmPassword === '') {
-      //     console.log("Please, repeat new password for confirmation")
-      //     return
-      //   }
-      //   if (state.password !== confirmPassword) {
-      //     console.log("New password and its confirmation are different. Please, try again.")
-      //     setState(prevState => ({
-      //       ...prevState,
-      //       password: ''
-      //     }))
-      //     setConfirmPassword('')
-      //     return
-      //   }
-      // }
-
+      console.log(state)
       dispatch(updateCompanyData(state))
 
       if (status && !company) {
@@ -97,6 +99,7 @@ const MyCompanyTab = () => {
 
   const onClickBut = () => {
     let data = new FormData()
+    data.append('id', company?._id)
     data.append('files', newImage)
     dispatch(uploadCompanyAvatar(data))
     setNewImage(null)
@@ -138,23 +141,38 @@ const MyCompanyTab = () => {
         break;
       }
       case 'instagram': {
-        
+        setSocialNet(prevState => ({
+          ...prevState,
+          [name]: value
+        }))
         break;
       }
       case 'facebook': {
-        
+        setSocialNet(prevState => ({
+          ...prevState,
+          [name]: value
+        }))
         break;
       }
       case 'viber': {
-        
+        setSocialNet(prevState => ({
+          ...prevState,
+          [name]: value
+        }))
         break;
       }
       case 'telegram': {
-       
+        setSocialNet(prevState => ({
+          ...prevState,
+          [name]: value
+        }))
         break;
       }
       case 'whatsapp': {
-        
+        setSocialNet(prevState => ({
+          ...prevState,
+          [name]: value
+        }))
         break;
       }
       default: {
@@ -181,6 +199,13 @@ const MyCompanyTab = () => {
   }
 
   const cancelCreateHandler = () => {
+    setSocialNet({
+      instagram : company?.social_net.instagram,
+      facebook : company?.social_net.facebook,
+      viber : company?.social_net.viber,
+      telegram : company?.social_net.telegram,
+      whatsapp : company?.social_net.whatsapp
+    })
     setState(({
       id: company?._id,
       company_name: company?.company_name,
@@ -188,8 +213,9 @@ const MyCompanyTab = () => {
 
       email: company?.email,
       members: members,
-      my_social_net: company?.social_net
+      my_social_net: socialNet
     }))
+    
     setCreateCompanyBlock(false)
   }
 
@@ -205,6 +231,12 @@ const MyCompanyTab = () => {
         console.log("Uncorrect email")
         return
       }
+
+      setState(prevState => ({
+        ...prevState,
+        my_social_net: socialNet,
+        errMessage: ''
+      }))
 
       dispatch(createCompany(state))
 
@@ -287,7 +319,7 @@ const MyCompanyTab = () => {
                   <input type="text"
                     placeholder="link to your facebook"
                     name='facebook'
-                    value={state.my_social_net?.facebook}
+                    value={socialNet?.facebook}
                     onChange={changeHandler}
                     className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
                 </label>
@@ -296,7 +328,7 @@ const MyCompanyTab = () => {
                   <input type="text"
                     placeholder="link to your instagram"
                     name='instagram'
-                    value={state.my_social_net?.instagram}
+                    value={socialNet?.instagram}
                     onChange={changeHandler}
                     className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
                 </label>
@@ -305,7 +337,7 @@ const MyCompanyTab = () => {
                   <input type="text"
                     placeholder="link to your whatsapp"
                     name='whatsapp'
-                    value={state.my_social_net?.whatsapp}
+                    value={socialNet?.whatsapp}
                     onChange={changeHandler}
                     className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
                 </label>
@@ -314,7 +346,7 @@ const MyCompanyTab = () => {
                   <input type="text"
                     placeholder="link to your telegram"
                     name='telegram'
-                    value={state.my_social_net?.telegram}
+                    value={socialNet?.telegram}
                     onChange={changeHandler}
                     className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
                 </label>
@@ -323,7 +355,7 @@ const MyCompanyTab = () => {
                   <input type="text"
                     placeholder="link to your viber"
                     name='viber'
-                    value={state.my_social_net?.viber}
+                    value={socialNet?.viber}
                     onChange={changeHandler}
                     className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
                 </label>
@@ -516,7 +548,7 @@ const MyCompanyTab = () => {
                     <input type="text"
                       placeholder="link to your facebook"
                       name='facebook'
-                      value={state.my_social_net?.facebook}
+                      value={socialNet?.facebook}
                       onChange={changeHandler}
                       className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
                   </label>
@@ -525,7 +557,7 @@ const MyCompanyTab = () => {
                     <input type="text"
                       placeholder="link to your instagram"
                       name='instagram'
-                      value={state.my_social_net?.instagram}
+                      value={socialNet?.instagram}
                       onChange={changeHandler}
                       className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
                   </label>
@@ -534,7 +566,7 @@ const MyCompanyTab = () => {
                     <input type="text"
                       placeholder="link to your whatsapp"
                       name='whatsapp'
-                      value={state.my_social_net?.whatsapp}
+                      value={socialNet?.whatsapp}
                       onChange={changeHandler}
                       className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
                   </label>
@@ -543,7 +575,7 @@ const MyCompanyTab = () => {
                     <input type="text"
                       placeholder="link to your telegram"
                       name='telegram'
-                      value={state.my_social_net?.telegram}
+                      value={socialNet?.telegram}
                       onChange={changeHandler}
                       className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
                   </label>
@@ -552,7 +584,7 @@ const MyCompanyTab = () => {
                     <input type="text"
                       placeholder="link to your viber"
                       name='viber'
-                      value={state.my_social_net?.viber}
+                      value={socialNet?.viber}
                       onChange={changeHandler}
                       className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
                   </label>

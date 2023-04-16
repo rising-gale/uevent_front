@@ -10,10 +10,10 @@ export const VerifyCompanyEmailPage = () => {
     // const [text, setText] = useState('This page is the verification page for your account on Chronos. \nClick the button for activating account and verifying email, where this link was sent')
 
     const onClickConfirm = async () => {
-        const { data } = await axios.get(`http://localhost:3002/api/auth/verify/${params.token}`)
+        const { data } = await axios.get(`http://localhost:3002/api/companies/verify_company/${params.token}`)
         console.log(data)
-        toast(data.message)
-        if (data.success) {
+        // toast(data.message)
+        if (data.message === "Your email is verified" || data.message === "This account is already verified!") {
             navigate('/')
         }
     }

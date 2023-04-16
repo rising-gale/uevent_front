@@ -13,7 +13,7 @@ export const VerifyEmailPage = () => {
         const { data } = await axios.get(`http://localhost:3002/api/auth/verify/${params.token}`)
         console.log(data)
         toast(data.message)
-        if (data.success) {
+        if (data.message === "Your email is verified" || data.message === "This account is already verified!") {
             navigate('/')
         }
     }

@@ -12,6 +12,7 @@ import CheckOutSuccess from '../pages/CheckOutSuccess';
 import { EditUserPage } from '../pages/EditUserPage';
 import CalendarPage from '../pages/CalendarPage';
 import Header from '../components/Header';
+import { VerifyCompanyEmailPage } from '../pages/VerifyCompanyEmailPage';
 
 export const useRoutes = (isAuthenticated) => {
 
@@ -27,8 +28,10 @@ export const useRoutes = (isAuthenticated) => {
 
                     <Route path='verify/:token' element={<VerifyEmailPage />} />
 
-                    <Route path='/profile' element={<Profile/>}/>
-                    <Route path='/profile/edit' element={<EditUserPage/>}/>
+                    <Route path="verify_company/:token" element={<VerifyCompanyEmailPage />} />
+
+                    <Route path='/profile' element={<Profile />} />
+                    <Route path='/profile/edit' element={<EditUserPage />} />
 
                     <Route path="*" element={<Navigate to="/" />} />
                 </Routes>
@@ -42,6 +45,8 @@ export const useRoutes = (isAuthenticated) => {
                 <Route path="/registration" element={<RegistrationPage />} />
                 <Route path='recover/:token' element={<ResetPasswordPage />} />
                 <Route path='verify/:token' element={<VerifyEmailPage />} />
+
+                <Route path="verify_company/:token" element={<VerifyCompanyEmailPage />} />
             </Routes>
         )
     }

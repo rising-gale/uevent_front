@@ -11,28 +11,29 @@ const initialState = {
 export const updateUserData = createAsyncThunk('user/updateUserData', async (submitData, { dispatch }) => {
     try {
         const { data } = await axios.patch(`http://localhost:3002/api/users`, submitData, { withCredentials: true })
-        console.log(data.user)        
+        console.log(data.user)
         dispatch(setUserData(data.user))
-        return {data}
-    } catch (error) {
-        console.log(error)
-    }
-})
-
-export const uploadUserAvatar = createAsyncThunk('user/uploadUserAvatar', async (req, {dispatch}) => {
-    try {
-        const { data } = await axios.patch(`http://localhost:3002/api/users/pic-load`, req, { withCredentials: true })
-        console.log(data)
-        if(data.user) dispatch(setUserData(data.user))
         return { data }
     } catch (error) {
         console.log(error)
     }
 })
 
-export const deleteUser = createAsyncThunk('user/deleteUser', async (userID) => {
+export const uploadUserAvatar = createAsyncThunk('user/uploadUserAvatar', async (req, { dispatch }) => {
     try {
-        const { data } = await axios.delete(`http://localhost:3002/api/users/${userID}`)
+        const { data } = await axios.patch(`http://localhost:3002/api/users/pic-load`, req, { withCredentials: true })
+        console.log(data)
+        if (data.user) dispatch(setUserData(data.user))
+        return { data }
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+export const deleteUser = createAsyncThunk('user/deleteUser', async () => {
+    try {
+        const { data } = await axios.delete(`http://localhost:3002/api/users`, { withCredentials: true })
+        console.log(data.message)
         return data
     } catch (error) {
         console.log(error)
@@ -82,7 +83,6 @@ export const userSlice = createSlice({
         [deleteUser.fulfilled]: (state, action) => {
             state.loading = false
             state.status = action.payload?.message
-            // state.users = state.users.filter((user) => user._id !== action.payload.user._id)
         },
         [deleteUser.rejected]: (state, action) => {
             state.loading = false

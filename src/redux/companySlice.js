@@ -12,6 +12,7 @@ const initialState = {
 
 export const updateCompanyData = createAsyncThunk('company/updateCompanyData', async (submitData) => {
     try {
+        console.log(submitData.my_social_net)
         const { data } = await axios.patch(`http://localhost:3002/api/companies/${submitData.get('id')}`, submitData, { withCredentials: true })
         console.log(data)
         return { data }
@@ -22,7 +23,7 @@ export const updateCompanyData = createAsyncThunk('company/updateCompanyData', a
 
 export const uploadCompanyAvatar = createAsyncThunk('company/uploadCompanyAvatar', async (req) => {
     try {
-        const { data } = await axios.patch(`http://localhost:3002/api/companies/${req.get('id')}/pic-load`, req, { withCredentials: true })
+        const { data } = await axios.post(`http://localhost:3002/api/companies/${req.get('id')}/pic-load`, req, { withCredentials: true })
         console.log(data)
         return { data }
     } catch (error) {
@@ -104,6 +105,7 @@ export const companySlice = createSlice({
             state.loading = false
             state.company = action.payload.company
             state.status = action.payload?.message
+            console.log(state.company)
         },
         [updateCompanyData.rejected]: (state, action) => {
             state.loading = false
@@ -116,8 +118,7 @@ export const companySlice = createSlice({
         },
         [uploadCompanyAvatar.fulfilled]: (state, action) => {
             state.loading = false
-            state.company = action.payload.company
-            state.status = action.payload?.message
+            state.company = action.payload.data
         },
         [uploadCompanyAvatar.rejected]: (state, action) => {
             state.loading = false

@@ -15,16 +15,25 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import CompanyListItem from "../CompanyListItem";
 
-import { updateUserData, uploadUserAvatar } from "../../redux/userSlice"
+import { updateUserData, uploadUserAvatar, deleteUser } from "../../redux/userSlice"
+import { logout } from "../../redux/authSlice";
+
 import EventInFavourite from "../EventInFavourite";
+import FavouritesEvents from "../FavouritesEvents";
+
 
 const ProfileTab = () => {
   const [activeTabCompanies, setActiveTabCompanies] = useState("following_companies")
   const [editBoxOpen, setEditBoxOpen] = useState(false)
   const [updateImage, setUpdateImage] = useState(false)
+  const [openDialog, setOpenDialog] = useState(false)
+
 
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const { user } = useSelector((state) => state.auth)
+  const userFavourites = useSelector(state => state.auth.user.subscriptions_events);
+
 
   // const array1 = [
   //   { name: 'Company1' },
@@ -61,6 +70,14 @@ const ProfileTab = () => {
     }
   }
 
+  const [socialNet, setSocialNet] = useState({
+    instagram: user.social_net.instagram,
+    facebook: user.social_net.facebook,
+    viber: user.social_net.viber,
+    telegram: user.social_net.telegram,
+    whatsapp: user.social_net.whatsapp,
+  })
+
   const [state, setState] = useState({
     username: user.username,
     full_name: user.full_name,
@@ -69,7 +86,7 @@ const ProfileTab = () => {
 
     email: user.email,
     companies: user.companies,
-    my_social_net: user.social_net
+    my_social_net: socialNet,
   })
 
   //Part for EditBlock
@@ -84,6 +101,7 @@ const ProfileTab = () => {
 
   const submitHandler = () => {
     try {
+
       if (state.username === '' || state.email === '' || state.oldPassword === '') {
         console.log("Fill all required fields")
         return
@@ -110,6 +128,14 @@ const ProfileTab = () => {
           return
         }
       }
+
+      setState(prevState => ({
+        ...prevState,
+        my_social_net: socialNet,
+        errMessage: ''
+      }))
+
+      console.log(socialNet)
 
       dispatch(updateUserData(state))
 
@@ -180,23 +206,45 @@ const ProfileTab = () => {
         break;
       }
       case 'instagram': {
-        
+        setSocialNet(prevState => ({
+          ...prevState,
+          [name]: value,
+          errMessage: ''
+        }))
         break;
       }
       case 'facebook': {
-        
+        setSocialNet(prevState => ({
+          ...prevState,
+          [name]: value,
+          errMessage: ''
+        }))
         break;
       }
       case 'viber': {
-        
+        setSocialNet(prevState => ({
+          ...prevState,
+          [name]: value,
+          errMessage: ''
+        }))
         break;
       }
       case 'telegram': {
-        
+        setSocialNet(prevState => ({
+          ...prevState,
+          [name]: value,
+          errMessage: ''
+        }))
         break;
       }
       case 'whatsapp': {
-        
+
+        setSocialNet(prevState => ({
+          ...prevState,
+          [name]: value,
+          errMessage: ''
+        }))
+        console.log(socialNet)
         break;
       }
       default: {
@@ -221,10 +269,33 @@ const ProfileTab = () => {
       companies: user.companies,
       my_social_net: user.social_net
     }))
+    setSocialNet(({
+      instagram: user.social_net.instagram,
+      facebook: user.social_net.facebook,
+      viber: user.social_net.viber,
+      telegram: user.social_net.telegram,
+      whatsapp: user.social_net.whatsapp,
+    }))
     setEditBoxOpen(false)
   }
 
   //----------------------------------------------------------------------------------------------
+
+  const handleClickOpen = () => {
+    setOpenDialog(true);
+  };
+
+  const handleClickCancelDelete = () => {
+    setOpenDialog(false);
+  };
+
+  const handleClickDeleteUser = () => {
+    dispatch(deleteUser())
+    setOpenDialog(false);
+    dispatch(logout())
+    navigate('/')
+  };
+
 
   return (
     <div className="flex flex-col bg-opacity-30 bg-pomp-and-power border-opacity-30 text-[2rem] items-center text-center border-[1px] border-beige rounded-[2rem] min-h-[400px] space-y-4 p-6">
@@ -340,187 +411,188 @@ const ProfileTab = () => {
         </div>
 
 
+        <div className="w-1/2 ">
 
-        <div className="w-1/2 min-h-[519px] bg-dark-purple bg-opacity-80 p-[1rem] text-sm text-beige border-[2px] border-beige rounded-2xl">
-          {
-            editBoxOpen &&
-            <div className="bg-dark-purple w-full rounded-3xl">
-              <img
-                src='http://localhost:3000/back_icon_beige.png'
-                onClick={cancelHandler}
-                className="justify-center absolute items-center w-24 rounded-sm py-2 px-4">
-              </img>
-              <form
-                className="w-1/2 mx-auto pb-6"
-                onSubmit={(e) => e.preventDefault()}
-              >
-                <label className="text-sm text-beige">
-                  Username (login) <span className="text-2xl text-red-500"> *</span>
-                  <input type="text"
-                    placeholder="Username"
-                    value={state.username}
-                    name='username'
-                    onChange={changeHandler}
+          <div className="min-h-[519px] bg-dark-purple bg-opacity-80 p-[1rem] text-sm text-beige border-[2px] border-beige rounded-2xl">
+            {
+              editBoxOpen &&
+              <div className="bg-dark-purple w-full rounded-3xl">
+                <img
+                  src='http://localhost:3000/back_icon_beige.png'
+                  onClick={cancelHandler}
+                  className="justify-center absolute items-center w-24 rounded-sm py-2 px-4">
+                </img>
+                <form
+                  className="w-1/2 mx-auto pb-6"
+                  onSubmit={(e) => e.preventDefault()}
+                >
+                  <label className="text-sm text-beige">
+                    Username (login) <span className="text-2xl text-red-500"> *</span>
+                    <input type="text"
+                      placeholder="Username"
+                      value={state.username}
+                      name='username'
+                      onChange={changeHandler}
 
-                    className={`text-black w-full rounded-lg bg-${loginColorBg} border py-1 px-2 text-xs outline-none placeholder:text-gray-700`} />
-                </label>
+                      className={`text-black w-full rounded-lg bg-${loginColorBg} border py-1 px-2 text-xs outline-none placeholder:text-gray-700`} />
+                  </label>
 
-                <label className="mb-0 text-sm text-beige">
-                  Email <span className="text-red-500 text-2xl"> *</span>
-                  <input type="email"
-                    placeholder="email"
-                    name='email'
-                    value={state.email}
+                  <label className="mb-0 text-sm text-beige">
+                    Email <span className="text-red-500 text-2xl"> *</span>
+                    <input type="email"
+                      placeholder="email"
+                      name='email'
+                      value={state.email}
 
-                    onChange={changeHandler}
-                    className={`text-black w-full rounded-lg bg-${emailColorBg} border py-1 px-2 text-xs outline-none placeholder:text-gray-700`} />
-                </label>
-
-                <label className="text-sm text-beige">
-                  Full name
-                  <input type="text"
-                    placeholder="Fullname"
-                    name='full_name'
-                    value={state.full_name}
-                    onChange={changeHandler}
-                    className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
-                </label>
-
-                <div className="rounded-2xl border-[2px] border-beige bg-lilovii bg-opacity-50 mt-8 mb-6 p-4">
-                  <div className="text-[18px] uppercase">social nets</div>
+                      onChange={changeHandler}
+                      className={`text-black w-full rounded-lg bg-${emailColorBg} border py-1 px-2 text-xs outline-none placeholder:text-gray-700`} />
+                  </label>
 
                   <label className="text-sm text-beige">
-                    facebook
+                    Full name
                     <input type="text"
-                      placeholder="link to your facebook"
-                      name='facebook'
-                      value={state.my_social_net?.facebook}
+                      placeholder="Fullname"
+                      name='full_name'
+                      value={state.full_name}
                       onChange={changeHandler}
                       className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
                   </label>
-                  <label className="text-sm text-beige">
-                    instagram
-                    <input type="text"
-                      placeholder="link to your instagram"
-                      name='instagram'
-                      value={state.my_social_net?.instagram}
-                      onChange={changeHandler}
-                      className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
-                  </label>
-                  <label className="text-sm text-beige">
-                    whatsapp
-                    <input type="text"
-                      placeholder="link to your whatsapp"
-                      name='whatsapp'
-                      value={state.my_social_net?.whatsapp}
-                      onChange={changeHandler}
-                      className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
-                  </label>
-                  <label className="text-sm text-beige">
-                    telegram
-                    <input type="text"
-                      placeholder="link to your telegram"
-                      name='telegram'
-                      value={state.my_social_net?.telegram}
-                      onChange={changeHandler}
-                      className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
-                  </label>
-                  <label className="text-sm text-beige">
-                    viber
-                    <input type="text"
-                      placeholder="link to your viber"
-                      name='viber'
-                      value={state.my_social_net?.viber}
-                      onChange={changeHandler}
-                      className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
-                  </label>
-                </div>
 
-                <div className="rounded-2xl border-[2px] border-beige bg-lilovii bg-opacity-50 mt-8 mb-6 p-4">
-                  <div className="text-[18px] uppercase">Change password</div>
+                  <div className="rounded-2xl border-[2px] border-beige bg-lilovii bg-opacity-50 mt-8 mb-6 p-4">
+                    <div className="text-[18px] uppercase">social nets</div>
 
-                  <label className="text-xs text-gray-400">
-                    New password
-                    <input
-                      type="password"
-                      value={state.password}
-                      name='password'
-                      onChange={changeHandler}
-                      placeholder="new password"
-                      className="mt-1 text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none placeholder:text-gray-700"
-                    />
-                  </label>
-                  <label className="text-xs text-gray-400">
-                    Confirm new password
-                    <input
-                      type="password"
-                      value={confirmPassword}
-                      onChange={e => setConfirmPassword(e.target.value)}
-                      placeholder="repeat new password"
-                      className="mt-1 text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none placeholder:text-gray-700"
-                    />
-                  </label>
-                </div>
-
-
-                <label className="text-sm text-beige mt-6">
-                  Current password <span className="text-2xl text-red-700"> *</span>
-                  <input
-                    type="password"
-                    value={state.oldPassword}
-                    name='oldPassword'
-                    onChange={changeHandler}
-                    placeholder="current password"
-                    className={` text-black w-full rounded-lg bg-${passwordColorBg} border py-1 px-2 text-xs outline-none placeholder:text-gray-700`}
-                  />
-                </label>
-
-                <div className="flex gap-8 items-center justify-center mt-4">
-                  <button
-                    onClick={submitHandler}
-                    className="flex justify-center items-center bg-gray-600 text-xs text-white rounded-sm py-2 px-4">
-                    Save changes
-                  </button>
-                  <button
-                    onClick={cancelHandler}
-                    className="flex justify-center items-center bg-red-500 text-xs text-white rounded-sm py-2 px-4">
-                    Cancel
-                  </button>
-                </div>
-              </form>
-            </div>
-          }
-
-          {!editBoxOpen && <>
-            <ul className="Horizontalnav">
-              <TabNavItem title={`${arrayItemsCount(user.subscriptions_companies)} followed companies`} id="following_companies" activeTab={activeTabCompanies} setActiveTab={setActiveTabCompanies} />
-              <TabNavItem title={`${arrayItemsCount(user.subscriptions_events)} followed events`} id="followed_events" activeTab={activeTabCompanies} setActiveTab={setActiveTabCompanies} />
-            </ul>
-
-            <div>
-              <TabContent id="following_companies" activeTab={activeTabCompanies}>
-
-                {
-                  user.subscriptions_companies.length < 1 &&
-                  <div className="text-beige m-auto text-md h-full w-full">
-                    You don't follow any company yet...
+                    <label className="text-sm text-beige">
+                      facebook
+                      <input type="text"
+                        placeholder="link to your facebook"
+                        name='facebook'
+                        value={socialNet?.facebook}
+                        onChange={changeHandler}
+                        className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
+                    </label>
+                    <label className="text-sm text-beige">
+                      instagram
+                      <input type="text"
+                        placeholder="link to your instagram"
+                        name='instagram'
+                        value={socialNet?.instagram}
+                        onChange={changeHandler}
+                        className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
+                    </label>
+                    <label className="text-sm text-beige">
+                      whatsapp
+                      <input type="text"
+                        placeholder="link to your whatsapp"
+                        name='whatsapp'
+                        value={socialNet?.whatsapp}
+                        onChange={changeHandler}
+                        className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
+                    </label>
+                    <label className="text-sm text-beige">
+                      telegram
+                      <input type="text"
+                        placeholder="link to your telegram"
+                        name='telegram'
+                        value={socialNet?.telegram}
+                        onChange={changeHandler}
+                        className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
+                    </label>
+                    <label className="text-sm text-beige">
+                      viber
+                      <input type="text"
+                        placeholder="link to your viber"
+                        name='viber'
+                        value={socialNet?.viber}
+                        onChange={changeHandler}
+                        className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
+                    </label>
                   </div>
-                }
-                {user.subscriptions_companies.length > 0 &&
-                  <ul className="w-full pr-5 space-y-3 first-letter overflow-y-scroll scrollbar h-[400px]">
-                    {
-                      user?.subscriptions_companies.map((company, index) => (
-                        <CompanyListItem
-                          key={index}
-                          company={company} />
-                      ))}
-                  </ul>
-                }
 
-              </TabContent>
-              <TabContent id="followed_events" activeTab={activeTabCompanies}>
-                <ul className="w-full pr-5 space-y-3 first-letter overflow-y-scroll scrollbar h-[400px]">
-                  <div className="text-sm w-full border-[2px] mb-12 py-5 bg-dark-blue-pastel border-purple-900 text-black rounded-md">
+                  <div className="rounded-2xl border-[2px] border-beige bg-lilovii bg-opacity-50 mt-8 mb-6 p-4">
+                    <div className="text-[18px] uppercase">Change password</div>
+
+                    <label className="text-xs text-gray-400">
+                      New password
+                      <input
+                        type="password"
+                        value={state.password}
+                        name='password'
+                        onChange={changeHandler}
+                        placeholder="new password"
+                        className="mt-1 text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none placeholder:text-gray-700"
+                      />
+                    </label>
+                    <label className="text-xs text-gray-400">
+                      Confirm new password
+                      <input
+                        type="password"
+                        value={confirmPassword}
+                        onChange={e => setConfirmPassword(e.target.value)}
+                        placeholder="repeat new password"
+                        className="mt-1 text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none placeholder:text-gray-700"
+                      />
+                    </label>
+                  </div>
+
+
+                  <label className="text-sm text-beige mt-6">
+                    Current password <span className="text-2xl text-red-700"> *</span>
+                    <input
+                      type="password"
+                      value={state.oldPassword}
+                      name='oldPassword'
+                      onChange={changeHandler}
+                      placeholder="current password"
+                      className={` text-black w-full rounded-lg bg-${passwordColorBg} border py-1 px-2 text-xs outline-none placeholder:text-gray-700`}
+                    />
+                  </label>
+
+                  <div className="flex gap-8 items-center justify-center mt-4">
+                    <button
+                      onClick={submitHandler}
+                      className="flex justify-center items-center bg-gray-600 text-xs text-white rounded-sm py-2 px-4">
+                      Save changes
+                    </button>
+                    <button
+                      onClick={cancelHandler}
+                      className="flex justify-center items-center bg-red-500 text-xs text-white rounded-sm py-2 px-4">
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              </div>
+            }
+
+            {!editBoxOpen && <>
+              <ul className="Horizontalnav">
+                <TabNavItem title={`${arrayItemsCount(user.subscriptions_companies)} followed companies`} id="following_companies" activeTab={activeTabCompanies} setActiveTab={setActiveTabCompanies} />
+                <TabNavItem title={`${arrayItemsCount(user.subscriptions_events)} followed events`} id="followed_events" activeTab={activeTabCompanies} setActiveTab={setActiveTabCompanies} />
+              </ul>
+
+              <div>
+                <TabContent id="following_companies" activeTab={activeTabCompanies}>
+
+                  {
+                    user.subscriptions_companies.length < 1 &&
+                    <div className="text-beige m-auto text-md h-full w-full">
+                      You don't follow any company yet...
+                    </div>
+                  }
+                  {user.subscriptions_companies.length > 0 &&
+                    <ul className="w-full pr-5 space-y-3 first-letter overflow-y-scroll scrollbar h-[400px]">
+                      {
+                        user?.subscriptions_companies.map((company, index) => (
+                          <CompanyListItem
+                            key={index}
+                            company={company} />
+                        ))}
+                    </ul>
+                  }
+
+                </TabContent>
+                <TabContent id="followed_events" activeTab={activeTabCompanies}>
+                  <ul className="w-full pr-5 space-y-3 first-letter overflow-y-scroll scrollbar h-[400px]">
+                    {/* <div className="text-sm w-full border-[2px] mb-12 py-5 bg-dark-blue-pastel border-purple-900 text-black rounded-md">
                     CREATE A NEW COMPANY
                   </div>
                   {
@@ -530,13 +602,53 @@ const ProfileTab = () => {
                         company={event}
                       />
                     ))
-                  }
-                </ul>
-              </TabContent>
+                  } */}
+                    <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-dark-blue-pastel outline-none focus:outline-none h-screen">
 
-            </div>
-          </>}
+                      {/*body*/}
+                      <div className="relative p-5 flex flex-col overflow-y-auto scrollbar h-5/6">
+                        {userFavourites && userFavourites.map(fav_event => {
+                          return (
+                            <EventInFavourite key={fav_event._id} data={fav_event} userFavourites={userFavourites} />
+                          )
+                        })}
+                        {userFavourites.length <= 0 && <div className='text-light-beige text-xl h-full w-full flex justify-center'>Nothing to see here ...</div>}
+                      </div>
+
+                    </div>
+                  </ul>
+                </TabContent>
+
+              </div>
+            </>}
+          </div>
+
+          <div className="rounded-3xl px-2 py-1 mt-4 h-fit text-[18px] bg-red-800 text-beige"
+            onClick={handleClickOpen} >delete account</div>
+          <Dialog
+            open={openDialog}
+            onClose={handleClickCancelDelete}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">{"Deleting user"}</DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                Do you really want to delete this user? You can`t turn his/her data back after
+                confirmation deleting.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClickCancelDelete} color="primary">
+                Cancel
+              </Button>
+              <Button onClick={handleClickDeleteUser} color="primary" autoFocus>
+                Delete user
+              </Button>
+            </DialogActions>
+          </Dialog>
         </div>
+
 
 
       </div>
