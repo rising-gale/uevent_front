@@ -604,7 +604,7 @@ const ProfileTab = () => {
           </div>
 
           <div className="rounded-3xl px-2 py-1 mt-4 h-fit text-[18px] bg-red-800 text-beige"
-            onClick={handleClickOpen} >delete account</div>
+            onClick={handleClickOpen} >Delete account</div>
           <Dialog
             open={openDialog}
             onClose={handleClickCancelDelete}
@@ -614,7 +614,7 @@ const ProfileTab = () => {
             <DialogTitle id="alert-dialog-title">{"Deleting user"}</DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
-                Do you really want to delete this user? You can`t turn his/her data back after
+                Do you really want to delete this account? You can`t turn your data back after
                 confirmation deleting.
               </DialogContentText>
             </DialogContent>
@@ -623,7 +623,7 @@ const ProfileTab = () => {
                 Cancel
               </Button>
               <Button onClick={handleClickDeleteUser} color="primary" autoFocus>
-                Delete user
+                Delete account
               </Button>
             </DialogActions>
           </Dialog>
