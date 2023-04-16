@@ -88,7 +88,7 @@ export const companySlice = createSlice({
         },
         [createCompany.fulfilled]: (state, action) => {
             state.loading = false
-            state.company = action.payload.newCompany
+            state.company = action.payload?.newCompany
             state.status = action.payload?.message
         },
         [createCompany.rejected]: (state, action) => {
