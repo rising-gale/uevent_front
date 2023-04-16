@@ -7,6 +7,11 @@ import { Link } from 'react-router-dom'
 import { deleteUser } from "../redux/userSlice";
 import ProfilePageTabs from "../components/TabsProfilePage";
 
+import TabNavItem from "../components/TabNavItem"
+import TabContent from "../components/TabContent";
+import '../styles/TabsStyles.css'
+import '../styles/ScrollbarStyles.css'
+
 
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -14,18 +19,35 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import MemberListItem from "../components/MemberListItem";
+import MapContainer from "../components/MapContainer";
 import { logout } from "../redux/authSlice";
-import { getCompanyByid } from "../redux/companySlice";
+import { getCompanyById } from "../redux/companySlice";
 import { useEffect } from "react";
 
-export const Profile = () => {
-    // const [activeTab, setActiveTab] = useState('profile')
+export const CompanyPage = () => {
     const [open, setOpen] = useState(false);
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const params = useParams()
 
     const { user } = useSelector(state => state.auth)
+    const { company } = useSelector((state) => state.company)
+    const { members } = useSelector((state) => state.company)
+
+    const [activeTabMembers, setActiveTabMembers] = useState("members")
+    
+    useEffect(() => {
+        dispatch(getCompanyById(params.id))
+    }, [dispatch])
+
+    const arrayItemsCount = (array) => {
+        if (array) {
+          return array.length
+        } else {
+          return '0'
+        }
+      }
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -42,7 +64,22 @@ export const Profile = () => {
         navigate('/')
     };
 
-    if (!user) {
+    const isSocialLink = (link) => {
+        if (link !== '') {
+          return "_blank"
+        }
+        return '_self'
+      }
+      
+      const isLinkExist = (link) => {
+        if (link !== ''){
+          return link
+        } else {
+          return null
+        } 
+      }
+
+    if (!company) {
         return <div className="box-border flex justify-center items-center min-h-[100vh] bg-dark-purple">
             <div className="registerCard">
                 <img className="h-[100px] mt-4" src='../uevent_logo.png' alt='logo' />
@@ -66,23 +103,12 @@ export const Profile = () => {
             <div className="flex flex-row space-x-4 w-full">
 
                 <div className="flex w-1/2 flex-col text-[2rem] items-center text-center min-h-[400px]">
-
-                    {!updateImage && <>
-                        <div className="justify-center w-40 mt-5 ">
-                            <img alt={company?.avatar} className="items-center rounded-[3rem]"
-                                src={`http://localhost:3002/${company.avatar}`}
-                            />
-                        </div>
-                        <div
-                            className="text-[12px] mt-2 mb-8 flex flex-row space-x-3 px-3 py-2 rounded-3xl hover:bg-opacity-70 bg-beige border-dark-purple text-dark-purple"
-                            onClick={() => { setUpdateImage(true) }}>
-                            <img className="w-4" src='editing_icon.png' alt='edit info' />
-                            Change avatar
-                        </div>
-                    </>
-
-                    }
-                    {
+                    <div className="justify-center w-40 mt-5 ">
+                        <img alt={company?.avatar} className="items-center rounded-[3rem]"
+                            src={`http://localhost:3002/${company.avatar}`}
+                        />
+                    </div>
+                    {/* {
                         updateImage && <div className="rounded-3xl bg-dark-purple w-3/4 h-fit">
                             <div className="p-4 pb-2 items-start justify-start">
                                 <button
@@ -118,14 +144,14 @@ export const Profile = () => {
                             </div>
 
                         </div>
-                    }
+                    } */}
 
 
-                    {/* Full name */}
+                    {/* Company name */}
                     <div className="text-[25px]">{company?.company_name}</div>
 
-                    {/* Nickname */}
-                    <p className="text-xl" >{company?.location}</p>
+                    {/* Location */}
+                    <p className="text-xl" >{company?.location?.description}</p>
 
                     <div className="flex flex-row  mt-5 w-2/3 space-x-8 p-3 justify-center items-center rounded-3xl bg-plum bg-opacity-60">
                         <a target={isSocialLink(company.social_net?.instagram)} href={company.social_net?.instagram}>
@@ -146,160 +172,155 @@ export const Profile = () => {
 
                     </div>
 
-                    <div
+                    {/* <div
                         className="text-[16px] mt-5 flex flex-row space-x-3 px-3 py-2 rounded-3xl hover:bg-opacity-70 bg-beige border-dark-purple text-dark-purple"
                         onClick={() => { setEditBoxOpen(true) }}>
                         <img className="w-6" src='editing_icon.png' alt='edit info' />
                         Edit profile
-                    </div>
+                    </div> */}
                 </div>
 
 
                 <div className="w-1/2">
                     <div className="min-h-[519px] bg-dark-purple bg-opacity-80 p-[1rem] text-sm text-beige border-[2px] border-beige rounded-2xl">
                         {
-                            editBoxOpen &&
-                            <div className="bg-dark-purple w-full rounded-3xl">
-                                <img
-                                    src='http://localhost:3000/back_icon_beige.png'
-                                    onClick={cancelHandler}
-                                    className="justify-center absolute items-center w-24 rounded-sm py-2 px-4">
-                                </img>
-                                <form
-                                    className="w-1/2 mx-auto pb-6"
-                                    onSubmit={(e) => e.preventDefault()}
-                                >
-                                    <label className="text-sm text-beige">
-                                        Company name<span className="text-2xl text-red-500"> *</span>
-                                        <input type="text"
-                                            placeholder="Company name"
-                                            value={state.company_name}
-                                            name='company_name'
-                                            onChange={changeHandler}
+                            // editBoxOpen &&
+                            // <div className="bg-dark-purple w-full rounded-3xl">
+                            //     <img
+                            //         src='http://localhost:3000/back_icon_beige.png'
+                            //         onClick={cancelHandler}
+                            //         className="justify-center absolute items-center w-24 rounded-sm py-2 px-4">
+                            //     </img>
+                            //     <form
+                            //         className="w-1/2 mx-auto pb-6"
+                            //         onSubmit={(e) => e.preventDefault()}
+                            //     >
+                            //         <label className="text-sm text-beige">
+                            //             Company name<span className="text-2xl text-red-500"> *</span>
+                            //             <input type="text"
+                            //                 placeholder="Company name"
+                            //                 value={state.company_name}
+                            //                 name='company_name'
+                            //                 onChange={changeHandler}
 
-                                            className={`text-black w-full rounded-lg bg-${companyNameColorBg} border py-1 px-2 text-xs outline-none placeholder:text-gray-700`} />
-                                    </label>
+                            //                 className={`text-black w-full rounded-lg bg-${companyNameColorBg} border py-1 px-2 text-xs outline-none placeholder:text-gray-700`} />
+                            //         </label>
 
-                                    <label className="mb-0 text-sm text-beige">
-                                        Email <span className="text-red-500 text-2xl"> *</span>
-                                        <input type="email"
-                                            placeholder="email"
-                                            name='email'
-                                            value={state.email}
+                            //         <label className="mb-0 text-sm text-beige">
+                            //             Email <span className="text-red-500 text-2xl"> *</span>
+                            //             <input type="email"
+                            //                 placeholder="email"
+                            //                 name='email'
+                            //                 value={state.email}
 
-                                            onChange={changeHandler}
-                                            className={`text-black w-full rounded-lg bg-${emailColorBg} border py-1 px-2 text-xs outline-none placeholder:text-gray-700`} />
-                                    </label>
+                            //                 onChange={changeHandler}
+                            //                 className={`text-black w-full rounded-lg bg-${emailColorBg} border py-1 px-2 text-xs outline-none placeholder:text-gray-700`} />
+                            //         </label>
 
-                                    <label className="text-sm text-beige">
-                                        Location
-                                        <input type="text"
-                                            placeholder="Fullname"
-                                            name='location'
-                                            value={state.location}
-                                            onChange={changeHandler}
-                                            className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
-                                    </label>
+                            //         <label className="text-sm text-beige">
+                            //             Location
+                            //             <input type="text"
+                            //                 placeholder="Fullname"
+                            //                 name='location'
+                            //                 value={state.location}
+                            //                 onChange={changeHandler}
+                            //                 className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
+                            //         </label>
 
-                                    {/* Adding social nets */}
-                                    <div className="rounded-2xl border-[2px] border-beige bg-lilovii bg-opacity-50 mt-8 mb-6 p-4">
-                                        <div className="text-[18px] uppercase">social nets</div>
+                            //         {/* Adding social nets */}
+                            //         <div className="rounded-2xl border-[2px] border-beige bg-lilovii bg-opacity-50 mt-8 mb-6 p-4">
+                            //             <div className="text-[18px] uppercase">social nets</div>
 
-                                        <label className="text-sm text-beige">
-                                            facebook
-                                            <input type="text"
-                                                placeholder="link to your facebook"
-                                                name='facebook'
-                                                value={socialNet?.facebook}
-                                                onChange={changeHandler}
-                                                className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
-                                        </label>
-                                        <label className="text-sm text-beige">
-                                            instagram
-                                            <input type="text"
-                                                placeholder="link to your instagram"
-                                                name='instagram'
-                                                value={socialNet?.instagram}
-                                                onChange={changeHandler}
-                                                className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
-                                        </label>
-                                        <label className="text-sm text-beige">
-                                            whatsapp
-                                            <input type="text"
-                                                placeholder="link to your whatsapp"
-                                                name='whatsapp'
-                                                value={socialNet?.whatsapp}
-                                                onChange={changeHandler}
-                                                className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
-                                        </label>
-                                        <label className="text-sm text-beige">
-                                            telegram
-                                            <input type="text"
-                                                placeholder="link to your telegram"
-                                                name='telegram'
-                                                value={socialNet?.telegram}
-                                                onChange={changeHandler}
-                                                className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
-                                        </label>
-                                        <label className="text-sm text-beige">
-                                            viber
-                                            <input type="text"
-                                                placeholder="link to your viber"
-                                                name='viber'
-                                                value={socialNet?.viber}
-                                                onChange={changeHandler}
-                                                className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
-                                        </label>
-                                    </div>
+                            //             <label className="text-sm text-beige">
+                            //                 facebook
+                            //                 <input type="text"
+                            //                     placeholder="link to your facebook"
+                            //                     name='facebook'
+                            //                     value={socialNet?.facebook}
+                            //                     onChange={changeHandler}
+                            //                     className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
+                            //             </label>
+                            //             <label className="text-sm text-beige">
+                            //                 instagram
+                            //                 <input type="text"
+                            //                     placeholder="link to your instagram"
+                            //                     name='instagram'
+                            //                     value={socialNet?.instagram}
+                            //                     onChange={changeHandler}
+                            //                     className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
+                            //             </label>
+                            //             <label className="text-sm text-beige">
+                            //                 whatsapp
+                            //                 <input type="text"
+                            //                     placeholder="link to your whatsapp"
+                            //                     name='whatsapp'
+                            //                     value={socialNet?.whatsapp}
+                            //                     onChange={changeHandler}
+                            //                     className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
+                            //             </label>
+                            //             <label className="text-sm text-beige">
+                            //                 telegram
+                            //                 <input type="text"
+                            //                     placeholder="link to your telegram"
+                            //                     name='telegram'
+                            //                     value={socialNet?.telegram}
+                            //                     onChange={changeHandler}
+                            //                     className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
+                            //             </label>
+                            //             <label className="text-sm text-beige">
+                            //                 viber
+                            //                 <input type="text"
+                            //                     placeholder="link to your viber"
+                            //                     name='viber'
+                            //                     value={socialNet?.viber}
+                            //                     onChange={changeHandler}
+                            //                     className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
+                            //             </label>
+                            //         </div>
 
-                                    <div className="flex gap-8 items-center justify-center mt-4">
-                                        <button
-                                            onClick={submitHandler}
-                                            className="flex justify-center items-center bg-gray-600 text-xs text-white rounded-sm py-2 px-4">
-                                            Save changes
-                                        </button>
-                                        <button
-                                            onClick={cancelHandler}
-                                            className="flex justify-center items-center bg-red-500 text-xs text-white rounded-sm py-2 px-4">
-                                            Cancel
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
+                            //         <div className="flex gap-8 items-center justify-center mt-4">
+                            //             <button
+                            //                 onClick={submitHandler}
+                            //                 className="flex justify-center items-center bg-gray-600 text-xs text-white rounded-sm py-2 px-4">
+                            //                 Save changes
+                            //             </button>
+                            //             <button
+                            //                 onClick={cancelHandler}
+                            //                 className="flex justify-center items-center bg-red-500 text-xs text-white rounded-sm py-2 px-4">
+                            //                 Cancel
+                            //             </button>
+                            //         </div>
+                            //     </form>
+                            // </div>
                         }
 
-                        {!editBoxOpen && <>
-                            <ul className="Horizontalnav">
-                                <TabNavItem title={`${arrayItemsCount(members)} members`} id="members" activeTab={activeTabMembers} setActiveTab={setActiveTabMembers} />
-                                {/* <TabNavItem title={`${arrayItemsCount(user.subscriptions_events)} followed events`} id="followed_events" activeTab={activeTabCompanies} setActiveTab={setActiveTabCompanies} /> */}
-                            </ul>
+                        {/* {!editBoxOpen && <> */}
+                        <ul className="Horizontalnav">
+                            <TabNavItem title={`${arrayItemsCount(members)} members`} id="members" activeTab={activeTabMembers} setActiveTab={setActiveTabMembers} />
+                            {/* <TabNavItem title={`${arrayItemsCount(user.subscriptions_events)} followed events`} id="followed_events" activeTab={activeTabCompanies} setActiveTab={setActiveTabCompanies} /> */}
+                        </ul>
 
-                            <div>
-                                <TabContent id="members" activeTab={activeTabMembers}>
+                        <div>
+                            <TabContent id="members" activeTab={activeTabMembers}>
 
-                                    {
-                                        members?.length < 1 &&
-                                        <div className="text-beige m-auto text-md h-full w-full">
-                                            No members in this company yet...
-                                        </div>
-                                    }
-                                    {members?.length > 0 &&
-                                        <ul className="w-full pr-5 space-y-3 first-letter overflow-y-scroll scrollbar h-[400px]">
-                                            {
-                                                members?.map((member, index) => (
-                                                    <MemberListItem
-                                                        key={index}
-                                                        member={member} />
-                                                ))}
-                                        </ul>
-                                    }
-
-                                </TabContent>
-
-                            </div>
-                        </>}
+                                {members?.length < 1 &&
+                                    <div className="text-beige m-auto text-md h-full w-full">
+                                        No members in this company yet...
+                                    </div>
+                                }
+                                {members?.length > 0 &&
+                                    <ul className="w-full pr-5 space-y-3 first-letter overflow-y-scroll scrollbar h-[400px]">
+                                        {members?.map((member, index) => (
+                                            <MemberListItem
+                                                key={index}
+                                                member={member} />))}
+                                    </ul>
+                                }
+                            </TabContent>
+                        </div>
+                        {/* </>} */}
                     </div>
-                    <div className="rounded-3xl px-2 py-1 mt-4 h-fit text-[18px] bg-red-800 text-beige"
+                    {/* <div className="rounded-3xl px-2 py-1 mt-4 h-fit text-[18px] bg-red-800 text-beige"
                         onClick={handleClickOpen} >delete account</div>
                     <Dialog
                         open={openDialog}
@@ -322,7 +343,7 @@ export const Profile = () => {
                                 Delete user
                             </Button>
                         </DialogActions>
-                    </Dialog>
+                    </Dialog> */}
                 </div>
             </div>
 
@@ -343,69 +364,5 @@ export const Profile = () => {
             </div>
 
         </div >
-
-        {/* <div className="flex flex-col max-w-[1200px] mx-auto bg-dark-purple">
-            <div className="flex flex-row space-x-12">
-                <div className='flex rounded-sm max-h-[100px] max-w-[100px]'>
-                    {
-                        // пока что не понятно, в каком формате будет записан аватар в базе. Пока делаю заглушку
-                        <img
-                            src={user.avatar}
-                            alt='user avatar'
-                            className="object-cover w-full rounded-md"
-                        />
-                    }
-
-                </div>
-                <div className="flex flex-col">
-                    <div className="text-2xl text-beige">{user.username}</div>
-                    <div className="text-md text-beige">{user.full_name}</div>
-                    <div className="text-xs text-beige">
-                        <Moment date={user.createdAt} format='D MMM YYYY' /></div>
-                </div>
-                <div className="flex basis-1/5 justify-between">
-                    <Link to={`/users/${params.id_user}/edit`} className='text-md rounded-sm'>Edit info</Link>
-                    <div>
-                        <button className="flex justify-center items-center bg-red-500 text-xs text-white rounded-sm py-2 px-4" onClick={handleClickOpen}>
-                            Delete user
-                        </button>
-                        <Dialog
-                            open={open}
-                            onClose={handleClickCancelDelete}
-                            aria-labelledby="alert-dialog-title"
-                            aria-describedby="alert-dialog-description"
-                        >
-                            <DialogTitle id="alert-dialog-title">{"Deleting user"}</DialogTitle>
-                            <DialogContent>
-                                <DialogContentText id="alert-dialog-description">
-                                    Do you really want to delete this user? You can`t turn his/her data back after
-                                    confirmation deleting.
-                                </DialogContentText>
-                            </DialogContent>
-                            <DialogActions>
-                                <Button onClick={handleClickCancelDelete} color="primary">
-                                    Cancel
-                                </Button>
-                                <Button onClick={handleClickDeleteUser} color="primary" autoFocus>
-                                    Delete user
-                                </Button>
-                            </DialogActions>
-                        </Dialog>
-                    </div>
-
-                </div>
-            </div>
-            <div className="flex flex-col">
-                <div className="text-xl text-white">{user.username} posts</div>
-                <div className="flex flex-col gap-5">
-                    {
-                        // myPosts?.map((post, index) => (
-                        //     <PostItem key={index} post={post} categories={categories} />
-                        // ))
-                    }
-
-                </div>
-            </div>
-        </div> */}
     </div>
 }

@@ -69,6 +69,23 @@ export const getMyCompany = createAsyncThunk('company/getMyCompany', async () =>
     }
 })
 
+export const getMembers = createAsyncThunk('company/getMembers', async (companyId) => {
+    try{
+        const {data} = await axios.get(`http://localhost:3002/api/companies/${companyId}/users`, {withCredentials: true})
+        return data
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+export const getCompanyById = createAsyncThunk('company/getCompanyById', async(companyId) => {
+    try{
+        const {data} = await axios.get(`http://localhost:3002/api/companies/${companyId}`, {withCredentials: true})
+        return data
+    } catch (error) {
+        console.log(error)
+    }
+})
 
 
 export const companySlice = createSlice({
@@ -92,6 +109,21 @@ export const companySlice = createSlice({
             state.status = action.payload?.message
         },
         [createCompany.rejected]: (state, action) => {
+            state.loading = false
+            state.status = action.payload?.message
+            console.log(action.payload.message)
+        },
+        // Create company
+        [getMembers.pending]: (state) => {
+            state.loading = true
+            state.status = null
+        },
+        [getMembers.fulfilled]: (state, action) => {
+            state.loading = false
+            state.members = action.payload?.members
+            state.status = action.payload?.message
+        },
+        [getMembers.rejected]: (state, action) => {
             state.loading = false
             state.status = action.payload?.message
             console.log(action.payload.message)
@@ -153,6 +185,22 @@ export const companySlice = createSlice({
             state.status = action.payload?.message
         },
         [getMyCompany.rejected]: (state, action) => {
+            state.loading = false
+            state.status = action.payload.message
+        },
+
+        //get Company
+        [getCompanyById.pending]: (state) => {
+            state.loading = true
+            state.status = null
+        },
+        [getCompanyById.fulfilled]: (state, action) => {
+            state.loading = false
+            state.company = action.payload
+            console.log(action.payload)
+            state.status = action.payload?.message
+        },
+        [getCompanyById.rejected]: (state, action) => {
             state.loading = false
             state.status = action.payload.message
         }

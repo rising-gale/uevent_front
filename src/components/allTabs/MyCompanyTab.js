@@ -278,14 +278,15 @@ const MyCompanyTab = () => {
     return <div>
 
       {!createCompanyBlock &&
-        <>
-          Нет тут компании
+        <div className="h-[400px] mt-10 justify-center items-center m-auto">
+          You have not created any company yet...
           <div
-            className="text-[12px] mt-2 mb-8 flex flex-row space-x-3 px-3 py-2 rounded-3xl hover:bg-opacity-70 bg-beige border-dark-purple text-dark-purple"
+            className="text-[24px] mx-auto mt-24 w-1/2 justify-center items-center mb-8 flex flex-row space-x-3 px-3 py-2 rounded-3xl hover:bg-opacity-70 bg-beige border-dark-purple text-dark-purple"
             onClick={() => { setCreateCompanyBlock(true) }}>
-            <img className="w-4" src='editing_icon.png' alt='edit info' />
+            <img className="w-8" src='editing_icon.png' alt='edit info' />
             Create company
-          </div></>
+          </div>
+          </div>
       }
 
       {
@@ -468,11 +469,11 @@ const MyCompanyTab = () => {
           }
 
 
-          {/* Full name */}
+          {/* Company name */}
           <div className="text-[25px]">{company?.company_name}</div>
 
-          {/* Nickname */}
-          {/* <p className="text-xl" >{company?.location}</p> */}
+          {/* Location */}
+          <p className="text-xl" >{company?.location?.description}</p>
 
           <div className="flex flex-row  mt-5 w-2/3 space-x-8 p-3 justify-center items-center rounded-3xl bg-plum bg-opacity-60">
             <a target={isSocialLink(company.social_net?.instagram)} href={isLinkExist(company.social_net?.instagram)}>
@@ -497,7 +498,7 @@ const MyCompanyTab = () => {
             className="text-[16px] mt-5 flex flex-row space-x-3 px-3 py-2 rounded-3xl hover:bg-opacity-70 bg-beige border-dark-purple text-dark-purple"
             onClick={() => { setEditBoxOpen(true) }}>
             <img className="w-6" src='editing_icon.png' alt='edit info' />
-            Edit profile
+            Edit company data
           </div>
         </div>
 
@@ -538,16 +539,6 @@ const MyCompanyTab = () => {
                         onChange={changeHandler}
                         className={`text-black w-full rounded-lg bg-${emailColorBg} border py-1 px-2 text-xs outline-none placeholder:text-gray-700`} />
                     </label>
-
-                    {/* <label className="text-sm text-beige">
-                  Location
-                  <input type="text"
-                    placeholder="Fullname"
-                    name='location'
-                    value={state.location}
-                    onChange={changeHandler}
-                    className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
-                </label> */}
 
                     {/* Adding social nets */}
                     <div className="rounded-2xl border-[2px] border-beige bg-lilovii bg-opacity-50 mt-8 p-4">
@@ -635,9 +626,11 @@ const MyCompanyTab = () => {
                 <TabContent id="members" activeTab={activeTabMembers}>
 
                   {
-                    members?.length < 1 &&
-                    <div className="text-beige m-auto text-md h-full w-full">
-                      No members in this company yet...
+                    (members?.length < 1 || !members) &&
+                    <div className="text-beige flex justify-center items-center flex-col text-md h-full w-full">
+                      <div className="flex">No members in this company yet...</div>
+                      <div className="flex mt-32 bg-dark-blue-pastel align-middle border-dashed border-[1px] border-beige p-6 hover:bg-opacity-70 rounded-xl">
+                        <div className="w-12"><img alt='' src='add_member_beige.png'/></div>Invite new member</div>
                     </div>
                   }
                   {members?.length > 0 &&
@@ -661,7 +654,7 @@ const MyCompanyTab = () => {
 
           </div>
           <div className="rounded-3xl px-2 py-1 mt-4 h-fit text-[18px] bg-red-800 text-beige"
-            onClick={handleClickOpen} >delete account</div>
+            onClick={handleClickOpen} >Delete company</div>
           <Dialog
             open={openDialog}
             onClose={handleClickCancelDelete}
@@ -671,7 +664,7 @@ const MyCompanyTab = () => {
             <DialogTitle id="alert-dialog-title">{"Deleting user"}</DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
-                Do you really want to delete this user? You can`t turn his/her data back after
+                Do you really want to delete this company? You can`t turn its data back after
                 confirmation deleting.
               </DialogContentText>
             </DialogContent>
@@ -680,7 +673,7 @@ const MyCompanyTab = () => {
                 Cancel
               </Button>
               <Button onClick={handleClickDeleteUser} color="primary" autoFocus>
-                Delete user
+                Delete company
               </Button>
             </DialogActions>
           </Dialog>

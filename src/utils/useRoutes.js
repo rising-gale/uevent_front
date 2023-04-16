@@ -13,6 +13,7 @@ import { EditUserPage } from '../pages/EditUserPage';
 import CalendarPage from '../pages/CalendarPage';
 import Header from '../components/Header';
 import { VerifyCompanyEmailPage } from '../pages/VerifyCompanyEmailPage';
+import { CompanyPage } from '../pages/CompanyPage';
 
 export const useRoutes = (isAuthenticated) => {
 
@@ -29,7 +30,7 @@ export const useRoutes = (isAuthenticated) => {
                     <Route path='verify/:token' element={<VerifyEmailPage />} />
 
                     <Route path="verify_company/:token" element={<VerifyCompanyEmailPage />} />
-
+                    <Route path="/companies/:id" element={<CompanyPage/>}/>
                     <Route path='/profile' element={<Profile />} />
                     <Route path='/profile/edit' element={<EditUserPage />} />
 
