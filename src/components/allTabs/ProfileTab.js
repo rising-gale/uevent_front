@@ -583,10 +583,10 @@ const ProfileTab = () => {
                       />
                     ))
                   } */}
-                    <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-dark-blue-pastel outline-none focus:outline-none h-screen">
+                    <div className="border-0 shadow-lg relative flex flex-col w-full bg-dark-blue-pastel outline-none focus:outline-none ">
 
                       {/*body*/}
-                      <div className="relative p-5 flex flex-col overflow-y-auto scrollbar h-5/6">
+                      <div className="relative p-5 flex flex-col overflow-y-auto h-fit">
                         {userFavourites && userFavourites.map(fav_event => {
                           return (
                             <EventInFavourite key={fav_event._id} data={fav_event} userFavourites={userFavourites} />
