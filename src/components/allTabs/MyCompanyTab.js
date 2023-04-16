@@ -44,10 +44,8 @@ const MyCompanyTab = () => {
   const [state, setState] = useState({
     id: company?._id,
     company_name: company?.company_name,
-    location: company?.location,
 
-    email: company?.email,
-    members: members
+    email: company?.email
   })
 
   const arrayItemsCount = (array) => {
@@ -65,9 +63,13 @@ const MyCompanyTab = () => {
   const [emailColorBg, setEmailColorBg] = useState('gray-400')
   const [companyNameColorBg, setCompanyNameColorBg] = useState('gray-400')
 
-  const [location, setLocation] = useState(company?.location);
-
-
+  const [location, setLocation] = useState(() => {
+    if(company?.location) {
+      return (company.location)
+    } else {
+      return { lat: 50.449709821421386, lng: 30.52762771951049 }
+    }
+  });
 
 
   const submitHandler = () => {
@@ -190,10 +192,8 @@ const MyCompanyTab = () => {
     setState(({
       id: company._id,
       company_name: company.company_name,
-      location: company.location,
 
       email: company.email,
-      members: members,
       my_social_net: company.social_net
     }))
     setEditBoxOpen(false)
@@ -210,10 +210,8 @@ const MyCompanyTab = () => {
     setState(({
       id: company?._id,
       company_name: company?.company_name,
-      location: company?.location,
 
-      email: company?.email,
-      members: members
+      email: company?.email
     }))
 
     setCreateCompanyBlock(false)
@@ -260,6 +258,21 @@ const MyCompanyTab = () => {
     setOpenDialog(false);
     navigate('/profile')
   };
+
+  const isSocialLink = (link) => {
+    if (link !== '') {
+      return "_blank"
+    }
+    return '_self'
+  }
+  
+  const isLinkExist = (link) => {
+    if (link !== ''){
+      return link
+    } else {
+      return null
+    } 
+  }
 
   if (!company) {
     return <div>
@@ -462,19 +475,19 @@ const MyCompanyTab = () => {
           {/* <p className="text-xl" >{company?.location}</p> */}
 
           <div className="flex flex-row  mt-5 w-2/3 space-x-8 p-3 justify-center items-center rounded-3xl bg-plum bg-opacity-60">
-            <a target={isSocialLink(company.social_net?.instagram)} href={company.social_net?.instagram}>
+            <a target={isSocialLink(company.social_net?.instagram)} href={isLinkExist(company.social_net?.instagram)}>
               <img className='w-1/7 min-w-[30px]' alt='instagram' src='http://localhost:3000/instagram.png'></img>
             </a>
-            <a target={isSocialLink(company.social_net?.facebook)} href={company.social_net?.facebook}>
+            <a target={isSocialLink(company.social_net?.facebook)} href={isLinkExist(company.social_net?.facebook)}>
               <img className='w-1/7 min-w-[30px]' alt='facebook' src='http://localhost:3000/facebook.png'></img>
             </a>
-            <a target={isSocialLink(company.social_net?.telegram)} href={company.social_net?.telegram}>
+            <a target={isSocialLink(company.social_net?.telegram)} href={isLinkExist(company.social_net?.telegram)}>
               <img className='w-1/7 min-w-[30px]' alt='telegram' src='http://localhost:3000/telegram.png'></img>
             </a>
-            <a target={isSocialLink(company.social_net?.whatsapp)} href={company.social_net?.whatsapp}>
+            <a target={isSocialLink(company.social_net?.whatsapp)} href={isLinkExist(company.social_net?.whatsapp)}>
               <img className='w-1/7 min-w-[30px]' alt='whatsapp' src='http://localhost:3000/whatsapp.png'></img>
             </a>
-            <a target={isSocialLink(company.social_net?.viber)} href={company.social_net?.viber}>
+            <a target={isSocialLink(company.social_net?.viber)} href={isLinkExist(company.social_net?.viber)}>
               <img className='w-1/7 min-w-[30px]' alt='viber' src='http://localhost:3000/viber.png'></img>
             </a>
 

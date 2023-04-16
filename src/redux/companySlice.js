@@ -15,7 +15,7 @@ export const updateCompanyData = createAsyncThunk('company/updateCompanyData', a
         console.log(submitData)
         const { data } = await axios.patch(`http://localhost:3002/api/companies/${submitData?.id}`, {...submitData}, { withCredentials: true })
         console.log(data)
-        return { data }
+        return data
     } catch (error) {
         console.log(error)
     }
@@ -103,9 +103,9 @@ export const companySlice = createSlice({
         },
         [updateCompanyData.fulfilled]: (state, action) => {
             state.loading = false
-            state.company = action.payload.company
+            state.company = action.payload?.company
             state.status = action.payload?.message
-            console.log(state.company)
+            console.log(action.payload)
         },
         [updateCompanyData.rejected]: (state, action) => {
             state.loading = false
