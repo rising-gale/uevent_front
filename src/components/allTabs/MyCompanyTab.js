@@ -6,7 +6,7 @@ import TabNavItem from "../TabNavItem"
 import TabContent from "../TabContent";
 import '../../styles/TabsStyles.css'
 import '../../styles/ScrollbarStyles.css'
-import { createCompany, getMyCompany, updateCompanyData, uploadCompanyAvatar } from "../../redux/companySlice";
+import { createCompany, deleteCompany, getMyCompany, updateCompanyData, uploadCompanyAvatar } from "../../redux/companySlice";
 
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -67,7 +67,6 @@ const MyCompanyTab = () => {
 
   const [location, setLocation] = useState({ lat: 50.449709821421386, lng: 30.52762771951049 });
 
-  
 
 
   const submitHandler = () => {
@@ -244,8 +243,23 @@ const MyCompanyTab = () => {
     }
   }
 
+  const [openDialog, setOpenDialog] = useState(false)
+  const navigate = useNavigate()
 
-  
+  const handleClickOpen = () => {
+    setOpenDialog(true);
+  };
+
+  const handleClickCancelDelete = () => {
+    setOpenDialog(false);
+  };
+
+  const handleClickDeleteUser = () => {
+    dispatch(deleteCompany(company._id))
+    setOpenDialog(false);
+    navigate('/profile')
+  };
+
 
   if (!company) {
     return <div>
@@ -488,44 +502,44 @@ const MyCompanyTab = () => {
         </div>
 
 
+        <div className="w-1/2">
+          <div className=" min-h-[519px] bg-dark-purple bg-opacity-80 p-[1rem] text-sm text-beige border-[2px] border-beige rounded-2xl">
+            {
+              editBoxOpen &&
+              <>
+                <div className="w-full rounded-3xl">
+                  <img
+                    src='http://localhost:3000/back_icon_beige.png'
+                    onClick={cancelHandler}
+                    className="justify-center absolute items-center w-24 rounded-sm py-2 px-4">
+                  </img>
+                  <form
+                    className="w-1/2 mx-auto pb-3"
+                    onSubmit={(e) => e.preventDefault()}
+                  >
+                    <label className="text-sm text-beige">
+                      Company name<span className="text-2xl text-red-500"> *</span>
+                      <input type="text"
+                        placeholder="Company name"
+                        value={state.company_name}
+                        name='company_name'
+                        onChange={changeHandler}
 
-        <div className="w-1/2 min-h-[519px] bg-dark-purple bg-opacity-80 p-[1rem] text-sm text-beige border-[2px] border-beige rounded-2xl">
-          {
-            editBoxOpen &&
-            <>
-              <div className="w-full rounded-3xl">
-                <img
-                  src='http://localhost:3000/back_icon_beige.png'
-                  onClick={cancelHandler}
-                  className="justify-center absolute items-center w-24 rounded-sm py-2 px-4">
-                </img>
-                <form
-                  className="w-1/2 mx-auto pb-3"
-                  onSubmit={(e) => e.preventDefault()}
-                >
-                  <label className="text-sm text-beige">
-                    Company name<span className="text-2xl text-red-500"> *</span>
-                    <input type="text"
-                      placeholder="Company name"
-                      value={state.company_name}
-                      name='company_name'
-                      onChange={changeHandler}
+                        className={`text-black w-full rounded-lg bg-${companyNameColorBg} border py-1 px-2 text-xs outline-none placeholder:text-gray-700`} />
+                    </label>
 
-                      className={`text-black w-full rounded-lg bg-${companyNameColorBg} border py-1 px-2 text-xs outline-none placeholder:text-gray-700`} />
-                  </label>
+                    <label className="mb-0 text-sm text-beige">
+                      Email <span className="text-red-500 text-2xl"> *</span>
+                      <input type="email"
+                        placeholder="email"
+                        name='email'
+                        value={state.email}
 
-                  <label className="mb-0 text-sm text-beige">
-                    Email <span className="text-red-500 text-2xl"> *</span>
-                    <input type="email"
-                      placeholder="email"
-                      name='email'
-                      value={state.email}
+                        onChange={changeHandler}
+                        className={`text-black w-full rounded-lg bg-${emailColorBg} border py-1 px-2 text-xs outline-none placeholder:text-gray-700`} />
+                    </label>
 
-                      onChange={changeHandler}
-                      className={`text-black w-full rounded-lg bg-${emailColorBg} border py-1 px-2 text-xs outline-none placeholder:text-gray-700`} />
-                  </label>
-
-                  {/* <label className="text-sm text-beige">
+                    {/* <label className="text-sm text-beige">
                   Location
                   <input type="text"
                     placeholder="Fullname"
@@ -535,79 +549,81 @@ const MyCompanyTab = () => {
                     className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
                 </label> */}
 
-                  {/* Adding social nets */}
-                  <div className="rounded-2xl border-[2px] border-beige bg-lilovii bg-opacity-50 mt-8 p-4">
-                    <div className="text-[18px] uppercase">social nets</div>
+                    {/* Adding social nets */}
+                    <div className="rounded-2xl border-[2px] border-beige bg-lilovii bg-opacity-50 mt-8 p-4">
+                      <div className="text-[18px] uppercase">social nets</div>
 
-                    <label className="text-sm text-beige">
-                      facebook
-                      <input type="text"
-                        placeholder="link to your facebook"
-                        name='facebook'
-                        value={socialNet?.facebook}
-                        onChange={changeHandler}
-                        className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
-                    </label>
-                    <label className="text-sm text-beige">
-                      instagram
-                      <input type="text"
-                        placeholder="link to your instagram"
-                        name='instagram'
-                        value={socialNet?.instagram}
-                        onChange={changeHandler}
-                        className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
-                    </label>
-                    <label className="text-sm text-beige">
-                      whatsapp
-                      <input type="text"
-                        placeholder="link to your whatsapp"
-                        name='whatsapp'
-                        value={socialNet?.whatsapp}
-                        onChange={changeHandler}
-                        className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
-                    </label>
-                    <label className="text-sm text-beige">
-                      telegram
-                      <input type="text"
-                        placeholder="link to your telegram"
-                        name='telegram'
-                        value={socialNet?.telegram}
-                        onChange={changeHandler}
-                        className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
-                    </label>
-                    <label className="text-sm text-beige">
-                      viber
-                      <input type="text"
-                        placeholder="link to your viber"
-                        name='viber'
-                        value={socialNet?.viber}
-                        onChange={changeHandler}
-                        className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
-                    </label>
-                  </div>
+                      <label className="text-sm text-beige">
+                        facebook
+                        <input type="text"
+                          placeholder="link to your facebook"
+                          name='facebook'
+                          value={socialNet?.facebook}
+                          onChange={changeHandler}
+                          className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
+                      </label>
+                      <label className="text-sm text-beige">
+                        instagram
+                        <input type="text"
+                          placeholder="link to your instagram"
+                          name='instagram'
+                          value={socialNet?.instagram}
+                          onChange={changeHandler}
+                          className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
+                      </label>
+                      <label className="text-sm text-beige">
+                        whatsapp
+                        <input type="text"
+                          placeholder="link to your whatsapp"
+                          name='whatsapp'
+                          value={socialNet?.whatsapp}
+                          onChange={changeHandler}
+                          className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
+                      </label>
+                      <label className="text-sm text-beige">
+                        telegram
+                        <input type="text"
+                          placeholder="link to your telegram"
+                          name='telegram'
+                          value={socialNet?.telegram}
+                          onChange={changeHandler}
+                          className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
+                      </label>
+                      <label className="text-sm text-beige">
+                        viber
+                        <input type="text"
+                          placeholder="link to your viber"
+                          name='viber'
+                          value={socialNet?.viber}
+                          onChange={changeHandler}
+                          className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
+                      </label>
+                    </div>
 
-                </form>
-              </div>
-              {/* MAP */}
-              <div className='py-1 my-2 flex flex-col w-full items-center'>
-                <label className='pb-2 text-beige text-xl'>Choose a location of your company:</label>
-                <MapContainer center={location} creationMode={false} searchBar={true} setLocation={setLocation} />
-                {location.lat == defaultLocation.lat && <div className='text-red-600 text-sm pt-1 w-full text-center px-3'>Choose location with search bar.</div>}
-              </div>
-              {/*BUTTONS*/}
-              <div className="flex gap-8 items-center justify-center mt-4">
-                <button
-                  onClick={submitHandler}
-                  className="flex justify-center items-center bg-gray-600 text-xs text-white rounded-sm py-2 px-4">
-                  Save changes
-                </button>
-                <button
-                  onClick={cancelHandler}
-                  className="flex justify-center items-center bg-red-500 text-xs text-white rounded-sm py-2 px-4">
-                  Cancel
-                </button>
-              </div>
-            </>
+                  </form>
+                </div>
+                {/* MAP */}
+                <div className='py-1 my-2 flex flex-col w-full items-center'>
+                  <label className='pb-2 text-beige text-xl'>Choose a location of your company:</label>
+                  <MapContainer center={location} creationMode={false} searchBar={true} setLocation={setLocation} />
+                  {location.lat == defaultLocation.lat && <div className='text-red-600 text-sm pt-1 w-full text-center px-3'>Choose location with search bar.</div>}
+                </div>
+                {/*BUTTONS*/}
+                <div className="flex gap-8 items-center justify-center mt-4">
+                  <button
+                    onClick={submitHandler}
+                    className="flex justify-center items-center bg-gray-600 text-xs text-white rounded-sm py-2 px-4">
+                    Save changes
+                  </button>
+                  <button
+                    onClick={cancelHandler}
+                    className="flex justify-center items-center bg-red-500 text-xs text-white rounded-sm py-2 px-4">
+                    Cancel
+                  </button>
+                </div>
+              </>
+
+            }
 
           }
 
@@ -620,43 +636,42 @@ const MyCompanyTab = () => {
             <div>
               <TabContent id="members" activeTab={activeTabMembers}>
 
-                {
-                  members?.length < 1 &&
-                  <div className="text-beige m-auto text-md h-full w-full">
-                    No members in this company yet...
-                  </div>
-                }
-                {members?.length > 0 &&
-                  <ul className="w-full pr-5 space-y-3 first-letter overflow-y-scroll scrollbar h-[400px]">
-                    {
-                      members?.map((member, index) => (
-                        <MemberListItem
-                          key={index}
-                          member={member} />
-                      ))}
-                  </ul>
-                }
+                </TabContent>
 
-              </TabContent>
-              {/* <TabContent id="followed_events" activeTab={activeTabCompanies}>
-                <ul className="w-full pr-5 space-y-3 first-letter overflow-y-scroll scrollbar h-[400px]">
-                  <div className="text-sm w-full border-[2px] mb-12 py-5 bg-dark-blue-pastel border-purple-900 text-black rounded-md">
-                    CREATE A NEW COMPANY
-                  </div>
-                  {
-                    user?.subscriptions_events.map((event, index) => (
-                      <CompanyListItem
-                        key={index}
-                        company={event}
-                      />
-                    ))
-                  }
-                </ul>
-              </TabContent> */}
 
-            </div>
-          </>}
+              </div>
+
+
+            </>}
+
+          </div>
+          <div className="rounded-3xl px-2 py-1 mt-4 h-fit text-[18px] bg-red-800 text-beige"
+            onClick={handleClickOpen} >delete account</div>
+          <Dialog
+            open={openDialog}
+            onClose={handleClickCancelDelete}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">{"Deleting user"}</DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                Do you really want to delete this user? You can`t turn his/her data back after
+                confirmation deleting.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClickCancelDelete} color="primary">
+                Cancel
+              </Button>
+              <Button onClick={handleClickDeleteUser} color="primary" autoFocus>
+                Delete user
+              </Button>
+            </DialogActions>
+          </Dialog>
         </div>
+
+
 
 
 
