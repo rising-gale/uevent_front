@@ -140,7 +140,7 @@ const EventCreationForm = ({ closeForm }) => {
     const handleSubmit = () => {
         // console.log(state);
         // console.log(location);
-        if (state.title && state.tickets >= 1 && state.price >= 0 && state.date_event && state.time_start
+        if (state.title.length > 0 && state.title.length < 25  && state.tickets >= 1 && state.price >= 0 && state.date_event && state.time_start
             && state.formats.length > 0 && state.themes.length >= 0 && state.date_end && state.time_end && location) {
             // console.log("OK");
             dispatch(createEvent({ ...state, location, company_id: user.companies[0]._id }));

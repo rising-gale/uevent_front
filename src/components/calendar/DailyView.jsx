@@ -70,7 +70,7 @@ export default function DailyView(props) {
                                             height = 'h-[740%]'
                                             break;
                                         case 7:
-                                            height = 'h-[870%]'
+                                            height = 'h-[920%]'
                                             break;
                                         default:
                                             break;
@@ -82,19 +82,22 @@ export default function DailyView(props) {
                                 let idx = calendars.findIndex(calendar => calendar._id === res.event.calendar);
                                 let color = calendars[idx]?.color;
 
-                                if (res.event.type === 'event') {
-                                    return (
-                                        <Event color={color} repeat={res.event.repeat} width={width} height={height} id={res.event.id} name={res.event.title} type={res.event.type} description={res.event.description} date_start={res.event.date_event} date_end={res.event.date_end}/>
-                                    )
-                                } else if (res.event.type === 'task') {
-                                    return (
-                                        <Event color={color} repeat={res.event.repeat} width={width} height={'h-1/2'} id={res.event.id} name={res.event.title} type={res.event.type} description={res.event.description} date_start={res.event.date_event} date_end={res.event.date_end}/>
-                                    )
-                                } else {
-                                    return (
-                                        <Event color={color} repeat={res.event.repeat} width={width} height={'h-1/2'} id={res.event.id} name={res.event.title} type={res.event.type} description={res.event.description} date_start={res.event.date_event} date_end={res.event.date_end}/>
-                                    )
-                                }
+                                return(
+                                    <Event color={color} repeat={res.event.repeat} width={width} height={height} id={res.event.id} name={res.event.title} type={res.event.type} description={res.event.description} date_start={res.event.date_event} date_end={res.event.date_end}/>
+                                )
+                                // if (res.event.type === 'event') {
+                                //     return (
+                                //         <Event color={color} repeat={res.event.repeat} width={width} height={height} id={res.event.id} name={res.event.title} type={res.event.type} description={res.event.description} date_start={res.event.date_event} date_end={res.event.date_end}/>
+                                //     )
+                                // } else if (res.event.type === 'task') {
+                                //     return (
+                                //         <Event color={color} repeat={res.event.repeat} width={width} height={'h-1/2'} id={res.event.id} name={res.event.title} type={res.event.type} description={res.event.description} date_start={res.event.date_event} date_end={res.event.date_end}/>
+                                //     )
+                                // } else {
+                                //     return (
+                                //         <Event color={color} repeat={res.event.repeat} width={width} height={'h-1/2'} id={res.event.id} name={res.event.title} type={res.event.type} description={res.event.description} date_start={res.event.date_event} date_end={res.event.date_end}/>
+                                //     )
+                                // }
 
                             })
                         }
