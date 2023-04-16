@@ -43,8 +43,7 @@ const MyCompanyTab = () => {
     location: company?.location,
 
     email: company?.email,
-    members: members,
-    my_social_net: socialNet
+    members: members
   })
 
   const arrayItemsCount = (array) => {
@@ -78,14 +77,9 @@ const MyCompanyTab = () => {
         return
       }
       
-      setState(prevState => ({
-        ...prevState,
-        my_social_net: socialNet,
-        errMessage: ''
-      }))
-
+      
       console.log(state)
-      dispatch(updateCompanyData(state))
+      dispatch(updateCompanyData({...state, my_social_net: socialNet}))
 
       if (status && !company) {
         console.log(status)
@@ -212,8 +206,7 @@ const MyCompanyTab = () => {
       location: company?.location,
 
       email: company?.email,
-      members: members,
-      my_social_net: socialNet
+      members: members
     }))
     
     setCreateCompanyBlock(false)
@@ -232,13 +225,7 @@ const MyCompanyTab = () => {
         return
       }
 
-      setState(prevState => ({
-        ...prevState,
-        my_social_net: socialNet,
-        errMessage: ''
-      }))
-
-      dispatch(createCompany(state))
+      dispatch(createCompany({...state, my_social_net: socialNet}))
 
       if (status && !company) {
         console.log(status)

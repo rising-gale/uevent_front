@@ -85,8 +85,7 @@ const ProfileTab = () => {
     oldPassword: '',
 
     email: user.email,
-    companies: user.companies,
-    my_social_net: socialNet,
+    companies: user.companies
   })
 
   //Part for EditBlock
@@ -129,15 +128,11 @@ const ProfileTab = () => {
         }
       }
 
-      setState(prevState => ({
-        ...prevState,
-        my_social_net: socialNet,
-        errMessage: ''
-      }))
-
       console.log(socialNet)
+      console.log(state)
 
-      dispatch(updateUserData(state))
+
+      dispatch(updateUserData({...state, my_social_net: socialNet }))
 
       if (status && !user) {
         console.log(status)
@@ -208,43 +203,36 @@ const ProfileTab = () => {
       case 'instagram': {
         setSocialNet(prevState => ({
           ...prevState,
-          [name]: value,
-          errMessage: ''
+          [name]: value
         }))
         break;
       }
       case 'facebook': {
         setSocialNet(prevState => ({
           ...prevState,
-          [name]: value,
-          errMessage: ''
+          [name]: value
         }))
         break;
       }
       case 'viber': {
         setSocialNet(prevState => ({
           ...prevState,
-          [name]: value,
-          errMessage: ''
+          [name]: value
         }))
         break;
       }
       case 'telegram': {
         setSocialNet(prevState => ({
           ...prevState,
-          [name]: value,
-          errMessage: ''
+          [name]: value
         }))
         break;
       }
       case 'whatsapp': {
-
         setSocialNet(prevState => ({
           ...prevState,
-          [name]: value,
-          errMessage: ''
+          [name]: value
         }))
-        console.log(socialNet)
         break;
       }
       default: {
@@ -266,8 +254,7 @@ const ProfileTab = () => {
       oldPassword: '',
 
       email: user.email,
-      companies: user.companies,
-      my_social_net: user.social_net
+      companies: user.companies
     }))
     setSocialNet(({
       instagram: user.social_net.instagram,
