@@ -21,7 +21,7 @@ const EventsContainer = ({events, formats, themes, handleChange}) => {
     return (
         <div className='p-1 flex flex-col bg-dark-purple text-light-beige '>
             {isFormOpen === 'eventCreate' && <EventCreationForm closeForm={formClose}/>}
-            {isFormOpen === 'favouritesForm' && <FavouritesEvents closeForm={formClose}/>}
+            {/* {isFormOpen === 'favouritesForm' && <FavouritesEvents closeForm={formClose}/>} */}
             {/*Search and filtration bar */}
             <div className='flex w-full h-12 justify-around mt-3'>
                 <div className='p-1 w-2/5 h-full flex items-center'>
@@ -39,13 +39,13 @@ const EventsContainer = ({events, formats, themes, handleChange}) => {
                         <option value="format">Formats</option>
                     </select>
                 </div>
-                <button 
+                {/* <button 
                     className="flex items-center justify-around border border-purple-900 rounded-full w-1/12 p-3 bg-violet-700 hover:bg-violet-500 hover:border-purple-600 transition duration-500 hover:ease-in font-semibold text-lg "
                     onClick={formOpen}
                     name='favouritesForm'
                 >
                 Favourites
-                </button>
+                </button> */}
                 <button 
                     className="flex items-center justify-around border border-purple-900 rounded-full w-1/12 p-3 bg-violet-700 hover:bg-violet-500 hover:border-purple-600 transition duration-500 hover:ease-in font-semibold text-lg "
                     onClick={formOpen}
