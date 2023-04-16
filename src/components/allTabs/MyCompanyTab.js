@@ -6,7 +6,7 @@ import TabNavItem from "../TabNavItem"
 import TabContent from "../TabContent";
 import '../../styles/TabsStyles.css'
 import '../../styles/ScrollbarStyles.css'
-import { createCompany, getMyCompany, updateCompanyData, uploadCompanyAvatar, deleteCompany } from "../../redux/companySlice";
+import { createCompany, deleteCompany, getMyCompany, updateCompanyData, uploadCompanyAvatar } from "../../redux/companySlice";
 
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -15,20 +15,21 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import MemberListItem from "../MemberListItem";
+import MapContainer from "../MapContainer";
+
+const defaultLocation = { lat: 50.449709821421386, lng: 30.52762771951049 };
 
 const MyCompanyTab = () => {
+
   const [activeTabMembers, setActiveTabMembers] = useState("members")
   const [editBoxOpen, setEditBoxOpen] = useState(false)
   const [updateImage, setUpdateImage] = useState(false)
   const [createCompanyBlock, setCreateCompanyBlock] = useState(false)
-  
-  const [openDialog, setOpenDialog] = useState(false)
 
   const dispatch = useDispatch()
-  const navigate = useNavigate()
-  useEffect(() => {
-    dispatch(getMyCompany())
-  }, [dispatch])
+
+
+
   const { company } = useSelector((state) => state.company)
   const { members } = useSelector((state) => state.company)
 
@@ -64,6 +65,9 @@ const MyCompanyTab = () => {
   const [emailColorBg, setEmailColorBg] = useState('gray-400')
   const [companyNameColorBg, setCompanyNameColorBg] = useState('gray-400')
 
+  const [location, setLocation] = useState({ lat: 50.449709821421386, lng: 30.52762771951049 });
+
+
 
 
   const submitHandler = () => {
@@ -82,7 +86,7 @@ const MyCompanyTab = () => {
 
 
       console.log(state)
-      dispatch(updateCompanyData({ ...state, my_social_net: socialNet }))
+      dispatch(updateCompanyData({ ...state, location, my_social_net: socialNet }))
 
       if (status && !company) {
         console.log(status)
@@ -240,6 +244,9 @@ const MyCompanyTab = () => {
     }
   }
 
+  const [openDialog, setOpenDialog] = useState(false)
+  const navigate = useNavigate()
+
   const handleClickOpen = () => {
     setOpenDialog(true);
   };
@@ -253,7 +260,7 @@ const MyCompanyTab = () => {
     setOpenDialog(false);
     navigate('/profile')
   };
-  
+
 
 
   if (!company) {
@@ -304,15 +311,15 @@ const MyCompanyTab = () => {
                   className={`text-black w-full rounded-lg bg-${emailColorBg} border py-1 px-2 text-xs outline-none placeholder:text-gray-700`} />
               </label>
 
-              <label className="text-sm text-beige">
+              {/* <label className="text-sm text-beige">
                 Location
                 <input type="text"
-                  placeholder="Location"
+                  placeholder="Fullname"
                   name='location'
                   value={state.location}
                   onChange={changeHandler}
                   className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
-              </label>
+              </label> */}
 
               {/* Adding social nets */}
               <div className="rounded-2xl border-[2px] border-beige bg-lilovii bg-opacity-50 mt-8 mb-6 p-4">
@@ -447,7 +454,7 @@ const MyCompanyTab = () => {
           <div className="text-[25px]">{company?.company_name}</div>
 
           {/* Nickname */}
-          <p className="text-xl" >{company?.location}</p>
+          {/* <p className="text-xl" >{company?.location}</p> */}
 
           <div className="flex flex-row  mt-5 w-2/3 space-x-8 p-3 justify-center items-center rounded-3xl bg-plum bg-opacity-60">
             <a
@@ -498,116 +505,126 @@ const MyCompanyTab = () => {
 
 
         <div className="w-1/2">
-          <div className="min-h-[519px] bg-dark-purple bg-opacity-80 p-[1rem] text-sm text-beige border-[2px] border-beige rounded-2xl">
+          <div className=" min-h-[519px] bg-dark-purple bg-opacity-80 p-[1rem] text-sm text-beige border-[2px] border-beige rounded-2xl">
             {
               editBoxOpen &&
-              <div className="bg-dark-purple w-full rounded-3xl">
-                <img
-                  src='http://localhost:3000/back_icon_beige.png'
-                  onClick={cancelHandler}
-                  className="justify-center absolute items-center w-24 rounded-sm py-2 px-4">
-                </img>
-                <form
-                  className="w-1/2 mx-auto pb-6"
-                  onSubmit={(e) => e.preventDefault()}
-                >
-                  <label className="text-sm text-beige">
-                    Company name<span className="text-2xl text-red-500"> *</span>
-                    <input type="text"
-                      placeholder="Company name"
-                      value={state.company_name}
-                      name='company_name'
-                      onChange={changeHandler}
-
-                      className={`text-black w-full rounded-lg bg-${companyNameColorBg} border py-1 px-2 text-xs outline-none placeholder:text-gray-700`} />
-                  </label>
-
-                  <label className="mb-0 text-sm text-beige">
-                    Email <span className="text-red-500 text-2xl"> *</span>
-                    <input type="email"
-                      placeholder="email"
-                      name='email'
-                      value={state.email}
-
-                      onChange={changeHandler}
-                      className={`text-black w-full rounded-lg bg-${emailColorBg} border py-1 px-2 text-xs outline-none placeholder:text-gray-700`} />
-                  </label>
-
-                  <label className="text-sm text-beige">
-                    Location
-                    <input type="text"
-                      placeholder="Fullname"
-                      name='location'
-                      value={state.location}
-                      onChange={changeHandler}
-                      className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
-                  </label>
-
-                  {/* Adding social nets */}
-                  <div className="rounded-2xl border-[2px] border-beige bg-lilovii bg-opacity-50 mt-8 mb-6 p-4">
-                    <div className="text-[18px] uppercase">social nets</div>
-
+              <>
+                <div className="w-full rounded-3xl">
+                  <img
+                    src='http://localhost:3000/back_icon_beige.png'
+                    onClick={cancelHandler}
+                    className="justify-center absolute items-center w-24 rounded-sm py-2 px-4">
+                  </img>
+                  <form
+                    className="w-1/2 mx-auto pb-3"
+                    onSubmit={(e) => e.preventDefault()}
+                  >
                     <label className="text-sm text-beige">
-                      facebook
+                      Company name<span className="text-2xl text-red-500"> *</span>
                       <input type="text"
-                        placeholder="link to your facebook"
-                        name='facebook'
-                        value={socialNet?.facebook}
+                        placeholder="Company name"
+                        value={state.company_name}
+                        name='company_name'
                         onChange={changeHandler}
-                        className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
-                    </label>
-                    <label className="text-sm text-beige">
-                      instagram
-                      <input type="text"
-                        placeholder="link to your instagram"
-                        name='instagram'
-                        value={socialNet?.instagram}
-                        onChange={changeHandler}
-                        className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
-                    </label>
-                    <label className="text-sm text-beige">
-                      whatsapp
-                      <input type="text"
-                        placeholder="link to your whatsapp"
-                        name='whatsapp'
-                        value={socialNet?.whatsapp}
-                        onChange={changeHandler}
-                        className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
-                    </label>
-                    <label className="text-sm text-beige">
-                      telegram
-                      <input type="text"
-                        placeholder="link to your telegram"
-                        name='telegram'
-                        value={socialNet?.telegram}
-                        onChange={changeHandler}
-                        className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
-                    </label>
-                    <label className="text-sm text-beige">
-                      viber
-                      <input type="text"
-                        placeholder="link to your viber"
-                        name='viber'
-                        value={socialNet?.viber}
-                        onChange={changeHandler}
-                        className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
-                    </label>
-                  </div>
 
-                  <div className="flex gap-8 items-center justify-center mt-4">
-                    <button
-                      onClick={submitHandler}
-                      className="flex justify-center items-center bg-gray-600 text-xs text-white rounded-sm py-2 px-4">
-                      Save changes
-                    </button>
-                    <button
-                      onClick={cancelHandler}
-                      className="flex justify-center items-center bg-red-500 text-xs text-white rounded-sm py-2 px-4">
-                      Cancel
-                    </button>
-                  </div>
-                </form>
-              </div>
+                        className={`text-black w-full rounded-lg bg-${companyNameColorBg} border py-1 px-2 text-xs outline-none placeholder:text-gray-700`} />
+                    </label>
+
+                    <label className="mb-0 text-sm text-beige">
+                      Email <span className="text-red-500 text-2xl"> *</span>
+                      <input type="email"
+                        placeholder="email"
+                        name='email'
+                        value={state.email}
+
+                        onChange={changeHandler}
+                        className={`text-black w-full rounded-lg bg-${emailColorBg} border py-1 px-2 text-xs outline-none placeholder:text-gray-700`} />
+                    </label>
+
+                    {/* <label className="text-sm text-beige">
+                  Location
+                  <input type="text"
+                    placeholder="Fullname"
+                    name='location'
+                    value={state.location}
+                    onChange={changeHandler}
+                    className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
+                </label> */}
+
+                    {/* Adding social nets */}
+                    <div className="rounded-2xl border-[2px] border-beige bg-lilovii bg-opacity-50 mt-8 p-4">
+                      <div className="text-[18px] uppercase">social nets</div>
+
+                      <label className="text-sm text-beige">
+                        facebook
+                        <input type="text"
+                          placeholder="link to your facebook"
+                          name='facebook'
+                          value={socialNet?.facebook}
+                          onChange={changeHandler}
+                          className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
+                      </label>
+                      <label className="text-sm text-beige">
+                        instagram
+                        <input type="text"
+                          placeholder="link to your instagram"
+                          name='instagram'
+                          value={socialNet?.instagram}
+                          onChange={changeHandler}
+                          className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
+                      </label>
+                      <label className="text-sm text-beige">
+                        whatsapp
+                        <input type="text"
+                          placeholder="link to your whatsapp"
+                          name='whatsapp'
+                          value={socialNet?.whatsapp}
+                          onChange={changeHandler}
+                          className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
+                      </label>
+                      <label className="text-sm text-beige">
+                        telegram
+                        <input type="text"
+                          placeholder="link to your telegram"
+                          name='telegram'
+                          value={socialNet?.telegram}
+                          onChange={changeHandler}
+                          className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
+                      </label>
+                      <label className="text-sm text-beige">
+                        viber
+                        <input type="text"
+                          placeholder="link to your viber"
+                          name='viber'
+                          value={socialNet?.viber}
+                          onChange={changeHandler}
+                          className="text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none placeholder:text-gray-700" />
+                      </label>
+                    </div>
+
+                  </form>
+                </div>
+                {/* MAP */}
+                <div className='py-1 my-2 flex flex-col w-full items-center'>
+                  <label className='pb-2 text-beige text-xl'>Choose a location of your company:</label>
+                  <MapContainer center={location} creationMode={false} searchBar={true} setLocation={setLocation} />
+                  {location.lat == defaultLocation.lat && <div className='text-red-600 text-sm pt-1 w-full text-center px-3'>Choose location with search bar.</div>}
+                </div>
+                {/*BUTTONS*/}
+                <div className="flex gap-8 items-center justify-center mt-4">
+                  <button
+                    onClick={submitHandler}
+                    className="flex justify-center items-center bg-gray-600 text-xs text-white rounded-sm py-2 px-4">
+                    Save changes
+                  </button>
+                  <button
+                    onClick={cancelHandler}
+                    className="flex justify-center items-center bg-red-500 text-xs text-white rounded-sm py-2 px-4">
+                    Cancel
+                  </button>
+                </div>
+              </>
+
             }
 
             {!editBoxOpen && <>
@@ -637,24 +654,13 @@ const MyCompanyTab = () => {
                   }
 
                 </TabContent>
-                {/* <TabContent id="followed_events" activeTab={activeTabCompanies}>
-                <ul className="w-full pr-5 space-y-3 first-letter overflow-y-scroll scrollbar h-[400px]">
-                  <div className="text-sm w-full border-[2px] mb-12 py-5 bg-dark-blue-pastel border-purple-900 text-black rounded-md">
-                    CREATE A NEW COMPANY
-                  </div>
-                  {
-                    user?.subscriptions_events.map((event, index) => (
-                      <CompanyListItem
-                        key={index}
-                        company={event}
-                      />
-                    ))
-                  }
-                </ul>
-              </TabContent> */}
+
 
               </div>
+
+
             </>}
+
           </div>
           <div className="rounded-3xl px-2 py-1 mt-4 h-fit text-[18px] bg-red-800 text-beige"
             onClick={handleClickOpen} >delete account</div>
@@ -681,6 +687,8 @@ const MyCompanyTab = () => {
             </DialogActions>
           </Dialog>
         </div>
+
+
 
 
 
