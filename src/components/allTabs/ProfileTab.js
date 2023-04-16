@@ -283,6 +283,20 @@ const ProfileTab = () => {
     navigate('/')
   };
 
+  const isSocialLink = (link) => {
+    if(link !== ''){
+      return "_blank"
+    } 
+    return '_self'
+  }
+
+  const isLinkExist = (link) => {
+    if (link !== ''){
+      return link
+    } else {
+      return null
+    } 
+  }
 
   return (
     <div className="flex flex-col bg-opacity-30 bg-pomp-and-power border-opacity-30 text-[2rem] items-center text-center border-[1px] border-beige rounded-[2rem] min-h-[400px] space-y-4 p-6">
@@ -351,42 +365,21 @@ const ProfileTab = () => {
           <p className="text-xl" >{user.username}</p>
 
           <div className="flex flex-row  mt-5 w-2/3 space-x-8 p-3 justify-center items-center rounded-3xl bg-plum bg-opacity-60">
-            <a
-              // href='https://www.instagram.com/?hl=ru' 
-              target="_blank"
-              href={user.social_net?.instagram}
-            >
+          <a target={isSocialLink(user.social_net?.instagram)} href={isLinkExist(user.social_net?.instagram)}>
               <img className='w-1/7 min-w-[30px]' alt='instagram' src='http://localhost:3000/instagram.png'></img>
             </a>
-            <a
-              // href='https://www.facebook.com/' 
-              target="_blank"
-              href={user.social_net?.facebook}
-            >
+            <a target={isSocialLink(user.social_net?.facebook)} href={isLinkExist(user.social_net?.facebook)}>
               <img className='w-1/7 min-w-[30px]' alt='facebook' src='http://localhost:3000/facebook.png'></img>
             </a>
-            <a
-              // href='https://web.telegram.org/z/' 
-              target="_blank"
-              href={user.social_net?.telegram}
-            >
+            <a target={isSocialLink(user.social_net?.telegram)} href={isLinkExist(user.social_net?.telegram)}>
               <img className='w-1/7 min-w-[30px]' alt='telegram' src='http://localhost:3000/telegram.png'></img>
             </a>
-            <a
-              // href='https://www.whatsapp.com/' 
-              target="_blank"
-              href={user.social_net?.whatsapp}
-            >
+            <a target={isSocialLink(user.social_net?.whatsapp)} href={isLinkExist(user.social_net?.whatsapp)}>
               <img className='w-1/7 min-w-[30px]' alt='whatsapp' src='http://localhost:3000/whatsapp.png'></img>
             </a>
-            <a
-              // href='https://www.viber.com/ua/' 
-              target="_blank"
-              href={user.social_net?.viber}
-            >
+            <a target={isSocialLink(user.social_net?.viber)} href={isLinkExist(user.social_net?.viber)}>
               <img className='w-1/7 min-w-[30px]' alt='viber' src='http://localhost:3000/viber.png'></img>
             </a>
-
           </div>
 
           <div

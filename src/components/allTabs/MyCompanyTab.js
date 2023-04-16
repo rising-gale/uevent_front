@@ -253,6 +253,13 @@ const MyCompanyTab = () => {
     setOpenDialog(false);
     navigate('/profile')
   };
+
+  const isSocialLink = (link) => {
+    if(link !== ''){
+      return "_blank"
+    } 
+    return '_self'
+  }
   
 
 
@@ -450,39 +457,19 @@ const MyCompanyTab = () => {
           <p className="text-xl" >{company?.location}</p>
 
           <div className="flex flex-row  mt-5 w-2/3 space-x-8 p-3 justify-center items-center rounded-3xl bg-plum bg-opacity-60">
-            <a
-              // href='https://www.instagram.com/?hl=ru'
-              target="_blank"
-              href={company.social_net?.instagram}
-            >
+            <a target={isSocialLink(company.social_net?.instagram)} href={company.social_net?.instagram}>
               <img className='w-1/7 min-w-[30px]' alt='instagram' src='http://localhost:3000/instagram.png'></img>
             </a>
-            <a
-              // href='https://www.facebook.com/'
-              target="_blank"
-              href={company.social_net?.facebook}
-            >
+            <a target={isSocialLink(company.social_net?.facebook)} href={company.social_net?.facebook}>
               <img className='w-1/7 min-w-[30px]' alt='facebook' src='http://localhost:3000/facebook.png'></img>
             </a>
-            <a
-              // href='https://web.telegram.org/z/'
-              target="_blank"
-              href={company.social_net?.telegram}
-            >
+            <a target={isSocialLink(company.social_net?.telegram)} href={company.social_net?.telegram}>
               <img className='w-1/7 min-w-[30px]' alt='telegram' src='http://localhost:3000/telegram.png'></img>
             </a>
-            <a
-              // href='https://www.whatsapp.com/'
-              target="_blank"
-              href={company.social_net?.whatsapp}
-            >
+            <a target={isSocialLink(company.social_net?.whatsapp)} href={company.social_net?.whatsapp}>
               <img className='w-1/7 min-w-[30px]' alt='whatsapp' src='http://localhost:3000/whatsapp.png'></img>
             </a>
-            <a
-              // href='https://www.viber.com/ua/'
-              target="_blank"
-              href={company.social_net?.viber}
-            >
+            <a target={isSocialLink(company.social_net?.viber)} href={company.social_net?.viber}>
               <img className='w-1/7 min-w-[30px]' alt='viber' src='http://localhost:3000/viber.png'></img>
             </a>
 
@@ -681,9 +668,6 @@ const MyCompanyTab = () => {
             </DialogActions>
           </Dialog>
         </div>
-
-
-
       </div>
 
       <div className="min-h-[100px] rounded-[1rem] text-xs border-beige border-[1px]">
