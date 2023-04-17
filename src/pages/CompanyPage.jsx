@@ -112,7 +112,7 @@ export const CompanyPage = () => {
     }
 
     return (
-        <div className='flex flex-col w-full h-full bg-dark-purple'>
+        <div className='flex flex-col w-full h-full min-h-screen bg-dark-purple'>
             {isFormOpen && <EventCreationForm closeForm={formClose} />}
             <div className=" h-full w-full flex flex-col bg-opacity-30 bg-pomp-and-power border-opacity-30 text-[2rem] text-center border-[1px] border-beige rounded-[2rem] min-h-[400px] space-y-4 p-6">
                 {params.event_id && <button

@@ -15,39 +15,42 @@ const CompanyEventsContainer = ({ company_id }) => {
     }, [dispatch, company_id, curPage])
 
     const handleNextClick = () => {
-        if(curPage < pages)
+        if (curPage < pages)
             dispatch(incrementPage('company'));
     }
 
     const handlePreviousPage = () => {
-        if(curPage > 1)
+        if (curPage > 1)
             dispatch(decrementPage('company'));
     }
 
-    if (events?.length > 0)
+    if (events)
         return (
             <div className='w-full h-full flex flex-col'>
-                <div className='font-semibold mb-2 text-beige'>Events of this company:</div>
+                {events?.length > 0 && <div className='font-semibold mb-2 text-beige'>Events of this company:</div>}
                 <div className='flex items-center justify-center'>
                     {events?.map(event => {
-                        return(
+                        return (
                             <CardOfEvent data={event} />
                         )
                     })}
                 </div>
-                <div className='flex flex-row w-full items-center justify-center m-1 mt-4'>
-            <div className='m-3 p-1 hover:cursor-pointer leading-none text-light-beige hover:text-beige' onClick={handlePreviousPage}>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-                </svg>
-            </div>
-            <div className='m-3 text-2xl font-semibold select-none text-light-beige'>{curPage} / {pages}</div>
-            <div className='m-3 p-1 hover:cursor-pointer leading-none text-light-beige hover:text-beige' onClick={handleNextClick}>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                </svg>
-            </div>
-        </div>
+                {
+                    events?.length > 0 &&
+                    <div className='flex flex-row w-full items-center justify-center m-1 mt-4'>
+                        <div className='m-3 p-1 hover:cursor-pointer leading-none text-light-beige hover:text-beige' onClick={handlePreviousPage}>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                            </svg>
+                        </div>
+                        <div className='m-3 text-2xl font-semibold select-none text-light-beige'>{curPage} / {pages}</div>
+                        <div className='m-3 p-1 hover:cursor-pointer leading-none text-light-beige hover:text-beige' onClick={handleNextClick}>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                            </svg>
+                        </div>
+                    </div>
+                }
             </div>
         );
 }
