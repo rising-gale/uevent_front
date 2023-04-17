@@ -87,6 +87,15 @@ export const getCompanyById = createAsyncThunk('company/getCompanyById', async(c
     }
 })
 
+export const inviteMember = createAsyncThunk('company/inviteMember', async(req) => {
+    try{
+        const {data} = await axios.post(`http://localhost:3002/api/companies/${req.companyID}/invite-members`, req, {withCredentials: true})
+        return data 
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 
 export const companySlice = createSlice({
     name: 'company',
@@ -201,6 +210,20 @@ export const companySlice = createSlice({
             state.status = action.payload?.message
         },
         [getCompanyById.rejected]: (state, action) => {
+            state.loading = false
+            state.status = action.payload.message
+        },
+
+        //Invite Member
+        [inviteMember.pending]: (state) => {
+            state.loading = true
+            state.status = null
+        },
+        [inviteMember.fulfilled]: (state, action) => {
+            state.loading = false
+            state.status = action.payload?.message
+        },
+        [inviteMember.rejected]: (state, action) => {
             state.loading = false
             state.status = action.payload.message
         }
