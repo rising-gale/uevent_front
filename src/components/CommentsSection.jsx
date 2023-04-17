@@ -62,7 +62,10 @@ const CommentsSection = ({ event_id }) => {
                 Comments:
             </div>
             <div className='w-1/2 text-center text-2xl font-semibold pb-2 self-center flex items-center'>
-                <input
+                {
+                    user && 
+                    <>
+                                    <input
                     value={comment}
                     onChange={handleInput}
                     disabled={!user._id}
@@ -77,6 +80,8 @@ const CommentsSection = ({ event_id }) => {
                 >
                     Create
                 </button>
+                    </>
+                }
             </div>
             <div className='w-3/4 self-center flex flex-col'>
 

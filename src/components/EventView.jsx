@@ -23,6 +23,8 @@ const EventView = () => {
     
     const userFavourites = useSelector(state => state.auth.user?.subscriptions_events);
     const userCompanies = useSelector(state => state.auth.user?.companies);
+    const userId = useSelector(state => state.auth.userId);
+
 
     const [isEventInCart, setEventInCart] = useState(false);
     const [isEventSubscribed, setEventSubscribed] = useState(false);
@@ -45,29 +47,34 @@ const EventView = () => {
         dispatch(subscribeToEvent(eventInfo.event._id));
     }
 
-    const events = useSelector(state => state.events.events);
+    // const events = useSelector(state => state.events.events);
 
     useEffect(() => {
-        let idx = cartItems?.findIndex((item) => item._id === eventInfo.event._id);
-        if (idx >= 0) {
-            setEventInCart(true);
-        } else setEventInCart(false);
-        // console.log(userFavourites)
-        idx = userFavourites?.findIndex((item) => item?._id === eventInfo?.event?._id);
-        if (idx >= 0) {
-            setEventSubscribed(true);
-        } else setEventSubscribed(false);
-        changeFormState(false);
-    }, [cartItems, userFavourites, eventInfo]);
+        if(userId)
+        {
+            let idx = cartItems?.findIndex((item) => item._id === eventInfo.event._id);
+            if (idx >= 0) {
+                setEventInCart(true);
+            } else setEventInCart(false);
+            // console.log(userFavourites)
+            idx = userFavourites?.findIndex((item) => item?._id === eventInfo?.event?._id);
+            if (idx >= 0) {
+                setEventSubscribed(true);
+            } else setEventSubscribed(false);
+            changeFormState(false);
+        }
+    }, [cartItems, userFavourites, eventInfo, userId]);
 
 
     useEffect(() => {
-        let idx = userCompanies.findIndex(company => company._id === eventInfo?.event?.author?._id);
-        // console.log(idx);
-        if (idx >= 0) {
-            setEventMine(true);
-        } else return;
-    }, [userCompanies, eventInfo.event]);
+        if(userId){
+            let idx = userCompanies.findIndex(company => company._id === eventInfo?.event?.author?._id);
+            // console.log(idx);
+            if (idx >= 0) {
+                setEventMine(true);
+            } else return;
+        }
+    }, [userCompanies, eventInfo.event, userId]);
 
     const printFiveSimilar = (events) => {
         let content = [];
@@ -87,9 +94,9 @@ const EventView = () => {
         changeFormState(false);
     }
 
-    const deleteEventClick = () => {
+    // const deleteEventClick = () => {
 
-    }
+    // }
 
     if (eventInfo.event) {
         return (
@@ -182,20 +189,26 @@ const EventView = () => {
                             </div>
                             <div className='flex flex-col items-center w-1/6'>
                                 <div className='font-semibold p-1 h-1/2'>Tickets left in stock: {eventInfo.event.tickets}</div>
-                                <button disabled={isEventInCart} onClick={addCartItem} className={isEventInCart ? 'flex items-center justify-center h-1/3 border border-purple-900 w-full text-center font-semibold rounded-full cursor-pointer bg-purple-900 hover:bg-purple-800 hover:border-purple-600 disabled:bg-gray-400 disabled:border-gray-400 disabled:cursor-default transition duration-500 hover:ease-in'
+                                {
+                                    userId &&
+                                    <button disabled={isEventInCart} onClick={addCartItem} className={isEventInCart ? 'flex items-center justify-center h-1/3 border border-purple-900 w-full text-center font-semibold rounded-full cursor-pointer bg-purple-900 hover:bg-purple-800 hover:border-purple-600 disabled:bg-gray-400 disabled:border-gray-400 disabled:cursor-default transition duration-500 hover:ease-in'
                                     : 'flex items-center justify-center h-1/3 border border-purple-900 w-full text-center font-semibold rounded-full cursor-pointer bg-purple-900 hover:bg-purple-800 hover:border-purple-600 transition duration-500 hover:ease-in'}>
                                     {isEventInCart ? <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-7 h-7 text-emerald-600">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                                     </svg>
                                         :
                                         'Buy tickets'}
-                                </button>
+                                    </button>
+                                }
+
                             </div>
                             <div className='flex flex-col items-center w-1/5'>
                                 <div className='font-semibold p-1 h-1/2 text-xl'>Price:</div>
                                 <div className='h-1/2 w-full text-center font-bold text-xl'>{eventInfo.event.price} UAH.</div>
                             </div>
-                            <div className='flex w-1/6 items-center justify-center'>
+                            {
+                                userId && 
+                                <div className='flex w-1/6 items-center justify-center'>
                                 {
                                     isEventSubscribed ?
                                         <div className='flex items-center justify-around p-4 h-1/3 border border-purple-900 w-full text-center font-semibold rounded-full bg-purple-900 '>
@@ -217,7 +230,9 @@ const EventView = () => {
                                             </svg>
                                         </button>
                                 }
-                            </div>
+                                </div>
+                            }
+
                         </div>
                         <div className='w-full h-full flex items-center justify-center'>
                             <MapContainer center={eventInfo.event.location} creationMode={false} searchBar={false} setLocation={() => { }} />

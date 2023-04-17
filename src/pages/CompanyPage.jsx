@@ -57,8 +57,8 @@ export const CompanyPage = () => {
     }
 
     const isOwnerOrMember = () => {
-        const idx = user.companies.findIndex(item => item._id === company._id)
-        if (user._id === company.admin || idx >= 0) {
+        const idx = user?.companies.findIndex(item => item._id === company._id)
+        if (user?._id === company.admin || idx >= 0) {
             return true
         } else {
             return false
@@ -151,7 +151,7 @@ export const CompanyPage = () => {
                             <img className="w-6" src="http://localhost:3000/plus_dark.png" alt='фищиф' />
                             Create event
                         </div>}
-                        {!isOwnerOrMember() && <div
+                        {!isOwnerOrMember() && user && <div
                             className="text-[16px] mt-5 flex flex-row space-x-3 px-3 py-2 rounded-3xl hover:bg-opacity-70 bg-beige border-dark-purple text-dark-purple"
                             onClick={() => { }}
                         >
