@@ -24,7 +24,7 @@ const CompanyEventsContainer = ({ company_id }) => {
             dispatch(decrementPage('company'));
     }
 
-    if (events.length > 0)
+    if (events?.length > 0)
         return (
             <div className='w-full h-full flex flex-col'>
                 <div className='font-semibold mb-2 text-beige'>Events of this company:</div>

@@ -33,7 +33,7 @@ export const useRoutes = (isAuthenticated) => {
                     <Route path="companies/:id/add-new-member" element={<VerifyInvite />} />
                     <Route path="verify_company/:token" element={<VerifyCompanyEmailPage />} />
                     <Route path="/events/:event_id/companies/:company_id" element={<CompanyPage/>}/>
-                    <Route path="companies/:id" element={<CompanyPage/>}/>
+                    <Route path="companies/:company_id" element={<CompanyPage/>}/>
                     <Route path='/profile' element={<Profile />} />
                     <Route path='/profile/edit' element={<EditUserPage />} />
 
@@ -49,7 +49,8 @@ export const useRoutes = (isAuthenticated) => {
                 <Route path="/registration" element={<RegistrationPage />} />
                 <Route path='recover/:token' element={<ResetPasswordPage />} />
                 <Route path='verify/:token' element={<VerifyEmailPage />} />
-
+                
+                <Route path="companies/:id/add-new-member" element={<VerifyInvite />} />
                 <Route path="verify_company/:token" element={<VerifyCompanyEmailPage />} />
             </Routes>
         )

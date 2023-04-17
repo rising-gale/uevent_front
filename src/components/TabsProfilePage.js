@@ -6,15 +6,17 @@ import ProfileTab from "./allTabs/ProfileTab";
 import MyTicketsTab from "./allTabs/MyTicketsTab";
 import MyFollowedCompaniesTab from "./allTabs/MyFollowedCompaniesTab";
 import MyCompanyTab from "./allTabs/MyCompanyTab";
-import { useDispatch } from "react-redux";
-import { getMyCompany } from "../redux/companySlice";
+import { useDispatch, useSelector } from "react-redux";
+import { getMembers, getMyCompany } from "../redux/companySlice";
 
 const ProfilePageTabs = () => {
     const [activeTab, setActiveTab] = useState("profile");
+    const {company} = useSelector((state) => state.company)
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(getMyCompany())
-    }, [dispatch])
+        if(company)dispatch(getMembers(company?._id))
+    }, [dispatch, company?._id])
     return (
         <div 
             // className="Tabs"

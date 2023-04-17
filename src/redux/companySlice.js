@@ -72,6 +72,7 @@ export const getMyCompany = createAsyncThunk('company/getMyCompany', async () =>
 export const getMembers = createAsyncThunk('company/getMembers', async (companyId) => {
     try{
         const {data} = await axios.get(`http://localhost:3002/api/companies/${companyId}/users`, {withCredentials: true})
+        console.log(data)
         return data
     } catch (error) {
         console.log(error)
@@ -129,7 +130,7 @@ export const companySlice = createSlice({
         },
         [getMembers.fulfilled]: (state, action) => {
             state.loading = false
-            state.members = action.payload?.members
+            state.members = action.payload
             state.status = action.payload?.message
         },
         [getMembers.rejected]: (state, action) => {
