@@ -46,13 +46,13 @@ const EventsContainer = ({events, formats, themes, handleChange}) => {
                 >
                 Favourites
                 </button> */}
-                <button 
+                {/* <button 
                     className="flex items-center justify-around border border-purple-900 rounded-full w-1/12 p-3 bg-violet-700 hover:bg-violet-500 hover:border-purple-600 transition duration-500 hover:ease-in font-semibold text-lg "
                     onClick={formOpen}
                     name='eventCreate'
                 >
                 Create
-                </button>
+                </button> */}
             </div>
             <div className='w-full min-h-screen max-h-full pl-4 flex flex-row mt-4'>
                 <Sidebar formats={formats} themes={themes} handleChange={handleChange}/>
