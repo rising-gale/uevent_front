@@ -28,7 +28,7 @@ const CompanyEventsContainer = ({ company_id }) => {
         return (
             <div className='w-full h-full flex flex-col'>
                 <div className='font-semibold mb-2 text-beige'>Events of this company:</div>
-                <div className='flex'>
+                <div className='flex items-center justify-center'>
                     {events?.map(event => {
                         return(
                             <CardOfEvent data={event} />
