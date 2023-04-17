@@ -39,7 +39,7 @@ export const CompanyPage = () => {
     const [activeTabMembers, setActiveTabMembers] = useState("members")
 
     useEffect(() => {
-        dispatch(getCompanyById(params.id))
+        dispatch(getCompanyById(params.company_id))
     }, [dispatch])
 
     const arrayItemsCount = (array) => {
@@ -87,7 +87,7 @@ export const CompanyPage = () => {
     }
 
     const returnToEvent = () => {
-        navigate(`/events/${params.eventID}`)
+        navigate(`/events/${params.event_id}`)
     }
 
     if (!company) {

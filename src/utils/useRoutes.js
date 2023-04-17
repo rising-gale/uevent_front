@@ -30,7 +30,7 @@ export const useRoutes = (isAuthenticated) => {
                     <Route path='verify/:token' element={<VerifyEmailPage />} />
 
                     <Route path="verify_company/:token" element={<VerifyCompanyEmailPage />} />
-                    <Route path="/companies/:id" element={<CompanyPage/>}/>
+                    <Route path="/events/:event_id/companies/:company_id" element={<CompanyPage/>}/>
                     <Route path='/profile' element={<Profile />} />
                     <Route path='/profile/edit' element={<EditUserPage />} />
 
