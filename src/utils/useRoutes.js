@@ -26,6 +26,7 @@ export const useRoutes = (isAuthenticated) => {
                     <Route path="/checkout-success/:cartItems" element={<CheckOutSuccess />} />
                     <Route path="/events/:id" element={<EventView />} />
                     <Route path="/calendar" element={<CalendarPage />} />
+                    <Route path="/events/:event_id/company/:company_id" element={<CompanyPage />} />
 
                     <Route path='verify/:token' element={<VerifyEmailPage />} />
 

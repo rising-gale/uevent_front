@@ -140,7 +140,7 @@ const EventEditForm = ({ data, closeForm }) => {
         if (state.title.length > 0 && state.title.length < 25  && state.tickets >= 1 && state.price >= 0 && state.date_event && state.time_start
             && state.formats.length > 0 && state.themes.length >= 0 && state.date_end && state.time_end && location) {
             // console.log("OK");
-            dispatch(editEvent({ ...state, _id: data._id, location, company_id: user.companies[0]._id }));
+            dispatch(editEvent({ ...state, _id: data._id, location, company_id: data.author._id }));
         } else {
             setState(prevState => ({
                 ...prevState,
