@@ -40,7 +40,7 @@ export const CompanyPage = () => {
 
     useEffect(() => {
         dispatch(getCompanyById(params.company_id))
-    }, [dispatch])
+    }, [dispatch, params.company_id])
 
     const arrayItemsCount = (array) => {
         if (array) {
@@ -92,9 +92,9 @@ export const CompanyPage = () => {
 
     if (!company) {
         return (
-            <>
+            <div className="bg-dark-purple p-8 opacity-75 h-screen">
                 <button
-                    className="flex items-center justify-center leading-none px-4 py-2 text-neutral-300 border border-beige rounded-full hover:text-beige background-transparent font-bold uppercase text-sm outline-none focus:outline-none ease-linear transition-all duration-250"
+                    className="items-center justify-center leading-none px-4 py-2 text-neutral-300 border border-beige rounded-full hover:text-beige background-transparent font-bold uppercase text-sm outline-none focus:outline-none ease-linear transition-all duration-250"
                     type="button"
                     onClick={returnToEvent}
                 >
@@ -104,7 +104,7 @@ export const CompanyPage = () => {
                     Back
                 </button>
                 <LoadingPage />
-            </>)
+            </div>)
 
         // <div className="box-border flex justify-center items-center min-h-[100vh] bg-dark-purple">
         //     <div className="registerCard">
@@ -171,12 +171,12 @@ export const CompanyPage = () => {
                         </a>
                     </div>
 
-                    {/* <div
+                    <div
                         className="text-[16px] mt-5 flex flex-row space-x-3 px-3 py-2 rounded-3xl hover:bg-opacity-70 bg-beige border-dark-purple text-dark-purple"
-                        onClick={() => { setEditBoxOpen(true) }}>
-                        <img className="w-6" src='editing_icon.png' alt='edit info' />
-                        Edit profile
-                    </div> */}
+                        onClick={() => { }}>
+                        <img className="w-6" src="plus_dark.png" alt='' />
+                        Create event
+                    </div>
                 </div>
 
                 {isOwnerOrMembe() && <div className="w-1/2">

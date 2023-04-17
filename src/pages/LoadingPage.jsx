@@ -4,7 +4,7 @@ import LoadingContainer from '../components/LoadingContainer';
 
 const LoadingPage = () => {
     return (
-        <div className='flex flex-col w-full h-screen'>
+        <div className='flex flex-col w-full h-full'>
             {/* <Header /> */}
             <LoadingContainer />
         </div>
