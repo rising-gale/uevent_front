@@ -47,7 +47,14 @@ const Comment = ({ data }) => {
         </div>
         <div className='border border-blue-300 my-3'></div>
         <div className='flex flex-row justify-between m-2 '>
-            <div className='w-1/3 text-xs flex flex-col justify-end'>{new Date(data.createdAt).toLocaleString()}</div>
+            <div className='w-1/3 text-xs flex flex-col justify-end'>
+                <div>
+                    {new Date(data.createdAt).toLocaleString()}
+                </div>
+                <div>
+                    {new Date(data.updatedAt).toLocaleString() !== new Date(data.createdAt).toLocaleString() && '(updated at: ' + new Date(data.updatedAt).toLocaleString() + ')'}
+                </div> 
+            </div>
             <div className='flex items-center'>
                 <img src={'http://localhost:3002/' + data.author.avatar} alt="logo" className="mx-2 h-10 w-10 object-cover rounded-full" />
                 <div>
