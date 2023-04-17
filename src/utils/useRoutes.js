@@ -41,8 +41,15 @@ export const useRoutes = (isAuthenticated) => {
         )
     } else {
         return (
+            <>
+            <Header />
             <Routes>
-                <Route path="/" element={<LoginPage />} />
+                <Route path="/" element={<MainPage />} />
+                <Route path="/events/:id" element={<EventView />} />
+                <Route path="/events/:event_id/company/:company_id" element={<CompanyPage />} />
+
+                
+                <Route path="/auth" element={<LoginPage />} />
                 <Route path="/auth/resetPassword" element={<RecoverPasswordPage />} />
                 <Route path="/registration" element={<RegistrationPage />} />
                 <Route path='recover/:token' element={<ResetPasswordPage />} />
@@ -50,7 +57,11 @@ export const useRoutes = (isAuthenticated) => {
                 
                 <Route path="companies/:id/add-new-member" element={<VerifyInvite />} />
                 <Route path="verify_company/:token" element={<VerifyCompanyEmailPage />} />
+
+                <Route path="*" element={<Navigate to="/" />} />
             </Routes>
+            </>
+
         )
     }
 }
