@@ -1,11 +1,8 @@
 import React from "react";
-import Moment from "react-moment"
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from "react-router-dom";
-import { Link } from 'react-router-dom'
 import { deleteUser } from "../redux/userSlice";
-import ProfilePageTabs from "../components/TabsProfilePage";
 
 import TabNavItem from "../components/TabNavItem"
 import TabContent from "../components/TabContent";
@@ -13,14 +10,7 @@ import '../styles/TabsStyles.css'
 import '../styles/ScrollbarStyles.css'
 
 
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import MemberListItem from "../components/MemberListItem";
-import MapContainer from "../components/MapContainer";
 import { logout } from "../redux/authSlice";
 import { getCompanyById } from "../redux/companySlice";
 import { useEffect } from "react";
@@ -52,20 +42,20 @@ export const CompanyPage = () => {
         }
     }
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
+    // const handleClickOpen = () => {
+    //     setOpen(true);
+    // };
 
-    const handleClickCancelDelete = () => {
-        setOpen(false);
-    };
+    // const handleClickCancelDelete = () => {
+    //     setOpen(false);
+    // };
 
-    const handleClickDeleteUser = () => {
-        dispatch(deleteUser(user._id))
-        setOpen(false);
-        dispatch(logout())
-        navigate('/')
-    };
+    // const handleClickDeleteUser = () => {
+    //     dispatch(deleteUser(user._id))
+    //     setOpen(false);
+    //     dispatch(logout())
+    //     navigate('/')
+    // };
 
     const isSocialLink = (link) => {
         if (link !== '') {
