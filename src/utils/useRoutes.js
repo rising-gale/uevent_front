@@ -9,7 +9,6 @@ import { ResetPasswordPage } from '../pages/ResetPasswordPage';
 import EventView from '../components/EventView';
 import { Profile } from '../pages/Profile';
 import CheckOutSuccess from '../pages/CheckOutSuccess';
-import { EditUserPage } from '../pages/EditUserPage';
 import CalendarPage from '../pages/CalendarPage';
 import Header from '../components/Header';
 import { VerifyCompanyEmailPage } from '../pages/VerifyCompanyEmailPage';
@@ -35,7 +34,6 @@ export const useRoutes = (isAuthenticated) => {
                     <Route path="/events/:event_id/companies/:company_id" element={<CompanyPage/>}/>
                     <Route path="companies/:company_id" element={<CompanyPage/>}/>
                     <Route path='/profile' element={<Profile />} />
-                    <Route path='/profile/edit' element={<EditUserPage />} />
 
                     <Route path="*" element={<Navigate to="/" />} />
                 </Routes>

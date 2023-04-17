@@ -30,7 +30,6 @@ export const RecoverPasswordPage = () => {
             console.log(status)
             if (status === "Re-send the password, please check your email") {
                 console.log(status)
-                // navigate('/')
             } 
                 toast(status)
                 setErrorText(status)

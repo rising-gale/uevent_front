@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 
 import TabNavItem from "../TabNavItem"
 import TabContent from "../TabContent";
@@ -19,8 +19,6 @@ import { updateUserData, uploadUserAvatar, deleteUser } from "../../redux/userSl
 import { logout } from "../../redux/authSlice";
 
 import EventInFavourite from "../EventInFavourite";
-import FavouritesEvents from "../FavouritesEvents";
-
 
 const ProfileTab = () => {
   const [activeTabCompanies, setActiveTabCompanies] = useState("following_companies")
@@ -33,34 +31,6 @@ const ProfileTab = () => {
   const navigate = useNavigate()
   const { user } = useSelector((state) => state.auth)
   const userFavourites = useSelector(state => state.auth.user.subscriptions_events);
-
-
-  // const array1 = [
-  //   { name: 'Company1' },
-  //   { name: 'Company2' },
-  //   { name: 'Company3' },
-  //   { name: 'Company4' },
-  //   { name: 'Company5' },
-  //   { name: 'Company6' },
-  //   { name: 'Company7' },
-  //   { name: 'Company8' },
-  //   { name: 'Company9' },
-  //   { name: 'Company10' },
-  //   { name: 'Company11' }]
-
-  // const array2 = [
-  //   { name: 'Created Company1' },
-  //   { name: 'Created Company2' },
-  //   { name: 'Created Company3' },
-  //   { name: 'Created Company4' },
-  //   { name: 'Created Company5' },
-  //   { name: 'Created Company6' },
-  //   { name: 'Created Company7' },
-  //   { name: 'Created Company8' },
-  //   { name: 'Created Company9' },
-  //   { name: 'Created Company10' },
-  //   { name: 'Created Company11' }]
-
 
   const arrayItemsCount = (array) => {
     if (array) {
@@ -399,6 +369,7 @@ const ProfileTab = () => {
               <div className="bg-dark-purple w-full rounded-3xl">
                 <img
                   src='http://localhost:3000/back_icon_beige.png'
+                  alt=''
                   onClick={cancelHandler}
                   className="justify-center absolute items-center w-24 rounded-sm py-2 px-4">
                 </img>
@@ -513,8 +484,6 @@ const ProfileTab = () => {
                       />
                     </label>
                   </div>
-
-
                   <label className="text-sm text-beige mt-6">
                     Current password <span className="text-2xl text-red-700"> *</span>
                     <input
@@ -551,7 +520,6 @@ const ProfileTab = () => {
 
               <div>
                 <TabContent id="following_companies" activeTab={activeTabCompanies}>
-
                   {
                     user.subscriptions_companies.length < 1 &&
                     <div className="text-beige m-auto text-md h-full w-full">
@@ -572,17 +540,6 @@ const ProfileTab = () => {
                 </TabContent>
                 <TabContent id="followed_events" activeTab={activeTabCompanies}>
                   <ul className="w-full pr-5 space-y-3 first-letter overflow-y-scroll scrollbar h-[400px]">
-                    {/* <div className="text-sm w-full border-[2px] mb-12 py-5 bg-dark-blue-pastel border-purple-900 text-black rounded-md">
-                    CREATE A NEW COMPANY
-                  </div>
-                  {
-                    user?.subscriptions_events.map((event, index) => (
-                      <CompanyListItem
-                        key={index}
-                        company={event}
-                      />
-                    ))
-                  } */}
                     <div className="border-0 shadow-lg relative flex flex-col w-full bg-dark-blue-pastel outline-none focus:outline-none ">
 
                       {/*body*/}
@@ -594,11 +551,9 @@ const ProfileTab = () => {
                         })}
                         {userFavourites.length <= 0 && <div className='text-light-beige text-xl h-full w-full flex justify-center'>Nothing to see here ...</div>}
                       </div>
-
                     </div>
                   </ul>
                 </TabContent>
-
               </div>
             </>}
           </div>
@@ -628,27 +583,7 @@ const ProfileTab = () => {
             </DialogActions>
           </Dialog>
         </div>
-
-
-
       </div>
-
-      <div className="min-h-[100px] rounded-[1rem] text-xs border-beige border-[1px]">
-        Whether you're travelling to the islands or the mountains of Thailand, you're likely to spend at least one night in its capital city on the way. Bangkok might be noisy and polluted but it's also an exciting city with plenty of things to see and do. Why not make it a longer stay?
-
-        Where to stay
-        The Khao San Road was a famous traveller spot even before Leonardo di Caprio's character in the film The Beach stayed there. But it's noisy, not very pretty and not very Thai. For something more authentic, Phra Kanong offers an alternative place to stay, with its fantastic street markets where everyday Bangkok people eat, work and live. It's not as convenient for the main tourist sites, but it has a Skytrain station so you can be at the Grand Palace in 20 minutes.
-
-        How to get around
-        Bangkok's traffic can be a nightmare. Sure, you can easily take a taxi – if you want to spend hours stuck in traffic jams – but there are two much better ways to get around the city. To explore the temples and historical sites, catch an express boat river taxi or a longtail boat along the Chao Phraya river and the canals. For the modern part of the city, the Skytrain is a fast, cheap way to travel from the river to the shopping malls and nightlife of Sukhumvit, and the famous Chatuchak street market.
-
-        Where to eat
-        The simple answer is: everywhere! Thai street food is among the best in the world, and for around $5 you can eat a filling and delicious meal. Some food stands have little plastic seats where you can sit and eat and they cook the same dish over and over, like fried chicken on rice or Pad Thai noodles. Head for Chinatown – Yaowarat Street – and choose whatever looks most interesting from the many excellent Chinese and Thai restaurants and food stands.
-
-        What to do
-        After you've seen the main sites like the Giant Buddha at the temple of Wat Pho and the spectacular Grand Palace, and shopped at Chatuchak market, check out the snake farm and watch the live snake show. You can even touch a snake yourself if you want to!
-      </div>
-
     </div >
   );
 };

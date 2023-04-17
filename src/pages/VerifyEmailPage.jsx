@@ -7,8 +7,6 @@ export const VerifyEmailPage = () => {
     const params = useParams()
     const navigate = useNavigate()
 
-    // const [text, setText] = useState('This page is the verification page for your account on Chronos. \nClick the button for activating account and verifying email, where this link was sent')
-
     const onClickConfirm = async () => {
         const { data } = await axios.get(`http://localhost:3002/api/auth/verify/${params.token}`)
         console.log(data)

@@ -1,24 +1,18 @@
 import React, { useState } from "react";
 import axios from 'axios'
-import { useNavigate, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
+import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { getUserData } from "../redux/authSlice";
 import { getMembers } from "../redux/companySlice";
 
 export const VerifyInvite = () => {
     const params = useParams()
-    const navigate = useNavigate()
     const dispatch = useDispatch()
-    // const [text, setText] = useState('This page is the verification page for your account on Chronos. \nClick the button for activating account and verifying email, where this link was sent')
-
+    
     const [verifyed, setVerifyed] = useState(false)
     const onClickConfirm = async () => {
         const { data } = await axios.get(`http://localhost:3002/api/companies/${params.id}/add-new-member`, { withCredentials: true })
         console.log(data)
-        // toast(data.message)
         if (data.message === "You are member now!" || data.message === "You are already a member of this company.") {
-            console.log(1)
             setVerifyed(true)
             dispatch(getMembers())
         }

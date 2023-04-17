@@ -2,8 +2,6 @@ import React from "react";
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from "react-router-dom";
-import { deleteUser } from "../redux/userSlice";
-
 import TabNavItem from "../components/TabNavItem"
 import TabContent from "../components/TabContent";
 import '../styles/TabsStyles.css'
@@ -11,7 +9,7 @@ import '../styles/ScrollbarStyles.css'
 
 
 import MemberListItem from "../components/MemberListItem";
-import { getUserData, logout } from "../redux/authSlice";
+import { getUserData } from "../redux/authSlice";
 import { getCompanyById, getMembers } from "../redux/companySlice";
 import { useEffect } from "react";
 import LoadingPage from "./LoadingPage";
@@ -19,7 +17,6 @@ import EventCreationForm from "../components/EventCreationForm";
 import CompanyEventsContainer from "../components/CompanyEventsContainer";
 
 export const CompanyPage = () => {
-    const [open, setOpen] = useState(false);
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const params = useParams()
@@ -43,21 +40,6 @@ export const CompanyPage = () => {
             return '0'
         }
     }
-
-    // const handleClickOpen = () => {
-    //     setOpen(true);
-    // };
-
-    // const handleClickCancelDelete = () => {
-    //     setOpen(false);
-    // };
-
-    // const handleClickDeleteUser = () => {
-    //     dispatch(deleteUser(user._id))
-    //     setOpen(false);
-    //     dispatch(logout())
-    //     navigate('/')
-    // };
 
     const isSocialLink = (link) => {
         if (link !== '') {
@@ -93,7 +75,6 @@ export const CompanyPage = () => {
     const formClose = () => {
         changeFormState(null);
     }
-
     if (!company) {
         return (
             <div className="bg-dark-purple p-8 opacity-75 h-screen">
@@ -184,7 +165,6 @@ export const CompanyPage = () => {
 
                             <ul className="Horizontalnav">
                                 <TabNavItem title={`${arrayItemsCount(members)} members`} id="members" activeTab={activeTabMembers} setActiveTab={setActiveTabMembers} />
-                                {/* <TabNavItem title={`${arrayItemsCount(user.subscriptions_events)} followed events`} id="followed_events" activeTab={activeTabCompanies} setActiveTab={setActiveTabCompanies} /> */}
                             </ul>
 
                             <div>
@@ -196,12 +176,22 @@ export const CompanyPage = () => {
                                         </div>
                                     }
                                     {members?.length > 0 &&
-                                        <ul className="w-full pr-5 space-y-3 first-letter overflow-y-scroll scrollbar h-[400px]">
-                                            {members?.map((member, index) => (
-                                                <MemberListItem
-                                                    key={index}
-                                                    member={member} />))}
-                                        </ul>
+                                        <>
+
+                                            <ul className="w-full pr-5 space-y-3 first-letter overflow-y-scroll scrollbar h-[400px]">
+                                                {members?.map((member, index) => (
+                                                    <>
+                                                        {/* <UserPage user={member} openUserInfo={openUserInfo} closeForm={closeForm} /> */}
+                                                        <MemberListItem
+                                                            key={index}
+                                                            // memberClicked={memberClicked}
+                                                            member={member} />
+                                                    </>)
+                                                )}
+
+                                            </ul>
+                                        </>
+
                                     }
                                 </TabContent>
                             </div>
@@ -212,21 +202,6 @@ export const CompanyPage = () => {
 
                 </div>
                 <CompanyEventsContainer company_id={params.company_id} />
-                {/* <div className="min-h-[100px] rounded-[1rem] text-xs border-beige border-[1px]">
-                Whether you're travelling to the islands or the mountains of Thailand, you're likely to spend at least one night in its capital city on the way. Bangkok might be noisy and polluted but it's also an exciting city with plenty of things to see and do. Why not make it a longer stay?
-
-                Where to stay
-                The Khao San Road was a famous traveller spot even before Leonardo di Caprio's character in the film The Beach stayed there. But it's noisy, not very pretty and not very Thai. For something more authentic, Phra Kanong offers an alternative place to stay, with its fantastic street markets where everyday Bangkok people eat, work and live. It's not as convenient for the main tourist sites, but it has a Skytrain station so you can be at the Grand Palace in 20 minutes.
-
-                How to get around
-                Bangkok's traffic can be a nightmare. Sure, you can easily take a taxi – if you want to spend hours stuck in traffic jams – but there are two much better ways to get around the city. To explore the temples and historical sites, catch an express boat river taxi or a longtail boat along the Chao Phraya river and the canals. For the modern part of the city, the Skytrain is a fast, cheap way to travel from the river to the shopping malls and nightlife of Sukhumvit, and the famous Chatuchak street market.
-
-                Where to eat
-                The simple answer is: everywhere! Thai street food is among the best in the world, and for around $5 you can eat a filling and delicious meal. Some food stands have little plastic seats where you can sit and eat and they cook the same dish over and over, like fried chicken on rice or Pad Thai noodles. Head for Chinatown – Yaowarat Street – and choose whatever looks most interesting from the many excellent Chinese and Thai restaurants and food stands.
-
-                What to do
-                After you've seen the main sites like the Giant Buddha at the temple of Wat Pho and the spectacular Grand Palace, and shopped at Chatuchak market, check out the snake farm and watch the live snake show. You can even touch a snake yourself if you want to!
-            </div> */}
 
             </div >
         </div>
