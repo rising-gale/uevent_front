@@ -34,7 +34,7 @@ const CardOfEvent = ({ data }) => {
             <div className='text-xl select-none text-center text-light-grey-pastel hover:cursor-pointer hover:underline underline-offset-2' onClick={() => { navigate(`/events/${data._id}`) }}>{data.title}</div>
           </div>
           <div className='flex flex-col w-full h-1/3 text-white justify-end'>
-            <div className='text-yellow-500'>Price: {data.price} грн.</div>
+            <div className='text-yellow-500'>Price: {data.price > 0 ? data.price + ' UAH.': 'Free'}</div>
             <div>Tickets left: {data.tickets}</div>
           </div>
           <div className='flex flex-col w-full h-1/5 text-white justify-center items-center py-2 px-5'>

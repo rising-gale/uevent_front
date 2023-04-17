@@ -24,7 +24,7 @@ const MainPage = () => {
 
     useEffect(() => {
         dispatch(getCategories());
-        console.log(state);
+        // console.log(state);
         dispatch(getAllEvents({ page: page, sort: state.sort, filterThemes: state.filterThemes, filterFormats: state.filterFormats, search: state.search }));
     }, [dispatch, state, page]);
 

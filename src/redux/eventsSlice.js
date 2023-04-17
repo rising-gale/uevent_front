@@ -22,9 +22,8 @@ export const createEvent = createAsyncThunk(
             console.log(submitData);
             let { data } = await axios.post(`http://localhost:3002/api/events/company/${submitData.company_id}`, { ...submitData }, { withCredentials: true })
             console.log(data);
-            dispatch(getAllEvents());
+            dispatch(getAllEvents({ page : 1, sort : 'date', filterThemes : [], filterFormats : [], search : '' }));
             return data;
-            
         } catch (error) {
             console.log(error);
         }
@@ -35,9 +34,9 @@ export const editEvent = createAsyncThunk(
     'api/events/edit',
     async function (submitData, { dispatch }) {
         try {
-            console.log(submitData);
+            // console.log(submitData);
             let { data } = await axios.patch(`http://localhost:3002/api/events/${submitData._id}/company/${submitData.company_id}`, { ...submitData }, { withCredentials: true })
-            console.log(data);
+            // console.log(data);
             // dispatch(getAllEvents());
             dispatch(getEvent(data._id));
             return data;
@@ -49,7 +48,7 @@ export const editEvent = createAsyncThunk(
 
 export const getAllEvents = createAsyncThunk(
     'api/events',
-    async function ({ page = 1, sort = 'date', filterThemes, filterFormats, search = '' }) {
+    async function ({ page = 1, sort = 'date', filterThemes = [], filterFormats = [], search = '' }) {
         try {
             // console.log(page, sort, filterThemes, filterFormats, search);
             if(filterThemes.length === 0)
@@ -79,6 +78,66 @@ export const getEvent = createAsyncThunk(
         }
     }
 )
+
+export const getEventComments = createAsyncThunk(
+    'api/events/:id/comments',
+    async function (id) {
+        try {
+            // console.log('ID: ',id);
+            let { data } = await axios.get(`http://localhost:3002/api/events/${id}/comments`, { withCredentials: true });
+            // console.log('Event comments: ', data)
+            return data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+)
+
+export const createComment = createAsyncThunk(
+    'api/events/:id/comments create',
+    async function ({id, comment}, {dispatch}) {
+        try {
+            // console.log('data: ', id, comment);
+            let { data } = await axios.post(`http://localhost:3002/api/events/${id}/comments`, { comment }, { withCredentials: true });
+            // console.log('New comment: ', data);
+            dispatch(getEventComments(id));
+            return data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+)
+
+export const editComment = createAsyncThunk(
+    'api/comments/:id edit',
+    async function ({event_id, comment_id, comment}, {dispatch}) {
+        try {
+            console.log('data: ', event_id, comment_id, comment);
+            let { data } = await axios.patch(`http://localhost:3002/api/comments/${comment_id}`, { comment }, { withCredentials: true });
+            console.log('New comment: ', data);
+            dispatch(getEventComments(event_id));
+            return data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+)
+
+export const deleteComment = createAsyncThunk(
+    'api/comments/:id delete',
+    async function ({event_id, comment_id}, {dispatch}) {
+        try {
+            console.log('id: ', event_id);
+            let { data } = await axios.delete(`http://localhost:3002/api/comments/${comment_id}`, { withCredentials: true });
+            dispatch(getEventComments(event_id));
+            return data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+)
+
+
 
 export const loadAfisha = createAsyncThunk(
     'api/events/:id/pic-load',
@@ -129,7 +188,10 @@ const eventsSlice = createSlice({
         events: [],
         tickets: [],
         ticketsEvents: [],
+
         viewingEventData: {},
+        viewingEventComments: [],
+
         pages: 1,
         curPage: 1,
         createStatus: ''
@@ -174,6 +236,9 @@ const eventsSlice = createSlice({
         },
         [createEvent.fulfilled] : (state, action) => {
             state.createStatus = action.payload.message;
+        },
+        [getEventComments.fulfilled] : (state, action) => {
+            state.viewingEventComments = action.payload;
         }
     }
 })

@@ -41,6 +41,8 @@ const EventCreationForm = ({ closeForm }) => {
 
         formats: [],
         themes: [],
+
+        company: user?.companies[0]?._id,
         // calendar: null,
         errMessage: null
     })
@@ -119,13 +121,10 @@ const EventCreationForm = ({ closeForm }) => {
             case 'date_event':
                 setState(prevState => ({
                     ...prevState,
-                    date_event: value + ' ' + state.time_start.toString(),
-                    date_end: value + ' ' + state.time_end.toString(),
+                    date_event: value,
+                    date_end: value,
                     errMessage: ''
                 }));
-                // let date_string = value + ' ' + state.time_start.toString();
-                // console.log(date_string);
-                // console.log(Date(date_string))
                 break;
             default:
                 setState(prevState => ({
@@ -138,12 +137,13 @@ const EventCreationForm = ({ closeForm }) => {
     }
 
     const handleSubmit = () => {
-        // console.log(state);
-        // console.log(location);
+        console.log(state);
+        console.log(location);
         if (state.title.length > 0 && state.title.length < 25  && state.tickets >= 1 && state.price >= 0 && state.date_event && state.time_start
-            && state.formats.length > 0 && state.themes.length >= 0 && state.date_end && state.time_end && location) {
+            && state.formats.length > 0 && state.themes.length > 0 && state.date_end && state.time_end && location) {
             // console.log("OK");
-            dispatch(createEvent({ ...state, location, company_id: user.companies[0]._id }));
+            dispatch(createEvent({ ...state, date_event: state.date_event + ' ' + state?.time_start?.toString(), date_end: state.date_event + ' ' + state?.time_end?.toString(), location, company_id: user.companies[0]._id }));
+            closeForm();
         } else {
             setState(prevState => ({
                 ...prevState,
@@ -191,7 +191,7 @@ const EventCreationForm = ({ closeForm }) => {
                         {state.title.length > 0 && state.title.length > 25 && <div className='text-red-600 text-xs w-full text-end px-3'>(must be 1 - 25 symbols)</div>}
                         <div className='py-1 my-1 flex items-center w-full'>
                             <label className='text-xl text-beige w-1/3'>Description:</label>
-                            <textarea className='w-2/3 rounded-lg text-black p-1 outline-none bg-light-beige border-2 border-purple-500 focus:border-emerald-600' />
+                            <textarea name='description' onChange={handleChange} className='w-2/3 rounded-lg text-black p-1 outline-none bg-light-beige border-2 border-purple-500 focus:border-emerald-600' />
                         </div>
                         <div className='py-1 flex items-center w-full'>
                             <div className='w-1/2 flex items-center'>
@@ -285,8 +285,19 @@ const EventCreationForm = ({ closeForm }) => {
                                 className="w-2/3 h-full outline-none border-2 border-purple-500 focus:border-emerald-600 text-base font-semibold rounded-full block p-2 hover:cursor-pointer text-black bg-light-beige"
                                 onChange={handleChange} >
                                 <option value="everyone">Everyone</option>
-                                <option value="nobody">Nobody</option>
-                                <option value="company">Company</option>
+                                <option value="only_members">Only members</option>
+                            </select>
+                        </div>
+                        <div className='py-1 flex items-center w-full justify-between'>
+                            <label className='text-xl text-beige w-2/3'>Visibility of members:</label>
+                            <select defaultValue={'everyone'} name="members_visibles"
+                                className="w-2/3 h-full outline-none border-2 border-purple-500 focus:border-emerald-600 text-base font-semibold rounded-full block p-2 hover:cursor-pointer text-black bg-light-beige"
+                                onChange={handleChange} >
+                                {user.companies?.map(company => {
+                                    return(
+                                        <option value={company._id}>{company.company_name}</option>
+                                    )
+                                })}
                             </select>
                         </div>
                         <div className='text-red-500 text-2xl font-semibold underline underline-offset-4 text-center w-full m-1 p-1'>

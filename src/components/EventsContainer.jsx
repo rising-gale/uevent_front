@@ -3,7 +3,7 @@ import Sidebar from './Sidebar';
 import CardOfEvent from './CardOfEvent';
 import PaginationContainer from './PaginationContainer';
 import EventCreationForm from './EventCreationForm';
-import FavouritesEvents from './FavouritesEvents';
+// import FavouritesEvents from './FavouritesEvents';
 
 const EventsContainer = ({events, formats, themes, handleChange}) => {
 
