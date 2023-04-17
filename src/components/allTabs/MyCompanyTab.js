@@ -6,7 +6,7 @@ import TabNavItem from "../TabNavItem"
 import TabContent from "../TabContent";
 import '../../styles/TabsStyles.css'
 import '../../styles/ScrollbarStyles.css'
-import { createCompany, deleteCompany, getMyCompany, updateCompanyData, uploadCompanyAvatar } from "../../redux/companySlice";
+import { createCompany, deleteCompany, getMembers, getMyCompany, updateCompanyData, uploadCompanyAvatar } from "../../redux/companySlice";
 
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -33,6 +33,7 @@ const MyCompanyTab = () => {
 
   const { company } = useSelector((state) => state.company)
   const { members } = useSelector((state) => state.company)
+
 
   const [socialNet, setSocialNet] = useState({
     instagram: company?.social_net.instagram,
@@ -515,6 +516,8 @@ const MyCompanyTab = () => {
             <img className="w-6" src='editing_icon.png' alt='edit info' />
             Edit company data
           </div>
+
+          
         </div>
 
 

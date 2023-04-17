@@ -17,9 +17,7 @@ const InviteMemberForm = ({ closeForm }) => {
 
     useEffect(() => {
         setErrorText(status)
-        if (status === "An Email was sent") {
-            closeForm()
-        }
+        
     }, [status])
 
 

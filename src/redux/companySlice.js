@@ -72,6 +72,7 @@ export const getMyCompany = createAsyncThunk('company/getMyCompany', async () =>
 export const getMembers = createAsyncThunk('company/getMembers', async (companyId) => {
     try{
         const {data} = await axios.get(`http://localhost:3002/api/companies/${companyId}/users`, {withCredentials: true})
+        console.log(data)
         return data
     } catch (error) {
         console.log(error)
@@ -87,9 +88,9 @@ export const getCompanyById = createAsyncThunk('company/getCompanyById', async(c
     }
 })
 
-export const inviteMember = createAsyncThunk('company/inviteMember', async(req) => {
+export const inviteMember = createAsyncThunk('company/inviteMember', async(req, {dispatch}) => {
     try{
-        const {data} = await axios.post(`http://localhost:3002/api/companies/${req.companyID}/invite-members`, req, {withCredentials: true})
+        const {data} = await axios.post(`http://localhost:3002/api/companies/${req.id}/invite-members`, req, {withCredentials: true})
         return data 
     } catch (error) {
         console.log(error)
@@ -129,7 +130,7 @@ export const companySlice = createSlice({
         },
         [getMembers.fulfilled]: (state, action) => {
             state.loading = false
-            state.members = action.payload?.members
+            state.members = action.payload
             state.status = action.payload?.message
         },
         [getMembers.rejected]: (state, action) => {
