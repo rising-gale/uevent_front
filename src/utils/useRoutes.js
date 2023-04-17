@@ -14,6 +14,7 @@ import CalendarPage from '../pages/CalendarPage';
 import Header from '../components/Header';
 import { VerifyCompanyEmailPage } from '../pages/VerifyCompanyEmailPage';
 import { CompanyPage } from '../pages/CompanyPage';
+import { VerifyInvite } from '../pages/VerifyInvite';
 
 export const useRoutes = (isAuthenticated) => {
 
@@ -29,9 +30,10 @@ export const useRoutes = (isAuthenticated) => {
                     <Route path="/events/:event_id/company/:company_id" element={<CompanyPage />} />
 
                     <Route path='verify/:token' element={<VerifyEmailPage />} />
-
+                    <Route path="companies/:id/add-new-member" element={<VerifyInvite />} />
                     <Route path="verify_company/:token" element={<VerifyCompanyEmailPage />} />
                     <Route path="/events/:event_id/companies/:company_id" element={<CompanyPage/>}/>
+                    <Route path="companies/:id" element={<CompanyPage/>}/>
                     <Route path='/profile' element={<Profile />} />
                     <Route path='/profile/edit' element={<EditUserPage />} />
 

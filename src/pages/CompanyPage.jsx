@@ -70,7 +70,7 @@ export const CompanyPage = () => {
         }
     }
 
-    const isOwnerOrMembe = () => {
+    const isOwnerOrMember = () => {
         if (user._id === company.admin || user.companies.includes(company._id)) {
             return true
         } else { return false }
@@ -154,7 +154,7 @@ export const CompanyPage = () => {
                     </div>
                 </div>
 
-                {isOwnerOrMembe() && <div className="w-1/2">
+                {isOwnerOrMember() && <div className="w-1/2">
                     <div className="min-h-[519px] bg-dark-purple bg-opacity-80 p-[1rem] text-sm text-beige border-[2px] border-beige rounded-2xl">
 
                         <ul className="Horizontalnav">

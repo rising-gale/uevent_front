@@ -87,9 +87,9 @@ export const getCompanyById = createAsyncThunk('company/getCompanyById', async(c
     }
 })
 
-export const inviteMember = createAsyncThunk('company/inviteMember', async(req) => {
+export const inviteMember = createAsyncThunk('company/inviteMember', async(req, {dispatch}) => {
     try{
-        const {data} = await axios.post(`http://localhost:3002/api/companies/${req.companyID}/invite-members`, req, {withCredentials: true})
+        const {data} = await axios.post(`http://localhost:3002/api/companies/${req.id}/invite-members`, req, {withCredentials: true})
         return data 
     } catch (error) {
         console.log(error)
