@@ -175,6 +175,7 @@ export const subscribeToEvent = createAsyncThunk(
     }
 )
 
+
 export const unsubsribeFromEvent = createAsyncThunk(
     'api/users/subs event',
     async function ({id, userFavourites}, {dispatch})

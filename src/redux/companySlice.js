@@ -98,6 +98,42 @@ export const inviteMember = createAsyncThunk('company/inviteMember', async(req, 
 })
 
 
+export const subscribeToCompany = createAsyncThunk(
+    'api/users/subscriptionTo/:id company',
+    async function (id, {dispatch})
+    {
+        try {
+            // console.log('ID: ',id);
+            let { data } = await axios.get(`http://localhost:3002/api/users/subscriptionTo/${id}`, { withCredentials: true });
+            console.log('Subscription data: ', data);   
+            return data;            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+)
+
+export const unsubsribeFromCompany = createAsyncThunk(
+    'api/users/subs company',
+    async function ({id, subscriptions_companies}, {dispatch})
+    {
+        try {
+            // console.log('ID: ',id, subscriptions_companies);
+            let idx = subscriptions_companies.findIndex(item => item._id === id);
+            let newArr = [...subscriptions_companies];
+            newArr.splice(idx, 1);
+            console.log(newArr);
+            let { data } = await axios.patch(`http://localhost:3002/api/users/subs`, {subscriptions_companies: newArr}, { withCredentials: true });
+            console.log('Subscription data: ', data);   
+            dispatch(setUserData(data));
+            return data;            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+)
+
+
 export const companySlice = createSlice({
     name: 'company',
     initialState,

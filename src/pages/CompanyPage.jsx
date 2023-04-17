@@ -10,7 +10,7 @@ import '../styles/ScrollbarStyles.css'
 
 import MemberListItem from "../components/MemberListItem";
 import { getUserData } from "../redux/authSlice";
-import { getCompanyById, getMembers } from "../redux/companySlice";
+import { getCompanyById, getMembers, subscribeToCompany } from "../redux/companySlice";
 import { useEffect } from "react";
 import LoadingPage from "./LoadingPage";
 import EventCreationForm from "../components/EventCreationForm";
@@ -25,6 +25,9 @@ export const CompanyPage = () => {
     const { company } = useSelector((state) => state.company)
     const { members } = useSelector((state) => state.company)
 
+    // const subscribedCompanies = useSelector(state => state.auth.user.subscriptions_companies);
+    const [isSubscribed, setSubscribed] = useState(false);
+
     const [activeTabMembers, setActiveTabMembers] = useState("members")
 
     useEffect(() => {
@@ -32,6 +35,15 @@ export const CompanyPage = () => {
         dispatch(getCompanyById(params.company_id))
         dispatch(getMembers(params.company_id))
     }, [dispatch, params.company_id])
+
+    useEffect(() => {
+        if(user)
+        {
+            const idx = user?.subscriptions_companies?.findIndex(item => item._id === company._id);
+            console.log(idx);
+            if(idx >= 0) setSubscribed(true);
+        }
+    }, [user, company])
 
     const arrayItemsCount = (array) => {
         if (array) {
@@ -75,6 +87,15 @@ export const CompanyPage = () => {
     const formClose = () => {
         changeFormState(null);
     }
+
+    const subscribeClick = () => {
+        dispatch(subscribeToCompany(company._id));
+    }
+
+    const unSubscribeClick = () => {
+
+    }
+
     if (!company) {
         return (
             <div className="bg-dark-purple p-8 opacity-75 h-screen">
@@ -144,20 +165,28 @@ export const CompanyPage = () => {
                             </a>
                         </div>
 
-                        {isOwnerOrMember() && <div
+                        {isOwnerOrMember() && user && <div
                             className="text-[16px] mt-5 flex flex-row space-x-3 px-3 py-2 rounded-3xl hover:bg-opacity-70 bg-beige border-dark-purple text-dark-purple"
                             onClick={() => { changeFormState(true) }}
                         >
                             <img className="w-6" src="http://localhost:3000/plus_dark.png" alt='фищиф' />
                             Create event
                         </div>}
-                        {!isOwnerOrMember() && user && <div
-                            className="text-[16px] mt-5 flex flex-row space-x-3 px-3 py-2 rounded-3xl hover:bg-opacity-70 bg-beige border-dark-purple text-dark-purple"
-                            onClick={() => { }}
+                        {!isOwnerOrMember() && user && !isSubscribed && <div
+                            className="hover:cursor-pointer text-[16px] mt-5 flex flex-row space-x-3 px-3 py-2 rounded-3xl hover:bg-opacity-70 bg-beige border-dark-purple text-dark-purple disabled:bg-gray-400"
+                            onClick={subscribeClick}
                         >
-                            <img className="w-6" src="http://localhost:3000/plus_dark.png" alt='' />
                             Subscribe
                         </div>}
+                        {
+                            isSubscribed &&
+                            <div
+                            className="hover:cursor-pointer text-[16px] mt-5 flex flex-row space-x-3 px-3 py-2 rounded-3xl hover:bg-opacity-70 bg-beige border-dark-purple text-dark-purple disabled:bg-gray-400"
+                            onClick={unSubscribeClick}
+                        >
+                            Unsubscribe
+                        </div>
+                        }
                     </div>
 
                     {isOwnerOrMember() && <div className="w-1/2">
