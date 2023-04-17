@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import TabNavItem from "../TabNavItem"
 import TabContent from "../TabContent";
 import '../../styles/TabsStyles.css'
 import '../../styles/ScrollbarStyles.css'
-import { createCompany, deleteCompany, updateCompanyData, uploadCompanyAvatar } from "../../redux/companySlice";
+import { createCompany, createPromo, deleteCompany, getPromo, updateCompanyData, uploadCompanyAvatar } from "../../redux/companySlice";
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -261,6 +261,13 @@ const MyCompanyTab = () => {
     if (link !== '') { return link } else { return null }
   }
 
+  const [promoBut, setPromoBut] = useState(true)
+
+  const generatePromo = () => {
+    if(company) dispatch(createPromo(company?._id))
+    
+  }
+
   if (!company) {
     return <div>
       {!createCompanyBlock &&
@@ -470,6 +477,12 @@ const MyCompanyTab = () => {
             <img className="w-6" src='editing_icon.png' alt='edit info' />
             Edit company data
           </div>
+          <div
+            className="text-[16px] mt-5 flex flex-row space-x-3 px-3 py-2 rounded-3xl hover:bg-opacity-70 bg-beige border-dark-purple text-dark-purple"
+            onClick={generatePromo}>
+            Generate Promocode
+          </div>
+          <div className="text-[18px] text-yellow-500">{status}</div>
         </div>
         <div className="w-1/2">
           <div className=" min-h-[519px] bg-dark-purple bg-opacity-80 p-[1rem] text-sm text-beige border-[2px] border-beige rounded-2xl">
