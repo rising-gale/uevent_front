@@ -34,11 +34,11 @@ export const editEvent = createAsyncThunk(
     'api/events/edit',
     async function (submitData, { dispatch }) {
         try {
-            // console.log(submitData);
+            console.log(submitData);
             let { data } = await axios.patch(`http://localhost:3002/api/events/${submitData._id}/company/${submitData.company_id}`, { ...submitData }, { withCredentials: true })
             // console.log(data);
             // dispatch(getAllEvents());
-            dispatch(getEvent(data._id));
+            dispatch(getEvent(data.event._id));
             return data;
         } catch (error) {
             console.log(error);
