@@ -21,6 +21,16 @@ export const updateCompanyData = createAsyncThunk('company/updateCompanyData', a
     }
 })
 
+export const createPromo = createAsyncThunk('company/createPromo', async(companyId) => {
+    try{
+        const {data} = await axios.get(`http://localhost:3002/api/companies/${companyId}/update-promo`, {withCredentials: true})
+        console.log(data)
+        return data
+    } catch (error) {
+        console.loh(error)
+    }
+})
+
 export const uploadCompanyAvatar = createAsyncThunk('company/uploadCompanyAvatar', async (req) => {
     try {
         const { data } = await axios.post(`http://localhost:3002/api/companies/${req.get('id')}/pic-load`, req, { withCredentials: true })
@@ -215,6 +225,19 @@ export const companySlice = createSlice({
             state.status = action.payload?.message
         },
         [deleteCompany.rejected]: (state, action) => {
+            state.loading = false
+            state.status = action.payload?.message
+        },
+
+        // Create promo 
+        [createPromo.pending]: (state) => {
+            state.loading = true
+        },
+        [createPromo.fulfilled]: (state, action) => {
+            state.loading = false
+            state.status = action.payload?.message
+        },
+        [createPromo.rejected]: (state, action) => {
             state.loading = false
             state.status = action.payload?.message
         },

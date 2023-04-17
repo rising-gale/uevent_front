@@ -10,7 +10,8 @@ import CompanyListItem from "../CompanyListItem";
 const MyCompaniesTab = () => {
   const [activeTabMembers, setActiveTabMembers] = useState("companies")
   const { user } = useSelector((state) => state.auth)
-  const arrayItemsCount = (array) => {if (array) {return array.length} else { return '0'}}
+  const { company } = useSelector((state) => state.company)
+  const arrayItemsCount = (array) => { if (array) { return array.length } else { return '0' } }
 
   return (
     <div className="min-h-[519px] bg-dark-purple bg-opacity-80 p-[1rem] text-sm text-beige border-[2px] border-beige rounded-2xl">
