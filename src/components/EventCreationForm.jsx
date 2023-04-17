@@ -289,7 +289,7 @@ const EventCreationForm = ({ closeForm }) => {
                             </select>
                         </div>
                         <div className='py-1 flex items-center w-full justify-between'>
-                            <label className='text-xl text-beige w-2/3'>Visibility of members:</label>
+                            <label className='text-xl text-beige w-2/3'>Choose author company:</label>
                             <select defaultValue={'everyone'} name="members_visibles"
                                 className="w-2/3 h-full outline-none border-2 border-purple-500 focus:border-emerald-600 text-base font-semibold rounded-full block p-2 hover:cursor-pointer text-black bg-light-beige"
                                 onChange={handleChange} >
