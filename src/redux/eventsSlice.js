@@ -65,6 +65,19 @@ export const getAllEvents = createAsyncThunk(
     }
 )
 
+export const getAllCompanyEvents = createAsyncThunk(
+    'api/companies/:id/events',
+    async function ({company_id, page}) {
+        try {
+            let { data } = await axios.get(`http://localhost:3002/api/companies/${company_id}/events/${page}`, { withCredentials: true });
+            console.log(data)
+            return data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+)
+
 export const getEvent = createAsyncThunk(
     'api/events/:id',
     async function (id) {
@@ -192,18 +205,26 @@ const eventsSlice = createSlice({
         viewingEventData: {},
         viewingEventComments: [],
 
+        viewingCompanyEvents: [],
+        viewingCompanyEventsPage: 1,
+        viewingCompanyEventsPages: 1,
+
         pages: 1,
         curPage: 1,
         createStatus: ''
     },
     reducers: {
-        incrementPage(state)
+        incrementPage(state, action)
         {
-            state.curPage = state.curPage + 1;
+            if(action.payload === 'main')
+                state.curPage = state.curPage + 1;
+            else state.viewingCompanyEventsPage = state.viewingCompanyEventsPage + 1;
         },
-        decrementPage(state)
+        decrementPage(state, action)
         {
-            state.curPage = state.curPage - 1;
+            if(action.payload === 'main')
+                state.curPage = state.curPage - 1;
+            else state.viewingCompanyEventsPage = state.viewingCompanyEventsPage - 1;
         },
         editEventArray(state, action)
         {
@@ -239,6 +260,10 @@ const eventsSlice = createSlice({
         },
         [getEventComments.fulfilled] : (state, action) => {
             state.viewingEventComments = action.payload;
+        },
+        [getAllCompanyEvents.fulfilled]:(state,action) =>{
+            state.viewingCompanyEvents = action.payload.pageEvents;
+            state.viewingCompanyEventsPages = action.payload.totalPages;
         }
     }
 })

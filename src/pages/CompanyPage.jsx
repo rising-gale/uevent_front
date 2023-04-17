@@ -25,6 +25,8 @@ import { logout } from "../redux/authSlice";
 import { getCompanyById } from "../redux/companySlice";
 import { useEffect } from "react";
 import LoadingPage from "./LoadingPage";
+import EventCreationForm from "../components/EventCreationForm";
+import CompanyEventsContainer from "../components/CompanyEventsContainer";
 
 export const CompanyPage = () => {
     const [open, setOpen] = useState(false);
@@ -90,6 +92,12 @@ export const CompanyPage = () => {
         navigate(`/events/${params.event_id}`)
     }
 
+    const [isFormOpen, changeFormState] = useState(null);
+
+    const formClose = () =>{
+        changeFormState(null);
+    }
+
     if (!company) {
         return (
             <div className="bg-dark-purple p-8 opacity-75 h-screen">
@@ -107,8 +115,10 @@ export const CompanyPage = () => {
             </div>)
     }
 
-    return <div className='flex flex-col w-full h-screen bg-dark-purple'>
-        <div className="flex flex-col bg-opacity-30 bg-pomp-and-power border-opacity-30 text-[2rem] text-center border-[1px] border-beige rounded-[2rem] min-h-[400px] space-y-4 p-6">
+    return (
+    <div className='flex flex-col w-full h-full bg-dark-purple'>
+        {isFormOpen && <EventCreationForm closeForm={formClose}/>}
+        <div className=" h-full w-full flex flex-col bg-opacity-30 bg-pomp-and-power border-opacity-30 text-[2rem] text-center border-[1px] border-beige rounded-[2rem] min-h-[400px] space-y-4 p-6">
             <button
                 className="flex w-fit items-center justify-start leading-none px-4 py-2 text-neutral-300 border border-beige rounded-full hover:text-beige background-transparent font-bold uppercase text-sm outline-none focus:outline-none ease-linear transition-all duration-250"
                 type="button"
@@ -158,8 +168,9 @@ export const CompanyPage = () => {
 
                     <div
                         className="text-[16px] mt-5 flex flex-row space-x-3 px-3 py-2 rounded-3xl hover:bg-opacity-70 bg-beige border-dark-purple text-dark-purple"
-                        onClick={() => { }}>
-                        <img className="w-6" src="plus_dark.png" alt='' />
+                        onClick={() => { changeFormState(true) }}
+                        >
+                        <img className="w-6" src="http://localhost:3000/plus_dark.png" alt='фищиф' />
                         Create event
                     </div>
                 </div>
@@ -196,8 +207,8 @@ export const CompanyPage = () => {
                 }
 
             </div>
-
-            <div className="min-h-[100px] rounded-[1rem] text-xs border-beige border-[1px]">
+            <CompanyEventsContainer company_id={params.company_id}/>
+            {/* <div className="min-h-[100px] rounded-[1rem] text-xs border-beige border-[1px]">
                 Whether you're travelling to the islands or the mountains of Thailand, you're likely to spend at least one night in its capital city on the way. Bangkok might be noisy and polluted but it's also an exciting city with plenty of things to see and do. Why not make it a longer stay?
 
                 Where to stay
@@ -211,8 +222,9 @@ export const CompanyPage = () => {
 
                 What to do
                 After you've seen the main sites like the Giant Buddha at the temple of Wat Pho and the spectacular Grand Palace, and shopped at Chatuchak market, check out the snake farm and watch the live snake show. You can even touch a snake yourself if you want to!
-            </div>
+            </div> */}
 
         </div >
     </div>
+    )
 }
