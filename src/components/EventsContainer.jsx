@@ -1,26 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Sidebar from './Sidebar';
 import CardOfEvent from './CardOfEvent';
 import PaginationContainer from './PaginationContainer';
-import EventCreationForm from './EventCreationForm';
+// import EventCreationForm from './EventCreationForm';
 // import FavouritesEvents from './FavouritesEvents';
 
 const EventsContainer = ({events, formats, themes, handleChange}) => {
 
-    const [isFormOpen, changeFormState] = useState(null);
+    // const [isFormOpen, changeFormState] = useState(null);
 
-    const formOpen = (e) => {
-        // console.log(e.target.name);
-        changeFormState(e.target.name);
-    }
+    // const formOpen = (e) => {
+    //     // console.log(e.target.name);
+    //     changeFormState(e.target.name);
+    // }
 
-    const formClose = () =>{
-        changeFormState(null);
-    }
+    // const formClose = () =>{
+    //     changeFormState(null);
+    // }
 
     return (
         <div className='p-1 flex flex-col bg-dark-purple text-light-beige '>
-            {isFormOpen === 'eventCreate' && <EventCreationForm closeForm={formClose}/>}
+            {/* {isFormOpen === 'eventCreate' && <EventCreationForm closeForm={formClose}/>} */}
             {/* {isFormOpen === 'favouritesForm' && <FavouritesEvents closeForm={formClose}/>} */}
             {/*Search and filtration bar */}
             <div className='flex w-full h-12 justify-around mt-3'>
