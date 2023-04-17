@@ -16,6 +16,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import MemberListItem from "../MemberListItem";
 import MapContainer from "../MapContainer";
+import InviteMemberForm from "../InviteMemberForm";
 
 const defaultLocation = { lat: 50.449709821421386, lng: 30.52762771951049 };
 
@@ -64,7 +65,7 @@ const MyCompanyTab = () => {
   const [companyNameColorBg, setCompanyNameColorBg] = useState('gray-400')
 
   const [location, setLocation] = useState(() => {
-    if(company?.location) {
+    if (company?.location) {
       return (company.location)
     } else {
       return { lat: 50.449709821421386, lng: 30.52762771951049 }
@@ -241,6 +242,19 @@ const MyCompanyTab = () => {
       console.log(error)
     }
   }
+  // invite member block---------------------------------------------------------
+  const [isFormOpen, changeFormState] = useState(null);
+
+  const formOpen = (e) => {
+    // console.log(e.target.name);
+    changeFormState('inviteMember');
+  }
+
+  const formClose = () => {
+    changeFormState(null);
+  }
+
+  //-----------------------------------------------------------------------------
 
   const [openDialog, setOpenDialog] = useState(false)
   const navigate = useNavigate()
@@ -265,13 +279,13 @@ const MyCompanyTab = () => {
     }
     return '_self'
   }
-  
+
   const isLinkExist = (link) => {
-    if (link !== ''){
+    if (link !== '') {
       return link
     } else {
       return null
-    } 
+    }
   }
 
   if (!company) {
@@ -286,7 +300,7 @@ const MyCompanyTab = () => {
             <img className="w-8" src='editing_icon.png' alt='edit info' />
             Create company
           </div>
-          </div>
+        </div>
       }
 
       {
@@ -411,6 +425,7 @@ const MyCompanyTab = () => {
   }
   return (
     <div className="flex flex-col bg-opacity-30 bg-pomp-and-power border-opacity-30 text-[2rem] items-center text-center border-[1px] border-beige rounded-[2rem] min-h-[400px] space-y-4 p-6">
+      {isFormOpen === 'inviteMember' && <InviteMemberForm closeForm={formClose} />}
       <div className="flex flex-row space-x-4 w-full">
 
         <div className="flex w-1/2 flex-col text-[2rem] items-center text-center min-h-[400px]">
@@ -629,8 +644,9 @@ const MyCompanyTab = () => {
                     (members?.length < 1 || !members) &&
                     <div className="text-beige flex justify-center items-center flex-col text-md h-full w-full">
                       <div className="flex">No members in this company yet...</div>
-                      <div className="flex mt-32 bg-dark-blue-pastel align-middle border-dashed border-[1px] border-beige p-6 hover:bg-opacity-70 rounded-xl">
-                        <div className="w-12"><img alt='' src='add_member_beige.png'/></div>Invite new member</div>
+                      <div onClick={formOpen} name='inviteMember'className="flex mt-32 bg-dark-blue-pastel align-middle border-dashed border-[1px] border-beige p-6 hover:bg-opacity-70 rounded-xl">
+                        <button className="w-12">
+                          <img alt='' src='add_member_beige.png' /></button>Invite new member</div>
                     </div>
                   }
                   {members?.length > 0 &&

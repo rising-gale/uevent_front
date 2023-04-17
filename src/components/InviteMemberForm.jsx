@@ -1,57 +1,82 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from 'react-router-dom'
+import { inviteMember } from "../redux/companySlice";
+import { useState, useEffect } from "react";
+
+import '../styles/registerPage.css'
 
 const InviteMemberForm = ({ closeForm }) => {
     const [email, setEmail] = useState('')
+    const [errorText, setErrorText] = useState('')
+    const [errorVisible, setErrorVisible] = useState(false)
+
+    const { company } = useSelector((state) => state.company)
+    const { status } = useSelector((state) => state.company)
     const dispatch = useDispatch()
+
+    useEffect(() => {
+        setErrorText(status)
+        if (status === "An Email was sent") {
+            closeForm()
+        }
+    }, [status])
+
+
     const submitInvite = () => {
-        
+        if (!email.includes('@')) {
+            console.log("Uncorrect email")
+            return
+        }
+        dispatch(inviteMember({ email, id: company._id }))
+        console.log(status)
+        if (status === "An Email was sent") {
+            closeForm()
+        }
     }
 
-    return (
-        <div className=" text-white justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-slate-700 bg-opacity-50">
-            <div className="relative my-3 mx-auto w-2/5">
-                {/*content*/}
-                <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-dark-blue-pastel outline-none focus:outline-none h-screen">
-                    {/*header*/}
-                    <div className="flex items-start justify-between p-3 border-b border-solid border-beige rounded-t">
-                        <h3 className="text-3xl pl-4 font-semibold text-light-grey-pastel font-serif">
-                            Invite member
-                        </h3>
-                        <button
-                            className="p-1 ml-auto bg-transparent border-0 text-black opacity-3 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                            onClick={closeForm}
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="black" className="w-8 h-8">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
-                    </div>
-                    {/*body*/}
-                    <div className="relative p-5 flex flex-col overflow-y-auto h-5/6">
-                        <label className="mb-0 text-sm text-beige">
-                            Email <span className="text-red-500 text-2xl"> *</span>
-                            <input type="email"
-                                placeholder="email"
-                                name='email'
-                                value={email}
+    const closeError = () => {
+        setErrorVisible(false)
+    }
 
-                                onChange={changeHandler}
-                                className={`text-black w-full rounded-lg bg-${emailColorBg} border py-1 px-2 text-xs outline-none placeholder:text-gray-700`} />
-                        </label>
+
+
+    return (
+        <div className=" text-white justify-center text-[16px] items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-slate-700 bg-opacity-50">
+            <div className="relative my-3 mx-auto w-1/3">
+                {/*content*/}
+                <div className="registerCard">
+                    <h3 className="uppercase tracking-[2px] text-light-beige mt-4 text-xl">Invite member</h3>
+                    <div className="relative w-[280px]">
+                        <input
+                            type="text"
+                            required="required"
+                            value={email}
+                            onChange={e => setEmail(e.target.value)} />
+                        <span className="loginSpan">Email</span>
                     </div>
-                    {/*footer*/}
-                    <div className="flex items-center p-3 border-t border-solid border-beige rounded-b">
-                        <div className='flex w-full justify-end'>
-                            <button
-                                className="text-pink-700 hover:text-pink-600 background-transparent font-bold uppercase px-3 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-250"
-                                type="button"
-                                onClick={submitInvite}
-                            >Cancel
-                            </button>
+                    {
+                        errorVisible &&
+                        <div className="flex flex-col rounded-lg bg-purple-400 p-2 pt-1 bg-opacity-20 border-0">
+                            <div className="flex justify-end">
+                                <Link
+                                    className="flex text-center justify-center w-fit h-fit rounded-sm pr-1 pl-1 text-xs text-beige"
+                                    onClick={closeError}
+                                >x</Link>
+                            </div>
+
+                            <p className="items-center text-sm mb-2 text-beige"><b>{errorText}</b></p>
+
                         </div>
+                    }
+
+                    <div className="flex flex-col gap-2 items-center justify-center">
+
+                        <button type='submit' onClick={submitInvite} >Send email</button>
+                        <div className="text-[18px] text-beige mt-3 hover:text-white" onClick={closeForm} >Cancel</div>
                     </div>
                 </div>
+
             </div>
         </div>
     );

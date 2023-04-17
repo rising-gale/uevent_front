@@ -221,7 +221,8 @@ export const companySlice = createSlice({
         },
         [inviteMember.fulfilled]: (state, action) => {
             state.loading = false
-            state.status = action.payload?.message
+            state.status = action.payload.message
+            console.log(state.status)
         },
         [inviteMember.rejected]: (state, action) => {
             state.loading = false
