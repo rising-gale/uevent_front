@@ -51,8 +51,6 @@ const EventView = () => {
     // const events = useSelector(state => state.events.events);
 
     useEffect(() => {
-        if(userId)
-        {
             let idx = cartItems?.findIndex((item) => item._id === eventInfo.event._id);
             if (idx >= 0) {
                 setEventInCart(true);
@@ -63,19 +61,16 @@ const EventView = () => {
                 setEventSubscribed(true);
             } else setEventSubscribed(false);
             changeFormState(false);
-        }
-    }, [cartItems, userFavourites, eventInfo, userId]);
+    }, [cartItems, userFavourites, eventInfo]);
 
 
     useEffect(() => {
-        if(userId){
             let idx = userCompanies?.findIndex(company => company._id === eventInfo?.event?.author?._id);
             // console.log(idx);
             if (idx >= 0) {
                 setEventMine(true);
-            } else return;
-        }
-    }, [userCompanies, eventInfo.event, userId]);
+            } else setEventMine(false);
+    }, [userCompanies, eventInfo.event]);
 
     const printFiveSimilar = (events) => {
         let content = [];
