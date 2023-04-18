@@ -264,8 +264,8 @@ const MyCompanyTab = () => {
   const [promoBut, setPromoBut] = useState(true)
 
   const generatePromo = () => {
-    if(company) dispatch(createPromo(company?._id))
-    
+    if (company) dispatch(createPromo(company?._id))
+
   }
 
   if (!company) {
@@ -274,7 +274,7 @@ const MyCompanyTab = () => {
         <div className="h-[400px] mt-10 justify-center items-center m-auto">
           You have not created any company yet...
           <div
-            className="text-[24px] mx-auto mt-24 w-1/2 justify-center items-center mb-8 flex flex-row space-x-3 px-3 py-2 rounded-3xl hover:bg-opacity-70 bg-beige border-dark-purple text-dark-purple"
+            className="text-[24px] mx-auto mt-24 w-1/2 cursor-pointer justify-center items-center mb-8 flex flex-row space-x-3 px-3 py-2 rounded-3xl hover:bg-opacity-70 bg-beige border-dark-purple text-dark-purple"
             onClick={() => { setCreateCompanyBlock(true) }}>
             <img className="w-8" src='editing_icon.png' alt='edit info' />
             Create company
@@ -289,7 +289,7 @@ const MyCompanyTab = () => {
               src='http://localhost:3000/back_icon_beige.png'
               alt=''
               onClick={cancelCreateHandler}
-              className="justify-center absolute items-center w-24 rounded-sm py-2 px-4">
+              className="justify-center  cursor-pointer absolute items-center w-24 rounded-sm py-2 px-4">
             </img>
             <form
               className="w-1/2 mx-auto pb-6"
@@ -405,7 +405,7 @@ const MyCompanyTab = () => {
               />
             </div>
             <div
-              className="text-[12px] mt-2 mb-8 flex flex-row space-x-3 px-3 py-2 rounded-3xl hover:bg-opacity-70 bg-beige border-dark-purple text-dark-purple"
+              className="text-[12px] mt-2 mb-8 flex  cursor-pointer flex-row space-x-3 px-3 py-2 rounded-3xl hover:bg-opacity-70 bg-beige border-dark-purple text-dark-purple"
               onClick={() => { setUpdateImage(true) }}>
               <img className="w-4" src='editing_icon.png' alt='edit info' />
               Change avatar
@@ -472,13 +472,13 @@ const MyCompanyTab = () => {
             </a>
           </div>
           <div
-            className="text-[16px] mt-5 flex flex-row space-x-3 px-3 py-2 rounded-3xl hover:bg-opacity-70 bg-beige border-dark-purple text-dark-purple"
+            className="text-[16px] mt-5 flex flex-row cursor-pointer space-x-3 px-3 py-2 rounded-3xl hover:bg-opacity-70 bg-beige border-dark-purple text-dark-purple"
             onClick={() => { setEditBoxOpen(true) }}>
             <img className="w-6" src='editing_icon.png' alt='edit info' />
             Edit company data
           </div>
           <div
-            className="text-[16px] mt-5 flex flex-row space-x-3 px-3 py-2 rounded-3xl hover:bg-opacity-70 bg-beige border-dark-purple text-dark-purple"
+            className="text-[16px] mt-5 flex cursor-pointer flex-row space-x-3 px-3 py-2 rounded-3xl hover:bg-opacity-70 bg-beige border-dark-purple text-dark-purple"
             onClick={generatePromo}>
             Generate Promocode
           </div>
@@ -493,7 +493,7 @@ const MyCompanyTab = () => {
                     src='http://localhost:3000/back_icon_beige.png'
                     alt=''
                     onClick={cancelHandler}
-                    className="justify-center absolute items-center w-24 rounded-sm py-2 px-4">
+                    className="justify-center cursor-pointer absolute items-center w-24 rounded-sm py-2 px-4">
                   </img>
                   <form
                     className="w-1/2 mx-auto pb-3"
@@ -606,26 +606,35 @@ const MyCompanyTab = () => {
                   {(members?.length < 1 || !members) &&
                     <div className="text-beige flex justify-center items-center flex-col text-md h-full w-full">
                       <div className="flex">No members in this company yet...</div>
-                      <div onClick={formOpen} name='inviteMember' className="flex mt-32 bg-dark-blue-pastel align-middle border-dashed border-[1px] border-beige p-6 hover:bg-opacity-70 rounded-xl">
+                      <div onClick={formOpen} name='inviteMember' className="flex mt-32 bg-dark-blue-pastel cursor-pointer align-middle border-dashed border-[1px] border-beige p-6 hover:bg-opacity-70 rounded-xl">
                         <button className="w-12">
                           <img alt='' src='add_member_beige.png' /></button>Invite new member</div>
                     </div>
                   }
                   {members?.length > 0 &&
-                    <ul className="w-full pr-5 space-y-3 first-letter overflow-y-scroll scrollbar h-[400px]">
-                      {
-                        members?.map((member, index) => (
-                          <MemberListItem
-                            key={index}
-                            member={member} />
-                        ))}
-                    </ul>
+                    <>
+
+                      <ul className="w-full pr-5 space-y-3 first-letter overflow-y-scroll scrollbar h-[400px]">
+                        <div className="text-beige flex justify-center items-center text-md h-fit w-full">
+                          <div onClick={formOpen} name='inviteMember' className="flex bg-dark-blue-pastel  cursor-pointer align-middle border-dashed border-[1px] border-beige p-6 hover:bg-opacity-70 rounded-xl">
+                            <button className="w-12">
+                              <img alt='' src='add_member_beige.png' /></button>Invite new member</div>
+                        </div>
+                        {
+                          members?.map((member, index) => (
+                            <MemberListItem
+                              key={index}
+                              member={member} />
+                          ))}
+                      </ul>
+                    </>
+
                   }
                 </TabContent>
               </div>
             </>}
           </div>
-          <div className="rounded-3xl px-2 py-1 mt-4 h-fit text-[18px] bg-red-800 text-beige"
+          <div className="rounded-3xl cursor-pointer hover:bg-red-900 px-2 py-1 mt-4 h-fit text-[18px] bg-red-800 text-beige"
             onClick={handleClickOpen} >Delete company</div>
           <Dialog
             open={openDialog}

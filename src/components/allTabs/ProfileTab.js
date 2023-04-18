@@ -281,7 +281,7 @@ const ProfileTab = () => {
               />
             </div>
             <div
-              className="text-[12px] mt-2 mb-8 flex flex-row space-x-3 px-3 py-2 rounded-3xl hover:bg-opacity-70 bg-beige border-dark-purple text-dark-purple"
+              className="text-[12px] mt-2 mb-8  cursor-pointer flex flex-row space-x-3 px-3 py-2 rounded-3xl hover:bg-opacity-70 bg-beige border-dark-purple text-dark-purple"
               onClick={() => { setUpdateImage(true) }}>
               <img className="w-4" src='editing_icon.png' alt='edit info' />
               Change avatar
@@ -353,7 +353,7 @@ const ProfileTab = () => {
           </div>
 
           <div
-            className="text-[16px] mt-5 flex flex-row space-x-3 px-3 py-2 rounded-3xl hover:bg-opacity-70 bg-beige border-dark-purple text-dark-purple"
+            className="text-[16px] mt-5 flex  cursor-pointer flex-row space-x-3 px-3 py-2 rounded-3xl hover:bg-opacity-70 bg-beige border-dark-purple text-dark-purple"
             onClick={() => { setEditBoxOpen(true) }}>
             <img className="w-6" src='editing_icon.png' alt='edit info' />
             Edit profile
@@ -371,7 +371,7 @@ const ProfileTab = () => {
                   src='http://localhost:3000/back_icon_beige.png'
                   alt=''
                   onClick={cancelHandler}
-                  className="justify-center absolute items-center w-24 rounded-sm py-2 px-4">
+                  className="justify-center cursor-pointer absolute items-center w-24 rounded-sm py-2 px-4">
                 </img>
                 <form
                   className="w-1/2 mx-auto pb-6"
@@ -558,7 +558,7 @@ const ProfileTab = () => {
             </>}
           </div>
 
-          <div className="rounded-3xl px-2 py-1 mt-4 h-fit text-[18px] bg-red-800 text-beige"
+          <div className="rounded-3xl cursor-pointer hover:bg-red-900 px-2 py-1 mt-4 h-fit text-[18px] bg-red-800 text-beige"
             onClick={handleClickOpen} >Delete account</div>
           <Dialog
             open={openDialog}

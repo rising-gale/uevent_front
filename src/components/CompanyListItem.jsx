@@ -18,7 +18,7 @@ const CompanyListItem = ({ company }) => {
     }
   }
   return (
-    <div className="flex flex-row h-fit text-sm px-3 py-2 w-full border-[2px] bg-lilovii border-beige text-black rounded-md"
+    <div className="flex flex-row h-fit   cursor-pointer hover:bg-opacity-60 text-sm px-3 py-2 w-full border-[2px] bg-lilovii border-beige text-black rounded-md"
     onClick={() => {navigate(`/companies/${company._id}`)}}>
       <img src={`http://localhost:3002/${company.avatar}`} alt='avatar' className="w-24 rounded-xl" />
       <div className="flex flex-col w-4/5 align-middle items-center justify-center space-y-3">

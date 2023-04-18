@@ -166,7 +166,7 @@ export const CompanyPage = () => {
                         </div>
 
                         {isOwnerOrMember() && user && <div
-                            className="text-[16px] mt-5 flex flex-row space-x-3 px-3 py-2 rounded-3xl hover:bg-opacity-70 bg-beige border-dark-purple text-dark-purple"
+                            className="text-[16px] mt-5 flex cursor-pointer flex-row space-x-3 px-3 py-2 rounded-3xl hover:bg-opacity-70 bg-beige border-dark-purple text-dark-purple"
                             onClick={() => { changeFormState(true) }}
                         >
                             <img className="w-6" src="http://localhost:3000/plus_dark.png" alt='фищиф' />
