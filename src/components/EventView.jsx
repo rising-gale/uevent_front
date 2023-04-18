@@ -9,6 +9,7 @@ import { addItem } from '../redux/cartSlice';
 import CardOfEvent from './CardOfEvent';
 import EventEditForm from './EventEditForm';
 import CommentsSection from './CommentsSection';
+import EventPicLoadForm from './EventPicLoadForm';
 
 const EventView = () => {
 
@@ -87,7 +88,11 @@ const EventView = () => {
     }
 
     const editEventClick = () => {
-        changeFormState(true);
+        changeFormState('event');
+    }
+
+    const picLoadClick = () => {
+        changeFormState('pic');
     }
 
     const formClose = () => {
@@ -101,7 +106,8 @@ const EventView = () => {
     if (eventInfo.event) {
         return (
             <div className='flex flex-col w-full h-screen'>
-                {isFormOpen && <EventEditForm data={eventInfo.event} closeForm={formClose} />}
+                {isFormOpen === 'event' && <EventEditForm data={eventInfo.event} closeForm={formClose} />}
+                {isFormOpen === 'pic' && <EventPicLoadForm data={eventInfo.event} closeForm={formClose} />}
                 {/* <Header /> */}
                 <div className='p-5 flex flex-row bg-dark-purple text-light-beige'>
                     <div className='w-1/5 p-3 pr-4 flex flex-col'>
@@ -133,7 +139,7 @@ const EventView = () => {
                         </div>
                     </div>
                     <div className='p-2 m-2 flex flex-col w-full h-full border-l-2 border-violet-900'>
-                        <div className='flex justify-start ml-5 p-1 w-full'>
+                        <div className='flex justify-start ml-5 p-1 w-1/2'>
                             <button
                                 className="flex items-center justify-center leading-none px-4 py-2 text-neutral-300 border border-beige rounded-full hover:text-beige background-transparent font-bold uppercase text-sm outline-none focus:outline-none ease-linear transition-all duration-250"
                                 type="button"
@@ -147,11 +153,21 @@ const EventView = () => {
                             {
                                 isEventMine &&
                                 <button
-                                    className="flex items-center justify-around border border-purple-900 rounded-full w-1/12 mx-5 p-2 bg-violet-700 hover:bg-violet-500 hover:border-purple-600 transition duration-500 hover:ease-in font-semibold"
+                                    className="flex items-center justify-around border border-purple-900 rounded-full w-1/4 mx-5 mr-1 p-3 bg-violet-700 hover:bg-violet-500 hover:border-purple-600 transition duration-500 hover:ease-in font-semibold"
                                     onClick={editEventClick}
                                     name='edit'
                                 >
                                     Edit
+                                </button>
+                            }
+                                                        {
+                                isEventMine &&
+                                <button
+                                    className="flex items-center justify-around border border-purple-900 rounded-full w-1/4 mx-3 p-3 bg-violet-700 hover:bg-violet-500 hover:border-purple-600 transition duration-500 hover:ease-in font-semibold"
+                                    onClick={picLoadClick}
+                                    name='picture'
+                                >
+                                    Upload picture
                                 </button>
                             }
                             {/* <button

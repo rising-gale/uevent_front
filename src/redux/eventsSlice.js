@@ -154,8 +154,16 @@ export const deleteComment = createAsyncThunk(
 
 export const loadAfisha = createAsyncThunk(
     'api/events/:id/pic-load',
-    async function (formData) {
-
+    async function ({id, formData}, {dispatch}) {
+        try {
+            let {data} = await axios.post(`http://localhost:3002/api/events/${id}/pic-load`, formData, { withCredentials: true });
+            console.log(data);
+            dispatch(getEvent(data._id));
+            dispatch(getEventComments(data._id));
+            return;
+        } catch (error) {
+            console.log(error)
+        }
     }
 )
 
