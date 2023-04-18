@@ -4,11 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import { addItem } from '../redux/cartSlice';
 
 const CardOfEvent = ({ data }) => {
-
+  // console.log(data)
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const cartItems = useSelector(state => state.cart.cartItems);
+  const userId = useSelector(state => state.auth.userId);
 
   const [isEventInCart, setEventInCart] = useState(false);
 
@@ -21,7 +22,7 @@ const CardOfEvent = ({ data }) => {
     if (idx >= 0) {
       setEventInCart(true);
     } else setEventInCart(false);
-  }, [cartItems, data._id]);
+  }, [cartItems, data]);
   
 
   return (
@@ -37,7 +38,9 @@ const CardOfEvent = ({ data }) => {
             <div className='text-yellow-500'>Price: {data.price > 0 ? data.price + ' UAH.': 'Free'}</div>
             <div>Tickets left: {data.tickets}</div>
           </div>
-          <div className='flex flex-col w-full h-1/5 text-white justify-center items-center py-2 px-5'>
+          {
+            userId && 
+            <div className='flex flex-col w-full h-1/5 text-white justify-center items-center py-2 px-5'>
             <button
               disabled={isEventInCart}
               className={isEventInCart ? 'text-emerald-600 w-full h-full bg-orange-700 rounded-lg flex items-center justify-center text-center hover:cursor-pointer hover:bg-orange-800 disabled:bg-gray-400' : 'w-full h-full bg-orange-700 rounded-lg flex items-center justify-center text-center hover:cursor-pointer hover:bg-orange-800'}
@@ -49,6 +52,8 @@ const CardOfEvent = ({ data }) => {
                 : 'Buy ticket'}
             </button>
           </div>
+          }
+
         </div>
       </div>
       <p className='text-lg font-semibold text-center p-1 text-light-beige' > {data.title}</p>

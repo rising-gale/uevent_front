@@ -65,7 +65,7 @@ export default function MonthlyView(props) {
   }
 
   const getEventsGrid = (week, daysCount, firstDay, month, year, events) => {
-    // console.log(events);
+    console.log(events);
     let content = [];
     // let offset = 42 - daysCount - firstDay;
     // let key = 0;

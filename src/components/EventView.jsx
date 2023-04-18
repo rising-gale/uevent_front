@@ -34,7 +34,7 @@ const EventView = () => {
 
     useEffect(() => {
         dispatch(getEvent(params.id));
-    }, [dispatch, params]);
+    }, [dispatch, params.id]);
 
     const handleBackClick = () => {
         navigate('/')
@@ -69,7 +69,7 @@ const EventView = () => {
 
     useEffect(() => {
         if(userId){
-            let idx = userCompanies.findIndex(company => company._id === eventInfo?.event?.author?._id);
+            let idx = userCompanies?.findIndex(company => company._id === eventInfo?.event?.author?._id);
             // console.log(idx);
             if (idx >= 0) {
                 setEventMine(true);
@@ -79,7 +79,14 @@ const EventView = () => {
 
     const printFiveSimilar = (events) => {
         let content = [];
+        if(events.length >= 5)
         for (let i = 0; i < 5; i++) {
+            content.push(
+                <CardOfEvent data={events[i]} />
+            )
+        }
+        else 
+        for (let i = 0; i < events.length; i++) {
             content.push(
                 <CardOfEvent data={events[i]} />
             )
@@ -102,7 +109,7 @@ const EventView = () => {
     // const deleteEventClick = () => {
 
     // }
-
+    // console.log(eventInfo.similar_events)
     if (eventInfo.event) {
         return (
             <div className='flex flex-col w-full h-screen'>
@@ -253,11 +260,11 @@ const EventView = () => {
                         <div className='w-full h-full flex items-center justify-center'>
                             <MapContainer center={eventInfo.event.location} creationMode={false} searchBar={false} setLocation={() => { }} />
                         </div>
-                        <div className='w-full h-full flex flex-col m-1 p-1 mt-4'>
+                        <div className='w-full h-full flex flex-col m-1 p-2 mt-4'>
                             <div className='w-full text-center text-2xl font-semibold'>
                                 Description:
                             </div>
-                            <div className='p-3'>
+                            <div className='p-5'>
                                 {eventInfo.event.description}
                             </div>
                         </div>

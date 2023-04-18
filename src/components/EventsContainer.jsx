@@ -2,25 +2,26 @@ import React from 'react';
 import Sidebar from './Sidebar';
 import CardOfEvent from './CardOfEvent';
 import PaginationContainer from './PaginationContainer';
-// import EventCreationForm from './EventCreationForm';
+import EventCreationForm from './EventCreationForm';
+import { useState } from 'react';
 // import FavouritesEvents from './FavouritesEvents';
 
 const EventsContainer = ({events, formats, themes, handleChange}) => {
 
-    // const [isFormOpen, changeFormState] = useState(null);
+    const [isFormOpen, changeFormState] = useState(null);
 
-    // const formOpen = (e) => {
-    //     // console.log(e.target.name);
-    //     changeFormState(e.target.name);
-    // }
+    const formOpen = (e) => {
+        // console.log(e.target.name);
+        changeFormState(e.target.name);
+    }
 
-    // const formClose = () =>{
-    //     changeFormState(null);
-    // }
+    const formClose = () =>{
+        changeFormState(null);
+    }
 
     return (
         <div className='p-1 flex flex-col bg-dark-purple text-light-beige '>
-            {/* {isFormOpen === 'eventCreate' && <EventCreationForm closeForm={formClose}/>} */}
+            {isFormOpen === 'eventCreate' && <EventCreationForm closeForm={formClose}/>}
             {/* {isFormOpen === 'favouritesForm' && <FavouritesEvents closeForm={formClose}/>} */}
             {/*Search and filtration bar */}
             <div className='flex w-full h-12 justify-around mt-3'>
@@ -46,13 +47,13 @@ const EventsContainer = ({events, formats, themes, handleChange}) => {
                 >
                 Favourites
                 </button> */}
-                {/* <button 
+                <button 
                     className="flex items-center justify-around border border-purple-900 rounded-full w-1/12 p-3 bg-violet-700 hover:bg-violet-500 hover:border-purple-600 transition duration-500 hover:ease-in font-semibold text-lg "
                     onClick={formOpen}
                     name='eventCreate'
                 >
                 Create
-                </button> */}
+                </button>
             </div>
             <div className='w-full min-h-screen max-h-full pl-4 flex flex-row mt-4'>
                 <Sidebar formats={formats} themes={themes} handleChange={handleChange}/>

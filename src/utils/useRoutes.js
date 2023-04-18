@@ -16,14 +16,17 @@ import { CompanyPage } from '../pages/CompanyPage';
 import { VerifyInvite } from '../pages/VerifyInvite';
 
 export const useRoutes = (isAuthenticated) => {
-
+    
+    console.log(isAuthenticated);
+    
     if (isAuthenticated) {
         return (
             <>
-                <Header />
+            <Header />
                 <Routes>
                     <Route path="/" element={<MainPage />} />
                     <Route path="/checkout-success/:cartItems" element={<CheckOutSuccess />} />
+
                     <Route path="/events/:id" element={<EventView />} />
                     <Route path="/calendar" element={<CalendarPage />} />
                     <Route path="/events/:event_id/company/:company_id" element={<CompanyPage />} />
@@ -47,8 +50,6 @@ export const useRoutes = (isAuthenticated) => {
                 <Route path="/" element={<MainPage />} />
                 <Route path="/events/:id" element={<EventView />} />
                 <Route path="/events/:event_id/company/:company_id" element={<CompanyPage />} />
-
-                
                 <Route path="/auth" element={<LoginPage />} />
                 <Route path="/auth/resetPassword" element={<RecoverPasswordPage />} />
                 <Route path="/registration" element={<RegistrationPage />} />
@@ -58,7 +59,7 @@ export const useRoutes = (isAuthenticated) => {
                 <Route path="companies/:id/add-new-member" element={<VerifyInvite />} />
                 <Route path="verify_company/:token" element={<VerifyCompanyEmailPage />} />
 
-                <Route path="*" element={<Navigate to="/" />} />
+                {/* <Route path="*" element={<Navigate to="/" />} /> */}
             </Routes>
             </>
 
